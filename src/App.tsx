@@ -29,9 +29,9 @@ function App() {
       viewport.setAttribute('name', 'viewport');
       document.head.appendChild(viewport);
     }
-    viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
+    viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content');
     
-    // Add safe area CSS variables
+    // Add safe area CSS variables and mobile optimizations
     const style = document.createElement('style');
     style.textContent = `
       :root {
@@ -40,15 +40,34 @@ function App() {
         --safe-area-inset-bottom: env(safe-area-inset-bottom);
         --safe-area-inset-left: env(safe-area-inset-left);
       }
+      
+      /* Force mobile app behavior */
+      html, body {
+        position: fixed !important;
+        width: 100% !important;
+        height: 100% !important;
+        overflow: hidden !important;
+      }
+      
+      /* Prevent iOS address bar issues */
+      body {
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: none;
+        touch-action: manipulation;
+      }
     `;
     document.head.appendChild(style);
     
-    // Prevent iOS bounce scrolling
-    document.body.style.overscrollBehavior = 'none';
-    document.documentElement.style.overscrollBehavior = 'none';
+    // Set body classes for mobile
+    document.body.classList.add('mobile-app');
+    document.documentElement.classList.add('mobile-app');
     
     return () => {
-      document.head.removeChild(style);
+      if (document.head.contains(style)) {
+        document.head.removeChild(style);
+      }
+      document.body.classList.remove('mobile-app');
+      document.documentElement.classList.remove('mobile-app');
     };
   }, []);
 
@@ -1221,6 +1240,27 @@ function App() {
         
         {/* Content continues on clean background */}
         <div className="px-4 sm:px-6 pb-4">
+          {/* Quick Actions */}
+          {hasActiveData && (
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              <button
+                onClick={() => setCurrentScreen('save-setup')}
+                className="bg-gradient-to-r from-green-500 to-emerald-500 text-white p-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 text-center"
+              >
+                <PiggyBank className="h-6 w-6 mx-auto mb-2" />
+                <div className="font-bold text-sm">Quick Save</div>
+              </button>
+              
+              <button
+                onClick={() => setCurrentScreen('pay')}
+                className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white p-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 text-center"
+              >
+                <PayIcon className="h-6 w-6 mx-auto mb-2" />
+                <div className="font-bold text-sm">Quick Pay</div>
+              </button>
+            </div>
+          )}
+          
           {/* Additional content space */}
           <div className="h-8"></div>
         </div>
@@ -1781,25 +1821,21 @@ function App() {
   const CurrentScreen = screens[currentScreen];
 
   return (
-    <div className="h-screen w-full bg-slate-50 relative overflow-hidden flex flex-col">
+    <div className="h-screen w-screen bg-slate-50 overflow-hidden flex flex-col">
       {/* Mobile App Base Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 -z-50"></div>
       
-      {/* Main App Container - Flex Layout */}
-      <div className="flex-1 w-full max-w-md mx-auto bg-slate-50 relative overflow-auto">
-        <div className={`min-h-full ${
-          (currentScreen === 'dashboard' || currentScreen === 'save-setup' || currentScreen === 'save' || currentScreen === 'pay' || currentScreen === 'profile') 
-            ? 'pb-20' : 'pb-4'
-        } sm:pb-4`}>
+      {/* Main App Container - Proper Mobile Layout */}
+      <div className="flex-1 w-full max-w-md mx-auto bg-slate-50 relative flex flex-col overflow-hidden">
+        {/* Content Area - Takes remaining space */}
+        <div className="flex-1 overflow-y-auto overscroll-contain">
           <CurrentScreen />
         </div>
-      </div>
-      
-      {/* Mobile Bottom Navigation - Fixed to Bottom */}
-      {(currentScreen === 'dashboard' || currentScreen === 'save-setup' || currentScreen === 'save' || currentScreen === 'pay' || currentScreen === 'profile') && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-gray-200 shadow-xl z-50 sm:hidden safe-area-inset-bottom">
-          <div className="w-full max-w-md mx-auto">
-            <div className="grid grid-cols-5 gap-1 p-3 pb-safe">
+        
+        {/* Mobile Bottom Navigation - Fixed at Bottom */}
+        {(currentScreen === 'dashboard' || currentScreen === 'save-setup' || currentScreen === 'save' || currentScreen === 'pay' || currentScreen === 'profile') && (
+          <div className="flex-shrink-0 bg-white/95 backdrop-blur-xl border-t border-gray-200 shadow-2xl sm:hidden">
+            <div className="grid grid-cols-5 gap-0">
               {[
                 { id: 'home', icon: Home, label: 'Home', screen: 'dashboard' },
                 { id: 'save', icon: PiggyBank, label: 'Save', screen: 'save-setup' },
@@ -1817,25 +1853,28 @@ function App() {
                       setCurrentScreen(tab.screen as Screen);
                     }
                   }}
-                  className={`flex flex-col items-center space-y-1 p-2 rounded-xl transition-all duration-200 ${
+                  className={`flex flex-col items-center justify-center py-3 px-2 transition-all duration-200 relative ${
                     activeBottomTab === tab.id
-                      ? 'bg-gradient-to-r from-blue-500 to-green-500 text-white shadow-lg'
+                      ? 'bg-gradient-to-r from-blue-500 to-green-500 text-white'
                       : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                   }`}
                 >
-                  <tab.icon className="h-4 w-4" />
-                  <span className="text-[9px] font-semibold">{tab.label}</span>
+                  <tab.icon className="h-5 w-5 mb-1" />
+                  <span className="text-xs font-medium">{tab.label}</span>
                   
                   {/* Active Indicator */}
                   {activeBottomTab === tab.id && (
-                    <div className="w-1 h-1 bg-white rounded-full"></div>
+                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-8 h-1 bg-white rounded-b-full"></div>
                   )}
                 </button>
               ))}
             </div>
+            
+            {/* Safe Area Bottom Padding */}
+            <div className="h-safe-bottom bg-white/95"></div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

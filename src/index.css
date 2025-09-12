@@ -1318,6 +1318,10 @@
     width: 1px;
   }
 
+  .w-screen {
+    width: 100vw;
+  }
+
   .max-w-\(--skeleton-width\) {
     max-width: var(--skeleton-width);
   }
@@ -1625,6 +1629,10 @@
     justify-items: start;
   }
 
+  .gap-0 {
+    gap: calc(var(--spacing) * 0);
+  }
+
   .gap-1 {
     gap: calc(var(--spacing) * 1);
   }
@@ -1741,6 +1749,10 @@
     overflow-y: auto;
   }
 
+  .overscroll-contain {
+    overscroll-behavior: contain;
+  }
+
   .rounded {
     border-radius: .25rem;
   }
@@ -1805,6 +1817,11 @@
 
   .rounded-tl-sm {
     border-top-left-radius: calc(var(--radius)  - 4px);
+  }
+
+  .rounded-b-full {
+    border-bottom-right-radius: 3.40282e38px;
+    border-bottom-left-radius: 3.40282e38px;
   }
 
   .border {
@@ -3805,10 +3822,6 @@
 
   .pb-8 {
     padding-bottom: calc(var(--spacing) * 8);
-  }
-
-  .pb-20 {
-    padding-bottom: calc(var(--spacing) * 20);
   }
 
   .pl-2 {
@@ -6566,12 +6579,6 @@
   }
 
   @media (width >= 40rem) {
-    .sm\:pb-4 {
-      padding-bottom: calc(var(--spacing) * 4);
-    }
-  }
-
-  @media (width >= 40rem) {
     .sm\:pb-8 {
       padding-bottom: calc(var(--spacing) * 8);
     }
@@ -7774,18 +7781,32 @@ html {
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
     width: 100%;
     height: 100dvh;
+    position: fixed;
     overflow-x: hidden;
+  }
+
+  #root {
+    width: 100vw;
+    height: 100dvh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: hidden;
   }
 
   .max-w-md {
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
     width: 100vw;
     max-width: 100vw;
-    min-height: 100dvh;
+    height: 100dvh;
   }
 
-  .min-h-screen {
-    min-height: -webkit-fill-available;
+  .min-h-screen, .h-screen {
+    height: -webkit-fill-available;
+  }
+
+  .w-screen {
+    width: 100vw;
   }
 
   .min-h-full {
@@ -7795,13 +7816,10 @@ html {
   body {
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: none;
-    -webkit-overflow-scrolling: touch;
-    min-height: -webkit-fill-available;
-    position: relative;
-  }
-
-  #root {
-    min-height: -webkit-fill-available;
+    touch-action: manipulation;
+    width: 100%;
+    height: 100%;
+    position: fixed;
   }
 
   .pt-safe {
@@ -7824,17 +7842,27 @@ html {
     padding-bottom: env(safe-area-inset-bottom);
   }
 
-  html {
-    overflow-x: hidden;
+  .h-safe-bottom {
+    height: env(safe-area-inset-bottom);
+    min-height: env(safe-area-inset-bottom);
   }
 
-  body {
-    position: relative;
-    overflow-x: hidden;
+  .overflow-y-auto {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
   }
 
-  .h-screen {
-    height: 100dvh;
+  .overscroll-contain {
+    overscroll-behavior: contain;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html, body {
+    width: 100%;
+    overflow-x: hidden;
   }
 }
 
