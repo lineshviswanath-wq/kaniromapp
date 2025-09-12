@@ -686,383 +686,229 @@ function App() {
               </>
             )}
 
-            {/* Enhanced Financial Overview Section */}
+            {/* Compact Financial Overview - Mobile First */}
             {hasActiveData && (
-              <div className="mb-8">
-                {/* Welcome Message & Quick Insights - Enhanced Contrast */}
-                <div className="bg-gradient-to-r from-white/98 via-blue-50/40 to-green-50/35 backdrop-blur-xl rounded-2xl p-5 shadow-2xl border border-gray-300/80 mb-6 relative overflow-hidden">
-                  {/* Enhanced Background Pattern */}
-                  <div className="absolute inset-0 opacity-40">
-                    <div className="absolute top-2 right-4 w-20 h-20 bg-gradient-to-br from-blue-300/45 to-green-300/35 rounded-full blur-2xl"></div>
-                    <div className="absolute bottom-2 left-6 w-16 h-16 bg-gradient-to-tl from-green-300/40 to-blue-300/30 rounded-full blur-xl"></div>
+              <div className="mb-6">
+                {/* Consolidated Welcome & Metrics Card */}
+                <div className="bg-gradient-to-r from-white/98 via-blue-50/40 to-green-50/35 backdrop-blur-xl rounded-2xl p-4 shadow-2xl border border-gray-300/80 mb-6 relative overflow-hidden">
+                  {/* Subtle Background Pattern */}
+                  <div className="absolute inset-0 opacity-30">
+                    <div className="absolute top-2 right-4 w-16 h-16 bg-gradient-to-br from-blue-300/40 to-green-300/30 rounded-full blur-xl"></div>
+                    <div className="absolute bottom-2 left-6 w-12 h-12 bg-gradient-to-tl from-green-300/35 to-blue-300/25 rounded-full blur-lg"></div>
                   </div>
                   
                   <div className="relative z-10">
+                    {/* Header */}
                     <div className="flex items-center justify-between mb-3">
                       <div>
-                        <h2 className="text-xl font-bold text-gray-900 mb-1">Good Morning, {userProfile.name.split(' ')[0]}! 👋</h2>
-                        <p className="text-sm text-gray-600">Your financial journey is progressing well</p>
+                        <h2 className="text-lg font-bold text-gray-900 mb-1">Good Morning, {userProfile.name.split(' ')[0]}! 👋</h2>
+                        <p className="text-xs text-gray-600">Member since {userProfile.memberSince}</p>
                       </div>
-                      <div className="text-right">
-                        <div className="text-xs text-gray-500 mb-1">Member Since</div>
-                        <div className="text-sm font-bold text-blue-600">{userProfile.memberSince}</div>
+                      <div className="flex items-center space-x-1 bg-gradient-to-r from-green-50/80 to-emerald-50/70 backdrop-blur-sm rounded-lg px-2 py-1 border border-green-200/60">
+                        <Award className="h-3 w-3 text-green-600" />
+                        <span className="text-xs font-bold text-green-700">23-day streak</span>
                       </div>
                     </div>
                     
-                    {/* Quick Achievement - Refined Light Theme */}
-                    <div className="flex items-center space-x-2 bg-gradient-to-r from-green-50/80 to-emerald-50/70 backdrop-blur-sm rounded-xl p-3 border border-green-200/60">
-                      <div className="p-1.5 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg shadow-lg">
-                        <Award className="h-4 w-4 text-white" />
+                    {/* Integrated Metrics Grid */}
+                    <div className="grid grid-cols-3 gap-3 mb-3">
+                      {/* Total Deposit */}
+                      <div className="bg-gradient-to-br from-green-50/80 to-white/90 rounded-lg p-3 border border-green-200/50 relative overflow-hidden">
+                        <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-green-500 to-emerald-600 rounded-l-lg"></div>
+                        <div className="relative">
+                          <div className="flex items-center justify-between mb-1">
+                            <Wallet className="h-3 w-3 text-green-600" />
+                            <TrendingUp className="h-2.5 w-2.5 text-green-500" />
+                          </div>
+                          <div className="text-xs text-gray-600 mb-1">Total Deposit</div>
+                          <div className="font-bold text-gray-900">₹{savingsData.totalDeposits.toLocaleString()}</div>
+                          <div className="text-xs text-green-600 font-semibold">+8.2%</div>
+                        </div>
                       </div>
-                      <div className="flex-1">
-                        <span className="text-sm font-bold text-green-800">23-day saving streak! </span>
-                        <span className="text-xs text-green-600">Keep it up!</span>
-                      </div>
-                      <div className="text-xs text-green-600 font-bold">+₹50 bonus</div>
-                    </div>
-                  </div>
-                </div>
 
-                {/* Enhanced Status Cards - Mobile Optimized */}
-                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 mb-6">
-                  {/* Total Deposit - Mobile Optimized */}
-                  <div className="group cursor-pointer">
-                    <div className="relative bg-gradient-to-br from-white/98 via-green-50/35 to-white/95 backdrop-blur-xl rounded-xl p-3 sm:p-4 shadow-xl border border-gray-300/80 hover:shadow-green-300/70 hover:shadow-xl hover:border-green-400/70 hover:-translate-y-0.5 transition-all duration-300 overflow-hidden">
-                      {/* Left Accent */}
-                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-green-500 to-emerald-600 rounded-l-xl"></div>
-                      
-                      <div className="relative z-10">
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="p-1.5 sm:p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg sm:rounded-xl shadow-md">
-                            <Wallet className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
+                      {/* This Month */}
+                      <div className="bg-gradient-to-br from-blue-50/80 to-white/90 rounded-lg p-3 border border-blue-200/50 relative overflow-hidden">
+                        <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 to-cyan-600 rounded-l-lg"></div>
+                        <div className="relative">
+                          <div className="flex items-center justify-between mb-1">
+                            <Calendar className="h-3 w-3 text-blue-600" />
+                            <Repeat className="h-2.5 w-2.5 text-blue-500" />
                           </div>
-                          <div className="p-0.5 sm:p-1 bg-green-100/70 rounded-full">
-                            <TrendingUp className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-green-600" />
-                          </div>
-                        </div>
-                        <div className="text-[10px] sm:text-xs text-gray-600 mb-1 font-semibold">Total Deposit</div>
-                        <div className="text-sm sm:text-lg font-bold text-gray-900 mb-1">₹{savingsData.totalDeposits.toLocaleString()}</div>
-                        <div className="flex items-center space-x-1">
-                          <span className="text-[9px] sm:text-xs text-green-600 font-bold">+8.2% growth</span>
+                          <div className="text-xs text-gray-600 mb-1">This Month</div>
+                          <div className="font-bold text-gray-900">₹1,550</div>
+                          <div className="text-xs text-blue-600 font-semibold">31 deposits</div>
                         </div>
                       </div>
-                    </div>
-                  </div>
 
-                  {/* Monthly Savings - Mobile Optimized */}
-                  <div className="group cursor-pointer">
-                    <div className="relative bg-gradient-to-br from-white/98 via-blue-50/35 to-white/95 backdrop-blur-xl rounded-xl p-3 sm:p-4 shadow-xl border border-gray-300/80 hover:shadow-blue-300/70 hover:shadow-xl hover:border-blue-400/70 hover:-translate-y-0.5 transition-all duration-300 overflow-hidden">
-                      {/* Left Accent */}
-                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 to-cyan-600 rounded-l-xl"></div>
-                      
-                      <div className="relative z-10">
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="p-1.5 sm:p-2 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg sm:rounded-xl shadow-md">
-                            <Calendar className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
+                      {/* Goal Progress */}
+                      <div className="bg-gradient-to-br from-purple-50/80 to-white/90 rounded-lg p-3 border border-purple-200/50 relative overflow-hidden">
+                        <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-purple-500 to-violet-600 rounded-l-lg"></div>
+                        <div className="relative">
+                          <div className="flex items-center justify-between mb-1">
+                            <Target className="h-3 w-3 text-purple-600" />
+                            <Star className="h-2.5 w-2.5 text-purple-500" />
                           </div>
-                          <div className="p-0.5 sm:p-1 bg-blue-100/70 rounded-full">
-                            <Repeat className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-blue-600" />
+                          <div className="text-xs text-gray-600 mb-1">Goal Progress</div>
+                          <div className="font-bold text-gray-900">32%</div>
+                          <div className="bg-gray-200 rounded-full h-1 mt-1">
+                            <div className="bg-gradient-to-r from-purple-500 to-violet-600 h-1 rounded-full" style={{width: '32%'}}></div>
                           </div>
-                        </div>
-                        <div className="text-[10px] sm:text-xs text-gray-600 mb-1 font-semibold">This Month</div>
-                        <div className="text-sm sm:text-lg font-bold text-gray-900 mb-1">₹1,550</div>
-                        <div className="flex items-center space-x-1">
-                          <span className="text-[9px] sm:text-xs text-blue-600 font-bold">31 deposits</span>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Goals Progress - Full width on mobile, hide on small screens */}
-                  <div className="group cursor-pointer hidden sm:block col-span-1">
-                    <div className="relative bg-gradient-to-br from-white/98 via-purple-50/35 to-white/95 backdrop-blur-xl rounded-xl p-3 sm:p-4 shadow-xl border border-gray-300/80 hover:shadow-purple-300/70 hover:shadow-xl hover:border-purple-400/70 hover:-translate-y-0.5 transition-all duration-300 overflow-hidden">
-                      {/* Left Accent */}
-                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-purple-500 to-violet-600 rounded-l-xl"></div>
-                      
-                      <div className="relative z-10">
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="p-1.5 sm:p-2 bg-gradient-to-br from-purple-500 to-violet-600 rounded-lg sm:rounded-xl shadow-md">
-                            <Target className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
-                          </div>
-                          <div className="p-0.5 sm:p-1 bg-purple-100/70 rounded-full">
-                            <Star className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-purple-600" />
-                          </div>
-                        </div>
-                        <div className="text-[10px] sm:text-xs text-gray-600 mb-1 font-semibold">Goal Progress</div>
-                        <div className="text-sm sm:text-lg font-bold text-gray-900 mb-1">32%</div>
-                        <div className="flex items-center space-x-1">
-                          <div className="flex-1 bg-gray-300/90 rounded-full h-1.5">
-                            <div className="bg-gradient-to-r from-purple-500 to-violet-600 h-1.5 rounded-full shadow-lg" style={{width: '32%'}}></div>
-                          </div>
-                        </div>
-                      </div>
+                    {/* Achievement Banner */}
+                    <div className="bg-gradient-to-r from-emerald-400/10 to-green-400/10 backdrop-blur-sm rounded-lg p-2 border border-emerald-200/40 text-center">
+                      <span className="text-xs font-bold text-emerald-700">🎯 Emergency Fund: ₹6,153 remaining to reach goal</span>
                     </div>
                   </div>
                 </div>
               </div>
             )}
 
-            {/* Mobile Goal Progress Section - Only visible on small screens */}
-            {hasActiveData && (
-              <div className="mb-6 sm:hidden">
-                <div className="relative bg-gradient-to-r from-white/98 via-purple-50/35 to-white/95 backdrop-blur-xl rounded-xl p-4 shadow-xl border border-gray-300/80">
-                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-purple-500 to-violet-600 rounded-l-xl"></div>
-                  
-                  <div className="relative z-10">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center space-x-2">
-                        <div className="p-1.5 bg-gradient-to-br from-purple-500 to-violet-600 rounded-lg shadow-md">
-                          <Target className="h-3 w-3 text-white" />
-                        </div>
-                        <div className="text-xs text-gray-600 font-semibold">Goal Progress</div>
-                      </div>
-                      <div className="text-lg font-bold text-gray-900">32%</div>
-                    </div>
-                    
-                    <div className="flex items-center space-x-2">
-                      <div className="flex-1 bg-gray-300/90 rounded-full h-2">
-                        <div className="bg-gradient-to-r from-purple-500 to-violet-600 h-2 rounded-full shadow-lg" style={{width: '32%'}}></div>
-                      </div>
-                      <div className="text-xs text-purple-600 font-bold">Emergency Fund</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* OneDabba Services - Clean Section Header */}
-            <div className="mb-8">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center space-x-3">
-                  <h3 className="font-bold text-gray-900 text-lg">OneDabba Services</h3>
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-lg"></div>
-                  <div className="px-3 py-1 bg-blue-100/70 backdrop-blur-sm rounded-full border border-blue-200/60">
-                    <span className="text-xs text-blue-700 font-semibold">3 Active</span>
+            {/* Compact OneDabba Services - Mobile Optimized */}
+            <div className="mb-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center space-x-2">
+                  <h3 className="font-bold text-gray-900">OneDabba Services</h3>
+                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
+                  <div className="px-2 py-0.5 bg-blue-100/70 backdrop-blur-sm rounded-full border border-blue-200/60">
+                    <span className="text-xs text-blue-700 font-bold">3 Active</span>
                   </div>
                 </div>
               </div>
               
-              <div className="space-y-4">
-                {/* Dabba Save Card - Beautiful Enhanced Design */}
+              <div className="grid grid-cols-1 gap-4">
+                {/* Compact Dabba Save Card */}
                 <div 
-                  className="relative bg-gradient-to-r from-green-50/80 via-white to-white rounded-2xl p-6 shadow-lg border border-gray-200/60 hover:shadow-2xl hover:border-green-400 hover:shadow-green-200/60 hover:-translate-y-1 transition-all duration-400 group overflow-hidden"
+                  onClick={() => setCurrentScreen('save-setup')}
+                  className="relative bg-gradient-to-r from-green-50/80 to-white/95 rounded-xl p-4 shadow-lg border border-gray-200/60 hover:shadow-xl hover:border-green-400/70 hover:-translate-y-0.5 transition-all duration-300 group overflow-hidden cursor-pointer"
                 >
-                  {/* Beautiful Left Accent Line */}
-                  <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-green-500 via-emerald-500 to-green-600 rounded-l-2xl group-hover:w-2 transition-all duration-300"></div>
+                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-green-500 to-emerald-600 rounded-l-xl"></div>
                   
-                  {/* Subtle Background Pattern */}
-                  <div className="absolute inset-0 opacity-30 group-hover:opacity-50 transition-opacity duration-300">
-                    <div className="absolute top-4 right-4 w-24 h-24 bg-gradient-to-br from-green-100/40 to-emerald-100/20 rounded-full blur-2xl"></div>
-                    <div className="absolute bottom-4 right-8 w-16 h-16 bg-gradient-to-tl from-emerald-100/30 to-green-100/10 rounded-full blur-xl"></div>
-                  </div>
-                  
-                  <div className="relative flex items-center space-x-4">
-                    {/* Enhanced Icon Container */}
-                    <div className="relative bg-gradient-to-br from-green-500 via-emerald-500 to-green-600 p-4 rounded-2xl shadow-lg group-hover:scale-110 group-hover:rotate-2 transition-all duration-400 border border-green-400/20">
-                      <PiggyBank className="h-8 w-8 text-white drop-shadow-sm" />
-                      
-                      {/* Glowing Ring */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-green-400/30 to-emerald-500/30 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-400 scale-125"></div>
-                      
-                      {/* Success Indicator */}
-                      <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full border-2 border-white shadow-sm animate-pulse"></div>
+                  <div className="flex items-center space-x-3">
+                    {/* Icon */}
+                    <div className="bg-gradient-to-br from-green-500 to-emerald-600 p-2.5 rounded-xl shadow-md group-hover:scale-105 transition-transform duration-200">
+                      <PiggyBank className="h-5 w-5 text-white" />
                     </div>
                     
-                    {/* Enhanced Content */}
+                    {/* Content */}
                     <div className="flex-1">
-                      <div className="flex items-center space-x-2 mb-2">
-                        <h4 className="text-xl font-bold bg-gradient-to-r from-gray-900 to-green-800 bg-clip-text text-transparent">Dabba Save</h4>
-                        <div className="px-2 py-0.5 bg-gradient-to-r from-green-100 to-emerald-100 text-green-700 text-xs font-bold rounded-full border border-green-200">
-                          Active
-                        </div>
+                      <div className="flex items-center space-x-2 mb-1">
+                        <h4 className="font-bold text-gray-900">Dabba Save</h4>
+                        <div className="px-1.5 py-0.5 bg-green-100 text-green-700 text-xs font-bold rounded-full">Active</div>
                       </div>
-                      <p className="text-gray-600 text-sm mb-3 leading-relaxed">Daily micro-deposits starting from ₹10</p>
+                      <p className="text-xs text-gray-600 mb-2">Daily micro-deposits from ₹10</p>
                       
-                      {/* Enhanced Feature Tags */}
-                      <div className="flex items-center space-x-3 mb-4">
-                        <div className="flex items-center space-x-1.5 bg-gradient-to-r from-green-50 to-emerald-50 px-2.5 py-1.5 rounded-xl border border-green-200/60">
-                          <div className="p-1 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full">
-                            <Coins className="h-2.5 w-2.5 text-white" />
-                          </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="flex items-center space-x-1 bg-green-50 px-2 py-1 rounded-lg border border-green-200/60">
+                          <Coins className="h-2.5 w-2.5 text-green-600" />
                           <span className="text-xs text-green-700 font-bold">Min ₹10</span>
                         </div>
-                        <div className="flex items-center space-x-1.5 bg-gradient-to-r from-emerald-50 to-green-50 px-2.5 py-1.5 rounded-xl border border-emerald-200/60">
-                          <div className="p-1 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full">
-                            <Shield className="h-2.5 w-2.5 text-white" />
-                          </div>
+                        <div className="flex items-center space-x-1 bg-emerald-50 px-2 py-1 rounded-lg border border-emerald-200/60">
+                          <Shield className="h-2.5 w-2.5 text-emerald-600" />
                           <span className="text-xs text-emerald-700 font-bold">Secure</span>
                         </div>
                       </div>
-                      
-                      {/* Enhanced Action Button */}
-                      <div className="flex justify-center">
-                        <button 
-                          onClick={() => setCurrentScreen('save-setup')}
-                          className="flex items-center space-x-2 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-4 py-2.5 rounded-xl shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200 group/btn whitespace-nowrap"
-                        >
-                          <Plus className="h-3.5 w-3.5" />
-                          <span className="text-xs font-bold">Open a new Dabba</span>
-                        </button>
-                      </div>
                     </div>
                     
-                    {/* Enhanced Arrow with Gradient */}
-                    <div className="bg-gradient-to-br from-gray-50 to-green-50/30 group-hover:from-green-100 group-hover:to-emerald-100 rounded-2xl p-3 border border-gray-200 group-hover:border-green-300 transition-all duration-300 shadow-sm group-hover:shadow-md">
-                      <ArrowRight className="h-5 w-5 text-gray-600 group-hover:text-green-600 group-hover:translate-x-1 transition-all duration-300" />
+                    {/* Action Button */}
+                    <div className="flex items-center space-x-2">
+                      <button className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-3 py-1.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 text-xs font-bold">
+                        <Plus className="h-3 w-3 mr-1 inline" />
+                        Open
+                      </button>
+                      <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-green-600 group-hover:translate-x-0.5 transition-all duration-200" />
                     </div>
                   </div>
-                  
-                  {/* Subtle Shimmer Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 rounded-2xl"></div>
                 </div>
 
-                {/* Dabba Pay Card - Beautiful Enhanced Design */}
+                {/* Compact Dabba Pay Card */}
                 <div 
-                  className="relative bg-gradient-to-r from-blue-50/80 via-white to-white rounded-2xl p-6 shadow-lg border border-gray-200/60 hover:shadow-2xl hover:border-blue-400 hover:shadow-blue-200/60 hover:-translate-y-1 transition-all duration-400 group overflow-hidden"
+                  onClick={() => setCurrentScreen('pay')}
+                  className="relative bg-gradient-to-r from-blue-50/80 to-white/95 rounded-xl p-4 shadow-lg border border-gray-200/60 hover:shadow-xl hover:border-blue-400/70 hover:-translate-y-0.5 transition-all duration-300 group overflow-hidden cursor-pointer"
                 >
-                  {/* Beautiful Left Accent Line */}
-                  <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-blue-500 via-cyan-500 to-blue-600 rounded-l-2xl group-hover:w-2 transition-all duration-300"></div>
+                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 to-cyan-600 rounded-l-xl"></div>
                   
-                  {/* Subtle Background Pattern */}
-                  <div className="absolute inset-0 opacity-30 group-hover:opacity-50 transition-opacity duration-300">
-                    <div className="absolute top-4 right-4 w-24 h-24 bg-gradient-to-br from-blue-100/40 to-cyan-100/20 rounded-full blur-2xl"></div>
-                    <div className="absolute bottom-4 right-8 w-16 h-16 bg-gradient-to-tl from-cyan-100/30 to-blue-100/10 rounded-full blur-xl"></div>
-                  </div>
-                  
-                  <div className="relative flex items-center space-x-4">
-                    {/* Enhanced Icon Container */}
-                    <div className="relative bg-gradient-to-br from-blue-500 via-cyan-500 to-blue-600 p-4 rounded-2xl shadow-lg group-hover:scale-110 group-hover:rotate-2 transition-all duration-400 border border-blue-400/20">
-                      <CreditCard className="h-8 w-8 text-white drop-shadow-sm" />
-                      
-                      {/* Glowing Ring */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-blue-400/30 to-cyan-500/30 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-400 scale-125"></div>
-                      
-                      {/* Success Indicator */}
-                      <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full border-2 border-white shadow-sm animate-pulse"></div>
+                  <div className="flex items-center space-x-3">
+                    {/* Icon */}
+                    <div className="bg-gradient-to-br from-blue-500 to-cyan-600 p-2.5 rounded-xl shadow-md group-hover:scale-105 transition-transform duration-200">
+                      <CreditCard className="h-5 w-5 text-white" />
                     </div>
                     
-                    {/* Enhanced Content */}
+                    {/* Content */}
                     <div className="flex-1">
-                      <div className="flex items-center space-x-2 mb-2">
-                        <h4 className="text-xl font-bold bg-gradient-to-r from-gray-900 to-blue-800 bg-clip-text text-transparent">Dabba Pay</h4>
-                        <div className="px-2 py-0.5 bg-gradient-to-r from-blue-100 to-cyan-100 text-blue-700 text-xs font-bold rounded-full border border-blue-200">
-                          Available
-                        </div>
+                      <div className="flex items-center space-x-2 mb-1">
+                        <h4 className="font-bold text-gray-900">Dabba Pay</h4>
+                        <div className="px-1.5 py-0.5 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">Available</div>
                       </div>
-                      <p className="text-gray-600 text-sm mb-3 leading-relaxed">Flexible loan repayments from ₹100</p>
+                      <p className="text-xs text-gray-600 mb-2">Flexible loan repayments from ₹100</p>
                       
-                      {/* Enhanced Feature Tags */}
-                      <div className="flex items-center space-x-3 mb-4">
-                        <div className="flex items-center space-x-1.5 bg-gradient-to-r from-blue-50 to-cyan-50 px-2.5 py-1.5 rounded-xl border border-blue-200/60">
-                          <div className="p-1 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full">
-                            <DollarSign className="h-2.5 w-2.5 text-white" />
-                          </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="flex items-center space-x-1 bg-blue-50 px-2 py-1 rounded-lg border border-blue-200/60">
+                          <DollarSign className="h-2.5 w-2.5 text-blue-600" />
                           <span className="text-xs text-blue-700 font-bold">From ₹100</span>
                         </div>
-                        <div className="flex items-center space-x-1.5 bg-gradient-to-r from-cyan-50 to-blue-50 px-2.5 py-1.5 rounded-xl border border-cyan-200/60">
-                          <div className="p-1 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full">
-                            <Clock className="h-2.5 w-2.5 text-white" />
-                          </div>
+                        <div className="flex items-center space-x-1 bg-cyan-50 px-2 py-1 rounded-lg border border-cyan-200/60">
+                          <Clock className="h-2.5 w-2.5 text-cyan-600" />
                           <span className="text-xs text-cyan-700 font-bold">Instant</span>
                         </div>
                       </div>
-                      
-                      {/* Enhanced Action Buttons */}
-                      <div className="flex items-center space-x-4">
-                        <button className="flex items-center space-x-1.5 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white px-3 py-2 rounded-xl shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200 group/btn">
-                          <CreditCard className="h-3.5 w-3.5" />
-                          <span className="text-xs font-bold">Pay</span>
-                        </button>
-                        <button className="flex items-center space-x-1.5 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white px-3 py-2 rounded-xl shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200 group/btn">
-                          <Calendar className="h-3.5 w-3.5" />
-                          <span className="text-xs font-bold">Schedule</span>
-                        </button>
-                      </div>
                     </div>
                     
-                    {/* Enhanced Arrow with Gradient */}
-                    <div className="bg-gradient-to-br from-gray-50 to-blue-50/30 group-hover:from-blue-100 group-hover:to-cyan-100 rounded-2xl p-3 border border-gray-200 group-hover:border-blue-300 transition-all duration-300 shadow-sm group-hover:shadow-md">
-                      <ArrowRight className="h-5 w-5 text-gray-600 group-hover:text-blue-600 group-hover:translate-x-1 transition-all duration-300" />
+                    {/* Action Buttons */}
+                    <div className="flex items-center space-x-2">
+                      <button className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white px-2.5 py-1.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 text-xs font-bold">
+                        Pay
+                      </button>
+                      <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-0.5 transition-all duration-200" />
                     </div>
                   </div>
-                  
-                  {/* Subtle Shimmer Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 rounded-2xl"></div>
                 </div>
 
-                {/* Dabba Save & Pay Card - Beautiful Enhanced Design */}
+                {/* Compact Dabba Save & Pay Card */}
                 <div 
-                  className="relative bg-gradient-to-r from-purple-50/80 via-white to-white rounded-2xl p-6 shadow-lg border border-gray-200/60 hover:shadow-2xl hover:border-purple-400 hover:shadow-purple-200/60 hover:-translate-y-1 transition-all duration-400 group overflow-hidden"
+                  className="relative bg-gradient-to-r from-purple-50/80 to-white/95 rounded-xl p-4 shadow-lg border border-gray-200/60 hover:shadow-xl hover:border-purple-400/70 hover:-translate-y-0.5 transition-all duration-300 group overflow-hidden cursor-pointer"
                 >
-                  {/* Beautiful Left Accent Line */}
-                  <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-purple-500 via-violet-500 to-purple-600 rounded-l-2xl group-hover:w-2 transition-all duration-300"></div>
+                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-purple-500 to-violet-600 rounded-l-xl"></div>
                   
-                  {/* Subtle Background Pattern */}
-                  <div className="absolute inset-0 opacity-30 group-hover:opacity-50 transition-opacity duration-300">
-                    <div className="absolute top-4 right-4 w-24 h-24 bg-gradient-to-br from-purple-100/40 to-violet-100/20 rounded-full blur-2xl"></div>
-                    <div className="absolute bottom-4 right-8 w-16 h-16 bg-gradient-to-tl from-violet-100/30 to-purple-100/10 rounded-full blur-xl"></div>
-                  </div>
-                  
-                  <div className="relative flex items-center space-x-4">
-                    {/* Enhanced Icon Container */}
-                    <div className="relative bg-gradient-to-br from-purple-500 via-violet-500 to-purple-600 p-4 rounded-2xl shadow-lg group-hover:scale-110 group-hover:rotate-2 transition-all duration-400 border border-purple-400/20">
-                      <Zap className="h-8 w-8 text-white drop-shadow-sm" />
-                      
-                      {/* Glowing Ring */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-purple-400/30 to-violet-500/30 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-400 scale-125"></div>
-                      
-                      {/* Success Indicator */}
-                      <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-violet-400 to-purple-500 rounded-full border-2 border-white shadow-sm animate-pulse"></div>
+                  <div className="flex items-center space-x-3">
+                    {/* Icon */}
+                    <div className="bg-gradient-to-br from-purple-500 to-violet-600 p-2.5 rounded-xl shadow-md group-hover:scale-105 transition-transform duration-200">
+                      <Zap className="h-5 w-5 text-white" />
                     </div>
                     
-                    {/* Enhanced Content */}
+                    {/* Content */}
                     <div className="flex-1">
-                      <div className="flex items-center space-x-2 mb-2">
-                        <h4 className="text-xl font-bold bg-gradient-to-r from-gray-900 to-purple-800 bg-clip-text text-transparent">Dabba Save & Pay</h4>
-                        <div className="px-2 py-0.5 bg-gradient-to-r from-purple-100 to-violet-100 text-purple-700 text-xs font-bold rounded-full border border-purple-200">
-                          Premium
-                        </div>
+                      <div className="flex items-center space-x-2 mb-1">
+                        <h4 className="font-bold text-gray-900">Dabba Save & Pay</h4>
+                        <div className="px-1.5 py-0.5 bg-purple-100 text-purple-700 text-xs font-bold rounded-full">Premium</div>
                       </div>
-                      <p className="text-gray-600 text-sm mb-3 leading-relaxed">Automated savings with smart payments</p>
+                      <p className="text-xs text-gray-600 mb-2">Automated savings with smart payments</p>
                       
-                      {/* Enhanced Feature Tags */}
-                      <div className="flex items-center space-x-3 mb-4">
-                        <div className="flex items-center space-x-1.5 bg-gradient-to-r from-purple-50 to-violet-50 px-2.5 py-1.5 rounded-xl border border-purple-200/60">
-                          <div className="p-1 bg-gradient-to-r from-purple-500 to-violet-500 rounded-full">
-                            <Repeat className="h-2.5 w-2.5 text-white" />
-                          </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="flex items-center space-x-1 bg-purple-50 px-2 py-1 rounded-lg border border-purple-200/60">
+                          <Repeat className="h-2.5 w-2.5 text-purple-600" />
                           <span className="text-xs text-purple-700 font-bold">Auto</span>
                         </div>
-                        <div className="flex items-center space-x-1.5 bg-gradient-to-r from-violet-50 to-purple-50 px-2.5 py-1.5 rounded-xl border border-violet-200/60">
-                          <div className="p-1 bg-gradient-to-r from-violet-500 to-purple-500 rounded-full">
-                            <Target className="h-2.5 w-2.5 text-white" />
-                          </div>
+                        <div className="flex items-center space-x-1 bg-violet-50 px-2 py-1 rounded-lg border border-violet-200/60">
+                          <Target className="h-2.5 w-2.5 text-violet-600" />
                           <span className="text-xs text-violet-700 font-bold">Smart</span>
                         </div>
                       </div>
-                      
-                      {/* Enhanced Action Buttons */}
-                      <div className="flex items-center space-x-4">
-                        <button className="flex items-center space-x-1.5 bg-gradient-to-r from-purple-500 to-violet-500 hover:from-purple-600 hover:to-violet-600 text-white px-3 py-2 rounded-xl shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200 group/btn">
-                          <Calendar className="h-3.5 w-3.5" />
-                          <span className="text-xs font-bold">Payments</span>
-                        </button>
-                        <button className="flex items-center space-x-1.5 bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-600 hover:to-purple-600 text-white px-3 py-2 rounded-xl shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200 group/btn">
-                          <Gift className="h-3.5 w-3.5" />
-                          <span className="text-xs font-bold">Rewards</span>
-                        </button>
-                      </div>
                     </div>
                     
-                    {/* Enhanced Arrow with Gradient */}
-                    <div className="bg-gradient-to-br from-gray-50 to-purple-50/30 group-hover:from-purple-100 group-hover:to-violet-100 rounded-2xl p-3 border border-gray-200 group-hover:border-purple-300 transition-all duration-300 shadow-sm group-hover:shadow-md">
-                      <ArrowRight className="h-5 w-5 text-gray-600 group-hover:text-purple-600 group-hover:translate-x-1 transition-all duration-300" />
+                    {/* Action Buttons */}
+                    <div className="flex items-center space-x-2">
+                      <button className="bg-gradient-to-r from-purple-500 to-violet-500 hover:from-purple-600 hover:to-violet-600 text-white px-2.5 py-1.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 text-xs font-bold">
+                        Setup
+                      </button>
+                      <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-purple-600 group-hover:translate-x-0.5 transition-all duration-200" />
                     </div>
                   </div>
-                  
-                  {/* Subtle Shimmer Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 rounded-2xl"></div>
                 </div>
+
+
               </div>
             </div>
 
@@ -1240,24 +1086,103 @@ function App() {
         
         {/* Content continues on clean background */}
         <div className="px-4 sm:px-6 pb-4">
-          {/* Quick Actions */}
+          {/* Connect with Us Section */}
           {hasActiveData && (
-            <div className="grid grid-cols-2 gap-4 mb-6">
-              <button
-                onClick={() => setCurrentScreen('save-setup')}
-                className="bg-gradient-to-r from-green-500 to-emerald-500 text-white p-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 text-center"
-              >
-                <PiggyBank className="h-6 w-6 mx-auto mb-2" />
-                <div className="font-bold text-sm">Quick Save</div>
-              </button>
-              
-              <button
-                onClick={() => setCurrentScreen('pay')}
-                className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white p-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 text-center"
-              >
-                <PayIcon className="h-6 w-6 mx-auto mb-2" />
-                <div className="font-bold text-sm">Quick Pay</div>
-              </button>
+            <div className="mb-6">
+              {/* Contact & Support Section */}
+              <div className="bg-white/95 backdrop-blur-xl rounded-2xl p-5 shadow-xl border border-gray-300/80 relative overflow-hidden">
+                {/* Background Pattern */}
+                <div className="absolute inset-0 opacity-20">
+                  <div className="absolute top-3 right-6 w-16 h-16 bg-gradient-to-br from-blue-300/40 to-green-300/30 rounded-full blur-xl"></div>
+                  <div className="absolute bottom-3 left-6 w-12 h-12 bg-gradient-to-tl from-green-300/30 to-blue-300/25 rounded-full blur-lg"></div>
+                </div>
+                
+                <div className="relative z-10">
+                  {/* Header */}
+                  <div className="text-center mb-4">
+                    <div className="inline-flex items-center space-x-2 mb-2">
+                      <div className="p-2 bg-gradient-to-r from-blue-500 to-green-500 rounded-xl shadow-md">
+                        <Phone className="h-4 w-4 text-white" />
+                      </div>
+                      <h3 className="font-bold text-gray-900">Connect with Us</h3>
+                    </div>
+                    <p className="text-xs text-gray-600">We're here to help you grow your wealth</p>
+                  </div>
+
+                  {/* Contact Grid */}
+                  <div className="grid grid-cols-2 gap-3 mb-4">
+                    {/* Customer Support */}
+                    <div className="bg-gradient-to-br from-blue-50/80 to-white/90 rounded-lg p-3 border border-blue-200/50 text-center">
+                      <div className="inline-flex p-2 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg shadow-md mb-2">
+                        <HelpCircle className="h-3 w-3 text-white" />
+                      </div>
+                      <div className="text-xs font-bold text-gray-900 mb-1">24/7 Support</div>
+                      <div className="text-xs text-blue-600 font-semibold">1800-123-KANIRO</div>
+                      <div className="text-xs text-gray-500">support@kaniro.in</div>
+                    </div>
+
+                    {/* WhatsApp Support */}
+                    <div className="bg-gradient-to-br from-green-50/80 to-white/90 rounded-lg p-3 border border-green-200/50 text-center">
+                      <div className="inline-flex p-2 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg shadow-md mb-2">
+                        <Phone className="h-3 w-3 text-white" />
+                      </div>
+                      <div className="text-xs font-bold text-gray-900 mb-1">WhatsApp</div>
+                      <div className="text-xs text-green-600 font-semibold">+91 98765 00000</div>
+                      <div className="text-xs text-gray-500">Quick assistance</div>
+                    </div>
+                  </div>
+
+                  {/* Quick Links */}
+                  <div className="grid grid-cols-3 gap-2 mb-4">
+                    <button className="flex flex-col items-center p-2 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors duration-200">
+                      <Mail className="h-3 w-3 text-gray-600 mb-1" />
+                      <span className="text-xs font-medium text-gray-700">Email</span>
+                    </button>
+                    
+                    <button className="flex flex-col items-center p-2 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors duration-200">
+                      <FileText className="h-3 w-3 text-gray-600 mb-1" />
+                      <span className="text-xs font-medium text-gray-700">Help</span>
+                    </button>
+                    
+                    <button className="flex flex-col items-center p-2 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors duration-200">
+                      <Building2 className="h-3 w-3 text-gray-600 mb-1" />
+                      <span className="text-xs font-medium text-gray-700">Branch</span>
+                    </button>
+                  </div>
+
+                  {/* Footer Info */}
+                  <div className="bg-gradient-to-r from-gray-50/80 to-blue-50/40 rounded-lg p-3 border border-gray-200/60">
+                    <div className="text-center">
+                      <div className="flex items-center justify-center space-x-2 mb-2">
+                        <img src={kaniroLogo} alt="Kaniro" className="h-4 w-auto" />
+                        <span className="text-xs font-bold text-gray-800">Kaniro Financial Services</span>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-2 text-xs text-gray-600 mb-2">
+                        <div>
+                          <span className="font-semibold">NBFC License:</span>
+                          <div>N-14.03268</div>
+                        </div>
+                        <div>
+                          <span className="font-semibold">RBI Regulated</span>
+                          <div>₹5L DICGC Insured</div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center justify-center space-x-1 text-xs text-gray-500">
+                        <Shield className="h-3 w-3 text-green-600" />
+                        <span>Secure</span>
+                        <div className="w-1 h-1 bg-gray-400 rounded-full mx-1"></div>
+                        <Lock className="h-3 w-3 text-blue-600" />
+                        <span>Encrypted</span>
+                        <div className="w-1 h-1 bg-gray-400 rounded-full mx-1"></div>
+                        <Award className="h-3 w-3 text-purple-600" />
+                        <span>Trusted</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
           
