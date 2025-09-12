@@ -5,7 +5,7 @@ import { Badge } from './components/ui/badge';
 import { Input } from './components/ui/input';
 import { Label } from './components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './components/ui/select';
-import { ArrowRight, Coins, CreditCard, PiggyBank, Shield, TrendingUp, Users, CheckCircle, Clock, Zap, ArrowLeft, Eye, EyeOff, Mail, Lock, User, Phone, Target, Calendar, DollarSign, Building2, Plus, Minus, Star, Smartphone, Wallet, Gift, GraduationCap, Home, Car, Plane, Bell, BellRing, Flame, Award, IndianRupee, Download, ArrowUpRight, ArrowDownLeft, Repeat, QrCode, Calculator, Fingerprint, Scan, MoreHorizontal, FileText } from 'lucide-react';
+import { ArrowRight, Coins, CreditCard, PiggyBank, Shield, TrendingUp, Users, CheckCircle, Clock, Zap, ArrowLeft, Eye, EyeOff, Mail, Lock, User, Phone, Target, Calendar, DollarSign, Building2, Plus, Minus, Star, Smartphone, Wallet, Gift, GraduationCap, Home, Car, Plane, Bell, BellRing, Flame, Award, IndianRupee, Download, ArrowUpRight, ArrowDownLeft, Repeat, QrCode, Calculator, Fingerprint, Scan, MoreHorizontal, FileText, Menu, Search, Settings, HelpCircle, CreditCard as PayIcon } from 'lucide-react';
 import kaniroLogo from 'figma:asset/59a4e87f6f8559c1e33304344c14ed5d1faafe70.png';
 import promoImage from 'figma:asset/6c9f7a43bceeec40c2dac840bb2776654b079e3c.png';
 
@@ -17,6 +17,53 @@ function App() {
   const [showPassword, setShowPassword] = useState(false);
   const [isQuickActionsExpanded, setIsQuickActionsExpanded] = useState(false);
   const [currentPromoIndex, setCurrentPromoIndex] = useState(0);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [activeBottomTab, setActiveBottomTab] = useState('home');
+  
+  // Ensure proper mobile viewport handling with safe areas
+  useEffect(() => {
+    // Update viewport meta tag
+    let viewport = document.querySelector('meta[name=viewport]');
+    if (!viewport) {
+      viewport = document.createElement('meta');
+      viewport.setAttribute('name', 'viewport');
+      document.head.appendChild(viewport);
+    }
+    viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
+    
+    // Add safe area CSS variables
+    const style = document.createElement('style');
+    style.textContent = `
+      :root {
+        --safe-area-inset-top: env(safe-area-inset-top);
+        --safe-area-inset-right: env(safe-area-inset-right);
+        --safe-area-inset-bottom: env(safe-area-inset-bottom);
+        --safe-area-inset-left: env(safe-area-inset-left);
+      }
+    `;
+    document.head.appendChild(style);
+    
+    // Prevent iOS bounce scrolling
+    document.body.style.overscrollBehavior = 'none';
+    document.documentElement.style.overscrollBehavior = 'none';
+    
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
+
+  // Update active bottom tab based on current screen
+  useEffect(() => {
+    if (currentScreen === 'dashboard') {
+      setActiveBottomTab('home');
+    } else if (currentScreen === 'save-setup' || currentScreen === 'save-bank' || currentScreen === 'save-confirm' || currentScreen === 'save-success') {
+      setActiveBottomTab('save');
+    } else if (currentScreen === 'pay') {
+      setActiveBottomTab('pay');
+    } else if (currentScreen === 'profile') {
+      setActiveBottomTab('profile');
+    }
+  }, [currentScreen]);
   
   // User state management 
   const [hasActiveData, setHasActiveData] = useState(true); // Set to true to show existing customer data
@@ -198,7 +245,7 @@ function App() {
     }, [mpin]);
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-100 via-blue-50 to-green-50 relative">
+      <div className="min-h-screen w-full bg-gradient-to-br from-gray-100 via-blue-50 to-green-50 relative">
         {/* Modern Background Effects - Matching Inner App Design */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           {/* Subtle Professional Floating Elements */}
@@ -220,9 +267,9 @@ function App() {
         </div>
 
         {/* Main Container - Modern Mobile Design */}
-        <div className="relative z-10 flex flex-col min-h-screen">
+        <div className="relative z-10 flex flex-col min-h-screen w-full">
           {/* Clean Header with Logo */}
-          <div className="px-6 pt-8 pb-4">
+          <div className="px-4 sm:px-6 pt-6 sm:pt-8 pb-4">
             {/* Top Left Kaniro Logo */}
             <div className="mb-8">
               <div className="flex items-center">
@@ -437,7 +484,7 @@ function App() {
 
   const Dashboard = () => {
     return (
-      <div className="min-h-screen bg-gray-200 relative">
+      <div className="min-h-full bg-gray-200 relative w-full">
         {/* Refined Darker Background - Perfect Balance */}
         <div className="absolute inset-0 bg-gradient-to-br from-gray-200 via-slate-200 to-gray-300/90 -z-10"></div>
         
@@ -462,43 +509,54 @@ function App() {
         </div>
 
         {/* Enhanced Header Area - Perfect Contrast */}
-        <div className="relative bg-white/90 backdrop-blur-xl border-b border-gray-400/60 shadow-xl">
+        <div className="relative bg-white/90 backdrop-blur-xl border-b border-gray-400/60 shadow-xl w-full">
           {/* Enhanced Background Pattern */}
           <div className="absolute inset-0 bg-gradient-to-r from-blue-100/60 via-transparent to-green-100/50"></div>
           
           {/* Clean Header Content */}
-          <div className="relative z-10 p-6 pb-8">
-            {/* Simple, Clean Mobile App Header */}
-            <div className="flex items-center justify-between mb-8">
-              {/* Left - Clean Kaniro Logo */}
-              <div className="flex items-center">
+          <div className="relative z-10 p-4 sm:p-6 pb-6 sm:pb-8 w-full">
+            {/* Mobile App Header with Hamburger Menu */}
+            <div className="flex items-center justify-between mb-6 sm:mb-8">
+              {/* Left - Hamburger Menu & Logo */}
+              <div className="flex items-center space-x-3">
+                {/* Hamburger Menu Button */}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowMobileMenu(!showMobileMenu)}
+                  className="p-2 hover:bg-gray-100 rounded-xl transition-all duration-200 sm:hidden"
+                >
+                  <Menu className="h-5 w-5 text-gray-600" />
+                </Button>
+                
+                {/* Clean Kaniro Logo */}
                 <div className="relative group">
                   <img 
                     src={kaniroLogo} 
                     alt="Kaniro Financial Services" 
-                    className="h-8 w-auto group-hover:scale-105 transition-all duration-300" 
+                    className="h-7 sm:h-8 w-auto group-hover:scale-105 transition-all duration-300" 
                   />
                   
                   {/* Simple Status Indicator */}
-                  <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-green-500 rounded-full shadow-sm border-2 border-white">
+                  <div className="absolute -top-1 -right-1 w-2 h-2 sm:w-2.5 sm:h-2.5 bg-green-500 rounded-full shadow-sm border-2 border-white">
                   </div>
                 </div>
               </div>
 
               {/* Right - Clean Notification & Profile Icons */}
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 sm:space-x-4">
                 {/* Clean Notification Bell */}
                 <div className="relative">
                   <Button 
                     variant="ghost" 
                     size="sm" 
-                    className="text-gray-600 hover:text-gray-900 hover:bg-gray-100 p-2.5 rounded-xl transition-all duration-200"
+                    className="text-gray-600 hover:text-gray-900 hover:bg-gray-100 p-2 sm:p-2.5 rounded-xl transition-all duration-200"
                   >
-                    <Bell className="h-5 w-5" />
+                    <Bell className="h-4 w-4 sm:h-5 sm:w-5" />
                   </Button>
                   {hasActiveData && (
-                    <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center shadow-lg">
-                      <span className="text-xs text-white font-bold">2</span>
+                    <div className="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-red-500 rounded-full flex items-center justify-center shadow-lg">
+                      <span className="text-[10px] sm:text-xs text-white font-bold">2</span>
                     </div>
                   )}
                 </div>
@@ -508,17 +566,106 @@ function App() {
                   <Button 
                     variant="ghost" 
                     size="sm" 
-                    className="text-gray-600 hover:text-gray-900 hover:bg-gray-100 p-2.5 rounded-xl transition-all duration-200"
+                    className="text-gray-600 hover:text-gray-900 hover:bg-gray-100 p-2 sm:p-2.5 rounded-xl transition-all duration-200"
                   >
-                    <Users className="h-5 w-5" />
+                    <Users className="h-4 w-4 sm:h-5 sm:w-5" />
                   </Button>
                   
                   {/* Simple Online Status */}
-                  <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white">
+                  <div className="absolute -top-1 -right-1 w-2 h-2 sm:w-2.5 sm:h-2.5 bg-green-500 rounded-full border-2 border-white">
                   </div>
                 </div>
               </div>
             </div>
+
+            {/* Mobile Slide-out Menu */}
+            {showMobileMenu && (
+              <>
+                {/* Backdrop */}
+                <div 
+                  className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 sm:hidden"
+                  onClick={() => setShowMobileMenu(false)}
+                ></div>
+                
+                {/* Menu Panel */}
+                <div className="fixed top-0 left-0 h-full w-4/5 max-w-80 bg-white/95 backdrop-blur-xl shadow-2xl z-50 sm:hidden animate-fade-in">
+                  <div className="p-6">
+                    {/* Menu Header */}
+                    <div className="flex items-center justify-between mb-8">
+                      <div className="flex items-center space-x-3">
+                        <img src={kaniroLogo} alt="Kaniro" className="h-8 w-auto" />
+                        <div>
+                          <h2 className="font-bold text-gray-900">Kaniro</h2>
+                          <p className="text-xs text-gray-600">Financial Services</p>
+                        </div>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setShowMobileMenu(false)}
+                        className="p-2 hover:bg-gray-100 rounded-xl"
+                      >
+                        <ArrowLeft className="h-5 w-5 text-gray-600" />
+                      </Button>
+                    </div>
+
+                    {/* User Profile Section */}
+                    <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-xl p-4 mb-6 border border-gray-200">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-green-500 rounded-full flex items-center justify-center">
+                          <User className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-gray-900">{userProfile.name}</h3>
+                          <p className="text-xs text-gray-600">Member since {userProfile.memberSince}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Menu Items */}
+                    <div className="space-y-2">
+                      {[
+                        { icon: Home, label: 'Dashboard', screen: 'dashboard' },
+                        { icon: PiggyBank, label: 'Dabba Save', screen: 'save-setup' },
+                        { icon: PayIcon, label: 'Dabba Pay', screen: 'pay' },
+                        { icon: Target, label: 'Goals & Rewards', screen: 'profile' },
+                        { icon: Calculator, label: 'Calculators', screen: 'profile' },
+                        { icon: FileText, label: 'Statements', screen: 'profile' },
+                        { icon: HelpCircle, label: 'Help & Support', screen: 'profile' },
+                        { icon: Settings, label: 'Settings', screen: 'profile' }
+                      ].map((item, index) => (
+                        <button
+                          key={index}
+                          onClick={() => {
+                            setCurrentScreen(item.screen as Screen);
+                            setShowMobileMenu(false);
+                          }}
+                          className="w-full flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-100 transition-colors duration-200"
+                        >
+                          <div className="p-2 bg-gradient-to-r from-blue-500 to-green-500 rounded-lg">
+                            <item.icon className="h-4 w-4 text-white" />
+                          </div>
+                          <span className="font-semibold text-gray-900">{item.label}</span>
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Logout Button */}
+                    <div className="mt-8 pt-6 border-t border-gray-200">
+                      <button
+                        onClick={() => setCurrentScreen('login')}
+                        className="w-full flex items-center space-x-3 p-3 rounded-xl bg-red-50 hover:bg-red-100 transition-colors duration-200"
+                      >
+                        <div className="p-2 bg-red-500 rounded-lg">
+                          <ArrowLeft className="h-4 w-4 text-white" />
+                        </div>
+                        <span className="font-semibold text-red-700">Logout</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
 
             {/* Enhanced Financial Overview Section */}
             {hasActiveData && (
@@ -557,94 +704,107 @@ function App() {
                   </div>
                 </div>
 
-                {/* Enhanced Status Cards */}
-                <div className="grid grid-cols-3 gap-4 mb-6">
-                  {/* Total Deposit - Refined Light Enhanced Design */}
+                {/* Enhanced Status Cards - Mobile Optimized */}
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 mb-6">
+                  {/* Total Deposit - Mobile Optimized */}
                   <div className="group cursor-pointer">
-                    <div className="relative bg-gradient-to-br from-white/98 via-green-50/35 to-white/95 backdrop-blur-xl rounded-2xl p-4 shadow-2xl border border-gray-300/80 hover:shadow-green-300/70 hover:shadow-2xl hover:border-green-400/70 hover:-translate-y-1 transition-all duration-400 overflow-hidden">
+                    <div className="relative bg-gradient-to-br from-white/98 via-green-50/35 to-white/95 backdrop-blur-xl rounded-xl p-3 sm:p-4 shadow-xl border border-gray-300/80 hover:shadow-green-300/70 hover:shadow-xl hover:border-green-400/70 hover:-translate-y-0.5 transition-all duration-300 overflow-hidden">
                       {/* Left Accent */}
-                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-green-500 to-emerald-600 rounded-l-2xl"></div>
-                      
-                      {/* Background Glow */}
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-400">
-                        <div className="absolute top-2 right-2 w-16 h-16 bg-gradient-to-br from-green-300/45 to-emerald-300/35 rounded-full blur-xl"></div>
-                      </div>
+                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-green-500 to-emerald-600 rounded-l-xl"></div>
                       
                       <div className="relative z-10">
                         <div className="flex items-center justify-between mb-2">
-                          <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
-                            <Wallet className="h-4 w-4 text-white" />
+                          <div className="p-1.5 sm:p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg sm:rounded-xl shadow-md">
+                            <Wallet className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
                           </div>
-                          <div className="p-1 bg-green-100/70 rounded-full group-hover:bg-green-200/80 transition-colors duration-300">
-                            <TrendingUp className="h-3 w-3 text-green-600" />
+                          <div className="p-0.5 sm:p-1 bg-green-100/70 rounded-full">
+                            <TrendingUp className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-green-600" />
                           </div>
                         </div>
-                        <div className="text-xs text-gray-600 mb-1 font-semibold">Total Deposit</div>
-                        <div className="text-lg font-bold text-gray-900 mb-1">₹{savingsData.totalDeposits.toLocaleString()}</div>
+                        <div className="text-[10px] sm:text-xs text-gray-600 mb-1 font-semibold">Total Deposit</div>
+                        <div className="text-sm sm:text-lg font-bold text-gray-900 mb-1">₹{savingsData.totalDeposits.toLocaleString()}</div>
                         <div className="flex items-center space-x-1">
-                          <span className="text-xs text-green-600 font-bold">+8.2% growth</span>
+                          <span className="text-[9px] sm:text-xs text-green-600 font-bold">+8.2% growth</span>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Monthly Savings - Refined Light Enhanced Design */}
+                  {/* Monthly Savings - Mobile Optimized */}
                   <div className="group cursor-pointer">
-                    <div className="relative bg-gradient-to-br from-white/98 via-blue-50/35 to-white/95 backdrop-blur-xl rounded-2xl p-4 shadow-2xl border border-gray-300/80 hover:shadow-blue-300/70 hover:shadow-2xl hover:border-blue-400/70 hover:-translate-y-1 transition-all duration-400 overflow-hidden">
+                    <div className="relative bg-gradient-to-br from-white/98 via-blue-50/35 to-white/95 backdrop-blur-xl rounded-xl p-3 sm:p-4 shadow-xl border border-gray-300/80 hover:shadow-blue-300/70 hover:shadow-xl hover:border-blue-400/70 hover:-translate-y-0.5 transition-all duration-300 overflow-hidden">
                       {/* Left Accent */}
-                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 to-cyan-600 rounded-l-2xl"></div>
-                      
-                      {/* Background Glow */}
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-400">
-                        <div className="absolute top-2 right-2 w-16 h-16 bg-gradient-to-br from-blue-300/45 to-cyan-300/35 rounded-full blur-xl"></div>
-                      </div>
+                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 to-cyan-600 rounded-l-xl"></div>
                       
                       <div className="relative z-10">
                         <div className="flex items-center justify-between mb-2">
-                          <div className="p-2 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
-                            <Calendar className="h-4 w-4 text-white" />
+                          <div className="p-1.5 sm:p-2 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg sm:rounded-xl shadow-md">
+                            <Calendar className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
                           </div>
-                          <div className="p-1 bg-blue-100/70 rounded-full group-hover:bg-blue-200/80 transition-colors duration-300">
-                            <Repeat className="h-3 w-3 text-blue-600" />
+                          <div className="p-0.5 sm:p-1 bg-blue-100/70 rounded-full">
+                            <Repeat className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-blue-600" />
                           </div>
                         </div>
-                        <div className="text-xs text-gray-600 mb-1 font-semibold">This Month</div>
-                        <div className="text-lg font-bold text-gray-900 mb-1">₹1,550</div>
+                        <div className="text-[10px] sm:text-xs text-gray-600 mb-1 font-semibold">This Month</div>
+                        <div className="text-sm sm:text-lg font-bold text-gray-900 mb-1">₹1,550</div>
                         <div className="flex items-center space-x-1">
-                          <span className="text-xs text-blue-600 font-bold">31 deposits</span>
+                          <span className="text-[9px] sm:text-xs text-blue-600 font-bold">31 deposits</span>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Goals Progress - Refined Light Enhanced Design */}
-                  <div className="group cursor-pointer">
-                    <div className="relative bg-gradient-to-br from-white/98 via-purple-50/35 to-white/95 backdrop-blur-xl rounded-2xl p-4 shadow-2xl border border-gray-300/80 hover:shadow-purple-300/70 hover:shadow-2xl hover:border-purple-400/70 hover:-translate-y-1 transition-all duration-400 overflow-hidden">
+                  {/* Goals Progress - Full width on mobile, hide on small screens */}
+                  <div className="group cursor-pointer hidden sm:block col-span-1">
+                    <div className="relative bg-gradient-to-br from-white/98 via-purple-50/35 to-white/95 backdrop-blur-xl rounded-xl p-3 sm:p-4 shadow-xl border border-gray-300/80 hover:shadow-purple-300/70 hover:shadow-xl hover:border-purple-400/70 hover:-translate-y-0.5 transition-all duration-300 overflow-hidden">
                       {/* Left Accent */}
-                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-purple-500 to-violet-600 rounded-l-2xl"></div>
-                      
-                      {/* Background Glow */}
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-400">
-                        <div className="absolute top-2 right-2 w-16 h-16 bg-gradient-to-br from-purple-300/45 to-violet-300/35 rounded-full blur-xl"></div>
-                      </div>
+                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-purple-500 to-violet-600 rounded-l-xl"></div>
                       
                       <div className="relative z-10">
                         <div className="flex items-center justify-between mb-2">
-                          <div className="p-2 bg-gradient-to-br from-purple-500 to-violet-600 rounded-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
-                            <Target className="h-4 w-4 text-white" />
+                          <div className="p-1.5 sm:p-2 bg-gradient-to-br from-purple-500 to-violet-600 rounded-lg sm:rounded-xl shadow-md">
+                            <Target className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
                           </div>
-                          <div className="p-1 bg-purple-100/70 rounded-full group-hover:bg-purple-200/80 transition-colors duration-300">
-                            <Star className="h-3 w-3 text-purple-600" />
+                          <div className="p-0.5 sm:p-1 bg-purple-100/70 rounded-full">
+                            <Star className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-purple-600" />
                           </div>
                         </div>
-                        <div className="text-xs text-gray-600 mb-1 font-semibold">Goal Progress</div>
-                        <div className="text-lg font-bold text-gray-900 mb-1">32%</div>
+                        <div className="text-[10px] sm:text-xs text-gray-600 mb-1 font-semibold">Goal Progress</div>
+                        <div className="text-sm sm:text-lg font-bold text-gray-900 mb-1">32%</div>
                         <div className="flex items-center space-x-1">
                           <div className="flex-1 bg-gray-300/90 rounded-full h-1.5">
                             <div className="bg-gradient-to-r from-purple-500 to-violet-600 h-1.5 rounded-full shadow-lg" style={{width: '32%'}}></div>
                           </div>
                         </div>
                       </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Mobile Goal Progress Section - Only visible on small screens */}
+            {hasActiveData && (
+              <div className="mb-6 sm:hidden">
+                <div className="relative bg-gradient-to-r from-white/98 via-purple-50/35 to-white/95 backdrop-blur-xl rounded-xl p-4 shadow-xl border border-gray-300/80">
+                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-purple-500 to-violet-600 rounded-l-xl"></div>
+                  
+                  <div className="relative z-10">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center space-x-2">
+                        <div className="p-1.5 bg-gradient-to-br from-purple-500 to-violet-600 rounded-lg shadow-md">
+                          <Target className="h-3 w-3 text-white" />
+                        </div>
+                        <div className="text-xs text-gray-600 font-semibold">Goal Progress</div>
+                      </div>
+                      <div className="text-lg font-bold text-gray-900">32%</div>
+                    </div>
+                    
+                    <div className="flex items-center space-x-2">
+                      <div className="flex-1 bg-gray-300/90 rounded-full h-2">
+                        <div className="bg-gradient-to-r from-purple-500 to-violet-600 h-2 rounded-full shadow-lg" style={{width: '32%'}}></div>
+                      </div>
+                      <div className="text-xs text-purple-600 font-bold">Emergency Fund</div>
                     </div>
                   </div>
                 </div>
@@ -953,7 +1113,7 @@ function App() {
                     {promoCards.map((promo, index) => (
                       <div
                         key={promo.id}
-                        className={`w-full flex-shrink-0 relative min-h-[140px] rounded-2xl overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-300 group`}
+                        className={`w-full flex-shrink-0 relative min-h-[120px] sm:min-h-[140px] rounded-xl sm:rounded-2xl overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-300 group`}
                         onClick={() => {
                           console.log('Promo clicked:', promo.title);
                         }}
@@ -974,12 +1134,12 @@ function App() {
                         </div>
                         
                         {/* Enhanced Content Layout */}
-                        <div className="relative z-20 p-6 h-full flex items-center text-white">
-                          <div className="flex items-center space-x-4 flex-1">
+                        <div className="relative z-20 p-4 sm:p-6 h-full flex items-center text-white">
+                          <div className="flex items-center space-x-3 sm:space-x-4 flex-1">
                             {/* Enhanced Icon Section */}
                             <div className="relative">
-                              <div className="p-4 rounded-2xl bg-white/20 backdrop-blur-md border border-white/30 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                                <Star className="h-6 w-6 text-white" />
+                              <div className="p-2 sm:p-4 rounded-xl sm:rounded-2xl bg-white/20 backdrop-blur-md border border-white/30 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
+                                <Star className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
                               </div>
                               
                               {/* Glow Effect */}
@@ -992,13 +1152,13 @@ function App() {
                             {/* Enhanced Content Section */}
                             <div className="flex-1">
                               <div className="flex items-center space-x-2 mb-2">
-                                <h3 className="text-lg font-bold text-white drop-shadow-lg">{promo.title}</h3>
-                                <div className={`px-2 py-1 bg-gradient-to-r ${promo.accent} text-white text-xs font-bold rounded-full shadow-md border border-white/20`}>
+                                <h3 className="text-sm sm:text-lg font-bold text-white drop-shadow-lg">{promo.title}</h3>
+                                <div className={`px-1.5 py-0.5 sm:px-2 sm:py-1 bg-gradient-to-r ${promo.accent} text-white text-[10px] sm:text-xs font-bold rounded-full shadow-md border border-white/20`}>
                                   {promo.badge}
                                 </div>
                               </div>
                               
-                              <p className="text-sm font-semibold text-white/95 mb-3 drop-shadow-md">
+                              <p className="text-xs sm:text-sm font-semibold text-white/95 mb-2 sm:mb-3 drop-shadow-md">
                                 {promo.subtitle}
                               </p>
 
@@ -1060,8 +1220,9 @@ function App() {
         </div>
         
         {/* Content continues on clean background */}
-        <div className="px-6 pb-8">
-          {/* Any additional content can go here */}
+        <div className="px-4 sm:px-6 pb-4">
+          {/* Additional content space */}
+          <div className="h-8"></div>
         </div>
       </div>
     );
@@ -1094,10 +1255,10 @@ function App() {
     };
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-100 via-blue-50 to-green-50">
+      <div className="min-h-full w-full bg-gradient-to-br from-gray-100 via-blue-50 to-green-50">
         {/* Header */}
         <div className="bg-white/95 backdrop-blur-xl border-b border-gray-200 shadow-lg">
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             <div className="flex items-center space-x-4 mb-4">
               <Button
                 variant="ghost"
@@ -1124,7 +1285,7 @@ function App() {
         </div>
 
         {/* Content */}
-        <div className="p-6 pb-8">
+        <div className="p-4 sm:p-6 pb-8">
           {/* Frequency Selection */}
           <div className="mb-6">
             <h3 className="font-bold text-gray-900 mb-4">How often do you want to save?</h3>
@@ -1267,10 +1428,10 @@ function App() {
     ];
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-100 via-blue-50 to-green-50">
+      <div className="min-h-full w-full bg-gradient-to-br from-gray-100 via-blue-50 to-green-50">
         {/* Header */}
         <div className="bg-white/95 backdrop-blur-xl border-b border-gray-200 shadow-lg">
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             <div className="flex items-center space-x-4 mb-4">
               <Button
                 variant="ghost"
@@ -1297,7 +1458,7 @@ function App() {
         </div>
 
         {/* Content */}
-        <div className="p-6 pb-8">
+        <div className="p-4 sm:p-6 pb-8">
           <div className="mb-6">
             <h3 className="font-bold text-gray-900 mb-4 flex items-center">
               <Building2 className="h-4 w-4 text-blue-600 mr-2" />
@@ -1397,10 +1558,10 @@ function App() {
     };
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-100 via-blue-50 to-green-50">
+      <div className="min-h-full w-full bg-gradient-to-br from-gray-100 via-blue-50 to-green-50">
         {/* Header */}
         <div className="bg-white/95 backdrop-blur-xl border-b border-gray-200 shadow-lg">
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             <div className="flex items-center space-x-4 mb-4">
               <Button
                 variant="ghost"
@@ -1427,7 +1588,7 @@ function App() {
         </div>
 
         {/* Content */}
-        <div className="p-6 pb-8">
+        <div className="p-4 sm:p-6 pb-8">
           {/* Challenge Summary */}
           <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-gray-200 mb-6">
             <div className="text-center mb-6">
@@ -1524,8 +1685,8 @@ function App() {
 
   const SaveSuccessScreen = () => {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-green-100 flex items-center justify-center">
-        <div className="p-6 max-w-md w-full">
+      <div className="min-h-full w-full bg-gradient-to-br from-green-50 via-emerald-50 to-green-100 flex items-center justify-center">
+        <div className="p-4 sm:p-6 max-w-md w-full">
           <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-gray-200 text-center">
             {/* Success Animation */}
             <div className="mb-6">
@@ -1603,27 +1764,78 @@ function App() {
   };
 
   const screens = {
-    splash: () => <div>Splash Screen</div>,
+    splash: () => <div className="min-h-screen bg-gray-100 flex items-center justify-center">Splash Screen</div>,
     login: LoginScreen,
     dashboard: Dashboard,
     'save-setup': SaveSetupScreen,
     'save-bank': SaveBankScreen,
     'save-confirm': SaveConfirmScreen,
     'save-success': SaveSuccessScreen,
-    save: () => <div>Save Screen</div>,
-    pay: () => <div>Pay Screen</div>,
-    savepay: () => <div>Save Pay Screen</div>,
-    profile: () => <div>Profile Screen</div>,
-    'save-withdraw': () => <div>Withdraw Screen</div>
+    save: () => <div className="min-h-screen bg-gray-100 flex items-center justify-center">Save Screen</div>,
+    pay: () => <div className="min-h-screen bg-gray-100 flex items-center justify-center">Pay Screen</div>,
+    savepay: () => <div className="min-h-screen bg-gray-100 flex items-center justify-center">Save Pay Screen</div>,
+    profile: () => <div className="min-h-screen bg-gray-100 flex items-center justify-center">Profile Screen</div>,
+    'save-withdraw': () => <div className="min-h-screen bg-gray-100 flex items-center justify-center">Withdraw Screen</div>
   };
 
   const CurrentScreen = screens[currentScreen];
 
   return (
-    <div className="max-w-md mx-auto bg-slate-50 min-h-screen relative overflow-hidden">
+    <div className="h-screen w-full bg-slate-50 relative overflow-hidden flex flex-col">
       {/* Mobile App Base Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 -z-50"></div>
-      <CurrentScreen />
+      
+      {/* Main App Container - Flex Layout */}
+      <div className="flex-1 w-full max-w-md mx-auto bg-slate-50 relative overflow-auto">
+        <div className={`min-h-full ${
+          (currentScreen === 'dashboard' || currentScreen === 'save-setup' || currentScreen === 'save' || currentScreen === 'pay' || currentScreen === 'profile') 
+            ? 'pb-20' : 'pb-4'
+        } sm:pb-4`}>
+          <CurrentScreen />
+        </div>
+      </div>
+      
+      {/* Mobile Bottom Navigation - Fixed to Bottom */}
+      {(currentScreen === 'dashboard' || currentScreen === 'save-setup' || currentScreen === 'save' || currentScreen === 'pay' || currentScreen === 'profile') && (
+        <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-gray-200 shadow-xl z-50 sm:hidden safe-area-inset-bottom">
+          <div className="w-full max-w-md mx-auto">
+            <div className="grid grid-cols-5 gap-1 p-3 pb-safe">
+              {[
+                { id: 'home', icon: Home, label: 'Home', screen: 'dashboard' },
+                { id: 'save', icon: PiggyBank, label: 'Save', screen: 'save-setup' },
+                { id: 'pay', icon: PayIcon, label: 'Pay', screen: 'pay' },
+                { id: 'search', icon: Search, label: 'Search', screen: 'dashboard' },
+                { id: 'profile', icon: User, label: 'Profile', screen: 'profile' }
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => {
+                    setActiveBottomTab(tab.id);
+                    if (tab.screen === 'dashboard') {
+                      setCurrentScreen('dashboard');
+                    } else {
+                      setCurrentScreen(tab.screen as Screen);
+                    }
+                  }}
+                  className={`flex flex-col items-center space-y-1 p-2 rounded-xl transition-all duration-200 ${
+                    activeBottomTab === tab.id
+                      ? 'bg-gradient-to-r from-blue-500 to-green-500 text-white shadow-lg'
+                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                  }`}
+                >
+                  <tab.icon className="h-4 w-4" />
+                  <span className="text-[9px] font-semibold">{tab.label}</span>
+                  
+                  {/* Active Indicator */}
+                  {activeBottomTab === tab.id && (
+                    <div className="w-1 h-1 bg-white rounded-full"></div>
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
