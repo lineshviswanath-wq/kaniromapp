@@ -1013,7 +1013,7 @@ function App() {
                             </div>
                             <div>
                               <h3 className="font-bold">Offers & Benefits</h3>
-                              <p className="text-xs opacity-80">Save & Pay</p>
+                              <p className="text-xs opacity-80">Lakshya</p>
                             </div>
                           </div>
                           <div className="text-right">
@@ -1146,7 +1146,7 @@ function App() {
                   </div>
                   <div className="flex-1">
                     <div className="mb-1">
-                      <h4 className="font-bold text-gray-900">Dabba Save & Pay</h4>
+                      <h4 className="font-bold text-gray-900">Dabba Lakshya</h4>
                     </div>
                     <p className="text-sm text-gray-600 mb-2">Achieve Your Goals</p>
                     <div className="flex items-center space-x-4 text-xs text-gray-500">
@@ -1366,18 +1366,2127 @@ function App() {
     </div>
   );
 
-  // Dabba Name Selection Screen
+  // Dabba Name Selection Screen - Enhanced Premium Design
   const DabbaNameScreen = () => {
     const predefinedNames = [
-      { name: 'Emergency Fund', icon: '🚨', description: 'For unexpected expenses' },
-      { name: 'Dream Vacation', icon: '✈️', description: 'Holiday savings' },
-      { name: 'Wedding Fund', icon: '💍', description: 'Big day preparations' },
-      { name: 'New Home', icon: '🏠', description: 'House down payment' },
-      { name: 'Car Purchase', icon: '🚗', description: 'Your dream car' },
-      { name: 'Education', icon: '🎓', description: 'Learning investment' },
-      { name: 'Retirement', icon: '👴', description: 'Golden years planning' },
-      { name: 'Kids Future', icon: '👶', description: 'Children\'s needs' }
+      // Essential Goals (First Row)
+      { name: 'Emergency Fund', icon: '🚨', description: 'For unexpected expenses', category: 'essential', color: 'red' },
+      { name: 'Medical Emergency', icon: '🏥', description: 'Healthcare expenses', category: 'essential', color: 'pink' },
+      { name: 'Kids Future', icon: '👶', description: 'Children\'s needs', category: 'essential', color: 'blue' },
+      
+      // Lifestyle Goals (Second Row)  
+      { name: 'Dream Vacation', icon: '✈️', description: 'Holiday savings', category: 'lifestyle', color: 'sky' },
+      { name: 'Wedding Fund', icon: '💍', description: 'Big day preparations', category: 'lifestyle', color: 'purple' },
+      { name: 'Festival Fund', icon: '🎉', description: 'Celebration expenses', category: 'lifestyle', color: 'orange' },
+      
+      // Investment Goals (Third Row)
+      { name: 'New Home', icon: '🏠', description: 'House down payment', category: 'investment', color: 'green' },
+      { name: 'Car Purchase', icon: '🚗', description: 'Your dream car', category: 'investment', color: 'indigo' },
+      { name: 'Jewellery', icon: '💎', description: 'Gold and jewelry purchase', category: 'investment', color: 'violet' },
+      
+      // Growth Goals (Fourth Row)
+      { name: 'Education', icon: '🎓', description: 'Learning investment', category: 'growth', color: 'emerald' },
+      { name: 'Business Fund', icon: '💼', description: 'Startup investment', category: 'growth', color: 'cyan' },
+      { name: 'Retirement', icon: '👴', description: 'Golden years planning', category: 'growth', color: 'amber' }
     ];
+
+    const getCardColors = (item: any, isSelected: boolean) => {
+      const colorMap = {
+        red: isSelected ? 'bg-red-50 border-red-300 shadow-red-100' : 'bg-red-25 border-red-100 hover:border-red-200 hover:bg-red-50',
+        pink: isSelected ? 'bg-pink-50 border-pink-300 shadow-pink-100' : 'bg-pink-25 border-pink-100 hover:border-pink-200 hover:bg-pink-50',
+        blue: isSelected ? 'bg-blue-50 border-blue-300 shadow-blue-100' : 'bg-blue-25 border-blue-100 hover:border-blue-200 hover:bg-blue-50',
+        sky: isSelected ? 'bg-sky-50 border-sky-300 shadow-sky-100' : 'bg-sky-25 border-sky-100 hover:border-sky-200 hover:bg-sky-50',
+        purple: isSelected ? 'bg-purple-50 border-purple-300 shadow-purple-100' : 'bg-purple-25 border-purple-100 hover:border-purple-200 hover:bg-purple-50',
+        orange: isSelected ? 'bg-orange-50 border-orange-300 shadow-orange-100' : 'bg-orange-25 border-orange-100 hover:border-orange-200 hover:bg-orange-50',
+        green: isSelected ? 'bg-green-50 border-green-300 shadow-green-100' : 'bg-green-25 border-green-100 hover:border-green-200 hover:bg-green-50',
+        indigo: isSelected ? 'bg-indigo-50 border-indigo-300 shadow-indigo-100' : 'bg-indigo-25 border-indigo-100 hover:border-indigo-200 hover:bg-indigo-50',
+        violet: isSelected ? 'bg-violet-50 border-violet-300 shadow-violet-100' : 'bg-violet-25 border-violet-100 hover:border-violet-200 hover:bg-violet-50',
+        emerald: isSelected ? 'bg-emerald-50 border-emerald-300 shadow-emerald-100' : 'bg-emerald-25 border-emerald-100 hover:border-emerald-200 hover:bg-emerald-50',
+        cyan: isSelected ? 'bg-cyan-50 border-cyan-300 shadow-cyan-100' : 'bg-cyan-25 border-cyan-100 hover:border-cyan-200 hover:bg-cyan-50',
+        amber: isSelected ? 'bg-amber-50 border-amber-300 shadow-amber-100' : 'bg-amber-25 border-amber-100 hover:border-amber-200 hover:bg-amber-50'
+      };
+      return colorMap[item.color as keyof typeof colorMap] || (isSelected ? 'bg-gray-50 border-gray-300' : 'bg-white border-gray-100 hover:border-gray-200');
+    };
+
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-green-50/30">
+        {/* Enhanced Header with Glassmorphism */}
+        <div className="glass-strong shadow-sm border-b border-white/20">
+          <div className="max-w-md mx-auto px-4 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => setCurrentScreen('dashboard')}
+                  className="hover:bg-white/20 rounded-full transition-all duration-200"
+                >
+                  <ArrowLeft className="h-5 w-5" />
+                </Button>
+                <div>
+                  <h1 className="font-bold text-gray-900">Choose Your Dabba</h1>
+                  <p className="text-sm text-gray-600">What are you saving for?</p>
+                </div>
+              </div>
+              
+              {/* Kaniro Logo */}
+              <div className="flex-shrink-0">
+                <img src={kaniroLogo} alt="Kaniro" className="h-6 opacity-80" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-md mx-auto p-4 space-y-6">
+          {/* Enhanced Grid with Premium Styling */}
+          <div className="grid grid-cols-3 gap-3">
+            {predefinedNames.map((item, index) => {
+              const isSelected = dabbaSetup.dabbaName === item.name;
+              return (
+                <Card 
+                  key={index}
+                  className={`cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg active:scale-95 rounded-xl border-2 ${getCardColors(item, isSelected)} ${
+                    isSelected ? 'shadow-lg ring-2 ring-white/50' : 'shadow-sm hover:shadow-md'
+                  }`}
+                  onClick={() => {
+                    setDabbaSetup(prev => ({
+                      ...prev,
+                      dabbaName: item.name,
+                      dabbaIcon: item.icon,
+                      customDabbaName: ''
+                    }));
+                  }}
+                >
+                  <CardContent className="p-3">
+                    <div className="text-center space-y-2">
+                      {/* Enhanced Icon with Background */}
+                      <div className={`w-8 h-8 mx-auto rounded-full flex items-center justify-center text-lg transition-all duration-300 ${
+                        isSelected ? 'bg-white/80 shadow-sm scale-110' : 'bg-white/50'
+                      }`}>
+                        {item.icon}
+                      </div>
+                      
+                      {/* Enhanced Typography */}
+                      <div>
+                        <h4 className={`font-semibold text-xs leading-tight transition-colors duration-200 ${
+                          isSelected ? 'text-gray-900' : 'text-gray-700'
+                        }`}>
+                          {item.name}
+                        </h4>
+                      </div>
+                      
+                      {/* Enhanced Selection Indicator */}
+                      {isSelected && (
+                        <div className="animate-bounce">
+                          <CheckCircle className="h-4 w-4 text-green-600 mx-auto filter drop-shadow-sm" />
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+
+          {/* Enhanced Custom Input Section */}
+          <Card className={`transition-all duration-300 rounded-xl border-2 ${
+            dabbaSetup.customDabbaName 
+              ? 'bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200 shadow-lg ring-2 ring-white/50' 
+              : 'bg-gradient-to-br from-gray-50 to-white border-gray-200 hover:border-gray-300 hover:shadow-md'
+          }`}>
+            <CardContent className="p-4">
+              <div className="space-y-3">
+                {/* Custom Header */}
+                <div className="flex items-center space-x-3">
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-lg transition-all duration-300 ${
+                    dabbaSetup.customDabbaName ? 'bg-white/80 shadow-sm' : 'bg-white/50'
+                  }`}>
+                    ✏️
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-sm text-gray-900">Custom Savings Goal</h4>
+                    <p className="text-xs text-gray-600">Create your own personalized category</p>
+                  </div>
+                  {dabbaSetup.customDabbaName && (
+                    <div className="animate-bounce">
+                      <CheckCircle className="h-5 w-5 text-green-600 filter drop-shadow-sm" />
+                    </div>
+                  )}
+                </div>
+                
+                {/* Enhanced Input */}
+                <div className="relative">
+                  <Input
+                    placeholder="e.g., Gaming Setup, Pet Care, Travel Fund..."
+                    value={dabbaSetup.customDabbaName}
+                    className={`h-10 text-sm transition-all duration-200 rounded-lg border-2 ${
+                      dabbaSetup.customDabbaName 
+                        ? 'border-purple-200 bg-white/90 focus:border-purple-400 focus:ring-purple-100' 
+                        : 'border-gray-200 bg-white/70 focus:border-gray-400 focus:ring-gray-100'
+                    }`}
+                    onChange={(e) => {
+                      setDabbaSetup(prev => ({
+                        ...prev,
+                        customDabbaName: e.target.value,
+                        dabbaName: e.target.value ? 'custom' : '',
+                        dabbaIcon: '💰'
+                      }));
+                    }}
+                  />
+                  {/* Input Icon */}
+                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                    <span className="text-gray-400">💡</span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Enhanced Continue Button */}
+          <Button 
+            className={`w-full h-12 rounded-xl font-semibold text-base transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] ${
+              (!dabbaSetup.dabbaName && !dabbaSetup.customDabbaName)
+                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                : 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white shadow-lg hover:shadow-xl'
+            }`}
+            disabled={!dabbaSetup.dabbaName && !dabbaSetup.customDabbaName}
+            onClick={() => setCurrentScreen('dabba-goal')}
+          >
+            {(!dabbaSetup.dabbaName && !dabbaSetup.customDabbaName) ? (
+              <>
+                <Target className="mr-2 h-5 w-5" />
+                Choose Your Goal
+              </>
+            ) : (
+              <>
+                Continue Journey
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </>
+            )}
+          </Button>
+
+          {/* Progress Indicator */}
+          <div className="flex justify-center space-x-2">
+            <div className="w-3 h-1 bg-green-500 rounded-full"></div>
+            <div className="w-3 h-1 bg-gray-200 rounded-full"></div>
+            <div className="w-3 h-1 bg-gray-200 rounded-full"></div>
+            <div className="w-3 h-1 bg-gray-200 rounded-full"></div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // Dabba Goal Screen - Enhanced with Slider, Frequency & Period Selection
+  const DabbaGoalScreen = () => {
+    const [sliderValue, setSliderValue] = useState(parseInt(dabbaSetup.targetAmount) || 10000);
+    const [selectedDuration, setSelectedDuration] = useState(dabbaSetup.duration || 30);
+    const [customPeriodInput, setCustomPeriodInput] = useState('');
+    
+    // Calculate deposit amount and number of payments based on frequency, target, and duration (in days)
+    const calculateDepositDetails = (target: number, frequency: string, durationInDays: number) => {
+      let totalPayments = 0;
+      let depositAmount = 0;
+      let paymentText = '';
+      
+      switch(frequency) {
+        case 'daily':
+          totalPayments = durationInDays;
+          depositAmount = Math.ceil(target / totalPayments);
+          paymentText = `${totalPayments} daily deposits`;
+          break;
+        case 'weekly':
+          totalPayments = Math.ceil(durationInDays / 7);
+          depositAmount = Math.ceil(target / totalPayments);
+          paymentText = `${totalPayments} weekly deposits`;
+          break;
+        case 'monthly':
+          totalPayments = Math.ceil(durationInDays / 30);
+          depositAmount = Math.ceil(target / totalPayments);
+          paymentText = `${totalPayments} monthly deposits`;
+          break;
+        default:
+          totalPayments = durationInDays;
+          depositAmount = Math.ceil(target / totalPayments);
+          paymentText = `${totalPayments} daily deposits`;
+      }
+      
+      return { depositAmount, totalPayments, paymentText };
+    };
+
+    const depositDetails = calculateDepositDetails(sliderValue, dabbaSetup.frequency || 'daily', selectedDuration);
+    
+    // Format amount for display
+    const formatAmount = (amount: number) => {
+      if (amount >= 100000) return `₹${(amount / 100000).toFixed(1)}L`;
+      if (amount >= 1000) return `₹${(amount / 1000).toFixed(0)}K`;
+      return `₹${amount}`;
+    };
+
+    const handleSliderChange = (value: number) => {
+      setSliderValue(value);
+      setDabbaSetup(prev => ({ ...prev, targetAmount: value.toString() }));
+    };
+
+    const handleDurationChange = (duration: number) => {
+      setSelectedDuration(duration);
+      setDabbaSetup(prev => ({ ...prev, duration: duration }));
+    };
+
+    // Reset duration when frequency changes to ensure valid combination
+    const handleFrequencyChange = (frequency: string) => {
+      setDabbaSetup(prev => ({ ...prev, frequency }));
+      
+      // Clear custom input when frequency changes
+      setCustomPeriodInput('');
+      
+      // Auto-select appropriate default duration based on frequency (in days)
+      const defaultDurations = {
+        daily: 30,   // 30 days default for daily
+        weekly: 84,  // 12 weeks (3 months) default for weekly  
+        monthly: 180 // 6 months default for monthly
+      };
+      
+      const newDuration = defaultDurations[frequency as keyof typeof defaultDurations] || 30;
+      setSelectedDuration(newDuration);
+      setDabbaSetup(prev => ({ ...prev, duration: newDuration }));
+    };
+
+    const handleContinue = () => {
+      if (dabbaSetup.targetAmount && dabbaSetup.frequency && selectedDuration) {
+        setCurrentScreen('dabba-schemes');
+      }
+    };
+
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-green-50/30">
+        {/* Enhanced Header */}
+        <div className="glass-strong shadow-sm border-b border-white/20">
+          <div className="max-w-md mx-auto px-4 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => setCurrentScreen('dabba-name')}
+                  className="hover:bg-white/20 rounded-full transition-all duration-200"
+                >
+                  <ArrowLeft className="h-5 w-5" />
+                </Button>
+                <div>
+                  <h1 className="font-bold text-gray-900">Set Target Amount</h1>
+                  <p className="text-sm text-gray-600">Choose amount and frequency</p>
+                </div>
+              </div>
+              <div className="flex-shrink-0">
+                <img src={kaniroLogo} alt="Kaniro" className="h-6 opacity-80" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-md mx-auto p-4 space-y-4">
+          {/* Compact Header Card with Target Amount */}
+          <Card className="bg-gradient-to-br from-white to-blue-50/50 border-2 border-blue-100 shadow-lg rounded-xl">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center space-x-3">
+                  <div className="text-2xl">{dabbaSetup.dabbaIcon}</div>
+                  <div>
+                    <h3 className="font-bold text-gray-900">{dabbaSetup.customDabbaName || dabbaSetup.dabbaName}</h3>
+                    <p className="text-xs text-gray-600">Your savings journey</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-2xl font-bold text-blue-700">{formatAmount(sliderValue)}</div>
+                  <div className="text-xs text-gray-600">Target Amount</div>
+                </div>
+              </div>
+
+              {/* Compact Slider */}
+              <div className="space-y-3">
+                <input
+                  type="range"
+                  min="1000"
+                  max="500000"
+                  step="1000"
+                  value={sliderValue}
+                  onChange={(e) => handleSliderChange(parseInt(e.target.value))}
+                  className="w-full h-2 bg-gradient-to-r from-blue-200 to-green-200 rounded-lg appearance-none cursor-pointer slider-thumb"
+                  style={{
+                    background: `linear-gradient(to right, #3b82f6 0%, #3b82f6 ${((sliderValue - 1000) / (500000 - 1000)) * 100}%, #e5e7eb ${((sliderValue - 1000) / (500000 - 1000)) * 100}%, #e5e7eb 100%)`
+                  }}
+                />
+                
+                {/* Compact Slider Labels */}
+                <div className="flex justify-between text-xs text-gray-500">
+                  <span>₹1K</span>
+                  <span>₹50K</span>
+                  <span>₹500K</span>
+                </div>
+              </div>
+
+              {/* Compact Quick Amount Buttons */}
+              <div className="grid grid-cols-4 gap-2 mt-3">
+                {[
+                  { amount: 5000, label: '₹5K' },
+                  { amount: 15000, label: '₹15K' },
+                  { amount: 50000, label: '₹50K' },
+                  { amount: 100000, label: '₹1L' }
+                ].map((preset) => (
+                  <Button
+                    key={preset.amount}
+                    variant={sliderValue === preset.amount ? "default" : "outline"}
+                    size="sm"
+                    className="text-xs py-1.5 h-7"
+                    onClick={() => handleSliderChange(preset.amount)}
+                  >
+                    {preset.label}
+                  </Button>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Compact Frequency & Period Selection */}
+          <Card className="bg-gradient-to-br from-white to-green-50/50 border-2 border-green-100 shadow-lg rounded-xl">
+            <CardContent className="p-4">
+              {/* Frequency Selection Row */}
+              <div className="mb-4">
+                <h4 className="font-semibold text-sm text-gray-900 mb-2">Deposit Frequency</h4>
+                <div className="grid grid-cols-3 gap-2">
+                  {[
+                    { 
+                      value: 'daily', 
+                      label: 'Daily', 
+                      icon: '📅', 
+                      color: 'border-green-200 bg-green-50 text-green-700'
+                    },
+                    { 
+                      value: 'weekly', 
+                      label: 'Weekly', 
+                      icon: '📊', 
+                      color: 'border-blue-200 bg-blue-50 text-blue-700'
+                    },
+                    { 
+                      value: 'monthly', 
+                      label: 'Monthly', 
+                      icon: '💰', 
+                      color: 'border-purple-200 bg-purple-50 text-purple-700'
+                    }
+                  ].map((freq) => (
+                    <Button
+                      key={freq.value}
+                      variant={dabbaSetup.frequency === freq.value ? "default" : "outline"}
+                      size="sm"
+                      className={`h-12 flex items-center justify-center text-xs transition-all duration-300 ${
+                        dabbaSetup.frequency === freq.value
+                          ? `${freq.color} scale-105 shadow-md`
+                          : 'hover:shadow-sm'
+                      }`}
+                      onClick={() => handleFrequencyChange(freq.value)}
+                    >
+                      <div className="flex items-center space-x-2">
+                        <div className="text-base">{freq.icon}</div>
+                        <div className="font-medium">{freq.label}</div>
+                      </div>
+                    </Button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Period Selection Row */}
+              <div className="mb-4">
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className="font-semibold text-sm text-gray-900">Savings Period</h4>
+                  {dabbaSetup.frequency && (
+                    <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
+                      {dabbaSetup.frequency === 'daily' && 'Days/Weeks'}
+                      {dabbaSetup.frequency === 'weekly' && 'Weeks/Months'} 
+                      {dabbaSetup.frequency === 'monthly' && 'Months/Years'}
+                    </span>
+                  )}
+                </div>
+                <div className="grid grid-cols-5 gap-1.5">
+                  {(() => {
+                    const periodOptions = {
+                      daily: [
+                        { value: 10, label: '10D', days: 10 },
+                        { value: 20, label: '20D', days: 20 },
+                        { value: 30, label: '1M', days: 30 },
+                        { value: 60, label: '2M', days: 60 },
+                        { value: 90, label: '3M', days: 90 }
+                      ],
+                      weekly: [
+                        { value: 4, label: '4W', days: 28 },
+                        { value: 8, label: '2M', days: 56 },
+                        { value: 12, label: '3M', days: 84 },
+                        { value: 24, label: '6M', days: 168 },
+                        { value: 52, label: '1Y', days: 364 }
+                      ],
+                      monthly: [
+                        { value: 3, label: '3M', days: 90 },
+                        { value: 6, label: '6M', days: 180 },
+                        { value: 12, label: '1Y', days: 365 },
+                        { value: 18, label: '1.5Y', days: 547 },
+                        { value: 24, label: '2Y', days: 730 }
+                      ]
+                    };
+                    
+                    const currentOptions = periodOptions[dabbaSetup.frequency as keyof typeof periodOptions] || periodOptions.daily;
+                    
+                    return currentOptions.map((period) => (
+                      <Button
+                        key={period.value}
+                        variant={selectedDuration === period.days ? "default" : "outline"}
+                        size="sm"
+                        className="text-xs py-1.5 h-8"
+                        onClick={() => handleDurationChange(period.days)}
+                      >
+                        {period.label}
+                      </Button>
+                    ));
+                  })()}
+                </div>
+              </div>
+
+              {/* Custom Period - Inline */}
+              <div className="mb-4">
+                <div className="flex items-center space-x-2">
+                  <span className="text-xs text-gray-700 font-medium">Custom:</span>
+                  <Input
+                    type="number"
+                    placeholder="Enter"
+                    value={customPeriodInput}
+                    min="1"
+                    max={dabbaSetup.frequency === 'daily' ? '365' : dabbaSetup.frequency === 'weekly' ? '104' : '60'}
+                    className="flex-1 h-8 text-xs border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                    onChange={(e) => {
+                      const inputValue = e.target.value;
+                      setCustomPeriodInput(inputValue);
+                      
+                      const value = parseInt(inputValue);
+                      if (value && value > 0) {
+                        let days;
+                        if (dabbaSetup.frequency === 'daily') {
+                          days = value;
+                        } else if (dabbaSetup.frequency === 'weekly') {
+                          days = value * 7;
+                        } else {
+                          days = value * 30;
+                        }
+                        handleDurationChange(days);
+                      }
+                    }}
+                    onBlur={() => {
+                      // Clear input if empty or invalid
+                      if (!customPeriodInput || parseInt(customPeriodInput) <= 0) {
+                        setCustomPeriodInput('');
+                      }
+                    }}
+                  />
+                  <div className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded text-center min-w-[50px]">
+                    {dabbaSetup.frequency === 'daily' && 'Days'}
+                    {dabbaSetup.frequency === 'weekly' && 'Weeks'} 
+                    {dabbaSetup.frequency === 'monthly' && 'Months'}
+                  </div>
+                </div>
+              </div>
+
+              {/* Compact Deposit Prediction */}
+              {dabbaSetup.frequency && selectedDuration && (
+                <div className="bg-gradient-to-r from-emerald-50 to-green-50 border border-green-200 rounded-lg p-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <div>
+                      <div className="text-sm text-green-700">Your {dabbaSetup.frequency} deposit</div>
+                      <div className="text-xl font-bold text-green-800">₹{depositDetails.depositAmount.toLocaleString()}</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-xs text-green-600">{depositDetails.paymentText}</div>
+                      <div className="text-xs text-gray-600">
+                        {(() => {
+                          if (dabbaSetup.frequency === 'daily') {
+                            return selectedDuration < 30 ? `${selectedDuration} days` : `${Math.round(selectedDuration/30)} months`;
+                          } else if (dabbaSetup.frequency === 'weekly') {
+                            return selectedDuration < 30 ? `${Math.round(selectedDuration/7)} weeks` : `${Math.round(selectedDuration/30)} months`;
+                          } else {
+                            return selectedDuration < 365 ? `${Math.round(selectedDuration/30)} months` : `${Math.round(selectedDuration/365)} years`;
+                          }
+                        })()}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Inline Stats */}
+                  <div className="flex justify-between items-center text-xs bg-white/50 rounded p-2">
+                    <div className="text-center">
+                      <div className="font-semibold text-gray-800">{depositDetails.totalPayments}</div>
+                      <div className="text-gray-600">Payments</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="font-semibold text-gray-800">₹{(depositDetails.depositAmount * depositDetails.totalPayments).toLocaleString()}</div>
+                      <div className="text-gray-600">Total</div>
+                    </div>
+                    <div className="text-center">
+                      {depositDetails.depositAmount <= 50 && (
+                        <span className="bg-green-100 px-2 py-1 rounded-full text-green-700">💡 Perfect!</span>
+                      )}
+                      {depositDetails.depositAmount > 50 && depositDetails.depositAmount <= 200 && (
+                        <span className="bg-blue-100 px-2 py-1 rounded-full text-blue-700">📈 Balanced</span>
+                      )}
+                      {depositDetails.depositAmount > 200 && (
+                        <span className="bg-purple-100 px-2 py-1 rounded-full text-purple-700">🚀 Ambitious</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Continue Button */}
+          <Button 
+            className={`w-full h-12 rounded-xl font-semibold text-base transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] ${
+              (!dabbaSetup.targetAmount || !dabbaSetup.frequency || !selectedDuration)
+                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                : 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white shadow-lg hover:shadow-xl'
+            }`}
+            disabled={!dabbaSetup.targetAmount || !dabbaSetup.frequency || !selectedDuration}
+            onClick={handleContinue}
+          >
+            {(!dabbaSetup.targetAmount || !dabbaSetup.frequency || !selectedDuration) ? (
+              <>
+                <Calculator className="mr-2 h-5 w-5" />
+                Complete Your Plan
+              </>
+            ) : (
+              <>
+                Choose Interest Scheme
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </>
+            )}
+          </Button>
+
+          {/* Progress Indicator */}
+          <div className="flex justify-center space-x-2">
+            <div className="w-3 h-1 bg-green-500 rounded-full"></div>
+            <div className="w-3 h-1 bg-green-500 rounded-full"></div>
+            <div className="w-3 h-1 bg-gray-200 rounded-full"></div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // Dabba Duration Screen
+  const DabbaDurationScreen = () => {
+    const calculateDailyAmount = () => {
+      if (!dabbaSetup.targetAmount || !dabbaSetup.duration) return 0;
+      return Math.ceil(parseInt(dabbaSetup.targetAmount) / (dabbaSetup.duration * 30));
+    };
+
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <div className="bg-white shadow-sm border-b">
+          <div className="max-w-md mx-auto px-4 py-3">
+            <div className="flex items-center space-x-3">
+              <Button variant="ghost" size="sm" onClick={() => setCurrentScreen('dabba-goal')}>
+                <ArrowLeft className="h-5 w-5" />
+              </Button>
+              <div>
+                <h1 className="font-bold">Choose Duration</h1>
+                <p className="text-sm text-gray-600">How long do you want to save?</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-md mx-auto p-4 space-y-6">
+          <Card>
+            <CardContent className="p-4">
+              <div className="text-center mb-4">
+                <div className="text-2xl font-bold text-green-600">₹{dabbaSetup.targetAmount}</div>
+                <p className="text-sm text-gray-600">Target Amount</p>
+              </div>
+
+              <div className="grid grid-cols-3 gap-3 mb-4">
+                {[3, 6, 12, 18, 24, 36].map((months) => (
+                  <Button
+                    key={months}
+                    variant={dabbaSetup.duration === months ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setDabbaSetup(prev => ({ ...prev, duration: months }))}
+                  >
+                    {months}M
+                  </Button>
+                ))}
+              </div>
+
+              {dabbaSetup.duration && (
+                <div className="bg-green-50 rounded-lg p-4 text-center">
+                  <div className="text-lg font-bold text-green-800">₹{calculateDailyAmount()}</div>
+                  <div className="text-sm text-green-600">Daily Micro Deposit needed</div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          <div>
+            <Label>Frequency</Label>
+            <div className="grid grid-cols-3 gap-3 mt-2">
+              {[
+                { value: 'daily', label: 'Daily' },
+                { value: 'weekly', label: 'Weekly' },
+                { value: 'monthly', label: 'Monthly' }
+              ].map((freq) => (
+                <Button
+                  key={freq.value}
+                  variant={dabbaSetup.frequency === freq.value ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setDabbaSetup(prev => ({ ...prev, frequency: freq.value }))}
+                >
+                  {freq.label}
+                </Button>
+              ))}
+            </div>
+          </div>
+
+          <Button 
+            className="w-full"
+            disabled={!dabbaSetup.duration}
+            onClick={() => setCurrentScreen('dabba-summary')}
+          >
+            Continue
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+    );
+  };
+
+  // Dabba Summary Screen
+  const DabbaSummaryScreen = () => {
+    const dailyAmount = Math.ceil(parseInt(dabbaSetup.targetAmount) / (dabbaSetup.duration * 30));
+    
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <div className="bg-white shadow-sm border-b">
+          <div className="max-w-md mx-auto px-4 py-3">
+            <div className="flex items-center space-x-3">
+              <Button variant="ghost" size="sm" onClick={() => setCurrentScreen('dabba-duration')}>
+                <ArrowLeft className="h-5 w-5" />
+              </Button>
+              <div>
+                <h1 className="font-bold">Plan Summary</h1>
+                <p className="text-sm text-gray-600">Review your savings plan</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-md mx-auto p-4 space-y-6">
+          <Card>
+            <CardHeader>
+              <div className="text-center">
+                <div className="text-3xl mb-2">{dabbaSetup.dabbaIcon}</div>
+                <CardTitle>{dabbaSetup.customDabbaName || dabbaSetup.dabbaName}</CardTitle>
+                <CardDescription>{dabbaSetup.goal}</CardDescription>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="text-center p-3 bg-green-50 rounded-lg">
+                    <div className="text-lg font-bold text-green-700">₹{dabbaSetup.targetAmount}</div>
+                    <div className="text-xs text-green-600">Target Amount</div>
+                  </div>
+                  <div className="text-center p-3 bg-blue-50 rounded-lg">
+                    <div className="text-lg font-bold text-blue-700">{dabbaSetup.duration} Months</div>
+                    <div className="text-xs text-blue-600">Duration</div>
+                  </div>
+                </div>
+
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">Daily Micro Deposit</span>
+                    <span className="font-bold">₹{dailyAmount}</span>
+                  </div>
+                  <div className="flex justify-between items-center mt-2">
+                    <span className="text-sm text-gray-600">Frequency</span>
+                    <span className="font-medium capitalize">{dabbaSetup.frequency}</span>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="h-4 w-4 text-green-600" />
+                    <span className="text-sm">Auto-debit protection</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="h-4 w-4 text-green-600" />
+                    <span className="text-sm">Flexible withdrawal</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="h-4 w-4 text-green-600" />
+                    <span className="text-sm">Up to 8% returns</span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Button 
+            className="w-full"
+            onClick={() => setCurrentScreen('dabba-schemes')}
+          >
+            Choose Interest Scheme
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+    );
+  };
+
+  // Bank & Scheme Selection Screen
+  const DabbaSchemesScreen = () => {
+    const [showComparison, setShowComparison] = useState(false);
+    const [selectedForComparison, setSelectedForComparison] = useState<number[]>([]);
+
+    const bankSchemes = [
+      {
+        id: 1,
+        bankName: 'State Bank of India',
+        bankLogo: '🏛️',
+        isRecommended: true,
+        isPartner: true,
+        schemeName: 'SBI Sukanya Samriddhi',
+        interestRate: 8.2,
+        minDeposit: 250,
+        maxDeposit: 150000,
+        tenure: '15 years',
+        compounding: 'Annual',
+        prematureWithdrawal: 'After 5 years',
+        taxBenefit: 'Section 80C',
+        features: [
+          'Highest interest rate',
+          'Government backed security', 
+          'Tax benefits under 80C',
+          'Partial withdrawal allowed',
+          'Online account management'
+        ],
+        benefits: [
+          'Zero processing fee',
+          'Doorstep banking',
+          'SMS & email alerts',
+          'Mobile banking support'
+        ],
+        rating: 4.8,
+        customerBase: '45M+',
+        processingTime: '24 hours'
+      },
+      {
+        id: 2,
+        bankName: 'HDFC Bank',
+        bankLogo: '🏢',
+        isRecommended: false,
+        isPartner: true,
+        schemeName: 'HDFC Recurring Deposit Plus',
+        interestRate: 7.75,
+        minDeposit: 100,
+        maxDeposit: 500000,
+        tenure: '1-10 years',
+        compounding: 'Quarterly',
+        prematureWithdrawal: 'After 6 months',
+        taxBenefit: 'TDS applicable',
+        features: [
+          'Flexible tenure options',
+          'Auto-sweep facility',
+          'Loan against deposit',
+          'Online renewal',
+          'Standing instructions'
+        ],
+        benefits: [
+          'NetBanking convenience',
+          'Relationship manager',
+          'Priority customer service',
+          'Digital statements'
+        ],
+        rating: 4.6,
+        customerBase: '68M+',
+        processingTime: '2 hours'
+      },
+      {
+        id: 3,
+        bankName: 'ICICI Bank',
+        bankLogo: '🏦',
+        isRecommended: false,
+        isPartner: true,
+        schemeName: 'ICICI iWish Flexible RD',
+        interestRate: 7.25,
+        minDeposit: 500,
+        maxDeposit: 1000000,
+        tenure: '6 months - 10 years',
+        compounding: 'Quarterly',
+        prematureWithdrawal: 'Anytime with penalty',
+        taxBenefit: 'Standard TDS',
+        features: [
+          'Goal-based savings',
+          'Flexible amount increase',
+          'Auto debit facility',
+          'iMobile app integration',
+          'Instant account opening'
+        ],
+        benefits: [
+          'Digital-first experience',
+          '24/7 customer support',
+          'Reward points program',
+          'Video KYC available'
+        ],
+        rating: 4.5,
+        customerBase: '50M+',
+        processingTime: '1 hour'
+      },
+      {
+        id: 4,
+        bankName: 'Axis Bank',
+        bankLogo: '🏛️',
+        isRecommended: false,
+        isPartner: true,
+        schemeName: 'Axis Power Savings',
+        interestRate: 7.50,
+        minDeposit: 1000,
+        maxDeposit: 250000,
+        tenure: '1-5 years',
+        compounding: 'Monthly',
+        prematureWithdrawal: 'After 1 year',
+        taxBenefit: 'Standard TDS',
+        features: [
+          'Monthly compounding',
+          'High liquidity',
+          'Easy top-up facility',
+          'Axis Mobile integration',
+          'Free NEFT/RTGS'
+        ],
+        benefits: [
+          'Personalized service',
+          'Dedicated RM support',
+          'Priority banking perks',
+          'Insurance tie-ups'
+        ],
+        rating: 4.4,
+        customerBase: '25M+',
+        processingTime: '4 hours'
+      },
+      {
+        id: 5,
+        bankName: 'Kotak Mahindra Bank',
+        bankLogo: '🏢',
+        isRecommended: false,
+        isPartner: true,
+        schemeName: 'Kotak ActivMoney',
+        interestRate: 6.75,
+        minDeposit: 2500,
+        maxDeposit: 100000,
+        tenure: '1-3 years',
+        compounding: 'Quarterly',
+        prematureWithdrawal: 'After 1 year',
+        taxBenefit: 'Standard TDS',
+        features: [
+          'Smart auto-sweep',
+          'Zero penalty charges',
+          'Instant liquidity',
+          'Kotak 811 integration',
+          'Paperless account'
+        ],
+        benefits: [
+          'Zero maintenance fees',
+          'Quick loan approval',
+          'Cashback rewards',
+          'Video banking support'
+        ],
+        rating: 4.3,
+        customerBase: '18M+',
+        processingTime: '30 minutes'
+      }
+    ];
+
+    const toggleComparison = (schemeId: number) => {
+      if (selectedForComparison.includes(schemeId)) {
+        setSelectedForComparison(prev => prev.filter(id => id !== schemeId));
+      } else if (selectedForComparison.length < 3) {
+        setSelectedForComparison(prev => [...prev, schemeId]);
+      }
+    };
+
+    const getSelectedSchemes = () => {
+      return bankSchemes.filter(scheme => selectedForComparison.includes(scheme.id));
+    };
+
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-green-50/30">
+        {/* Enhanced Header */}
+        <div className="glass-strong shadow-sm border-b border-white/20">
+          <div className="max-w-md mx-auto px-4 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => setCurrentScreen('dabba-goal')}
+                  className="hover:bg-white/20 rounded-full transition-all duration-200"
+                >
+                  <ArrowLeft className="h-5 w-5" />
+                </Button>
+                <div>
+                  <h1 className="font-bold text-gray-900">Bank & Scheme Selection</h1>
+                  <p className="text-sm text-gray-600">Choose your deposit plan</p>
+                </div>
+              </div>
+              <div className="flex-shrink-0">
+                <img src={kaniroLogo} alt="Kaniro" className="h-6 opacity-80" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-md mx-auto p-4 space-y-4">
+          {/* Recommended Banner */}
+          <Card className="bg-gradient-to-r from-green-500 to-emerald-600 text-white border-0 shadow-lg">
+            <CardContent className="p-4">
+              <div className="flex items-center space-x-3">
+                <div className="bg-white/20 p-2 rounded-full">
+                  <Star className="h-5 w-5" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-bold">Recommended Choice</h3>
+                  <p className="text-sm opacity-90">Best returns with government security</p>
+                </div>
+                <div className="text-2xl font-bold">8.2%</div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Comparison Toggle */}
+          {selectedForComparison.length > 0 && (
+            <Card className="bg-blue-50 border-blue-200">
+              <CardContent className="p-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <div className="bg-blue-500 p-1.5 rounded-full">
+                      <Calculator className="h-4 w-4 text-white" />
+                    </div>
+                    <div>
+                      <span className="font-medium text-blue-900">
+                        {selectedForComparison.length} scheme(s) selected
+                      </span>
+                      <p className="text-xs text-blue-700">Compare features side by side</p>
+                    </div>
+                  </div>
+                  <Button 
+                    size="sm"
+                    onClick={() => setShowComparison(true)}
+                    className="bg-blue-600 hover:bg-blue-700"
+                  >
+                    Compare Now
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Bank Schemes List */}
+          <div className="space-y-4">
+            {bankSchemes.map((scheme) => {
+              const isSelected = dabbaSetup.selectedScheme?.id === scheme.id;
+              const isInComparison = selectedForComparison.includes(scheme.id);
+              
+              return (
+                <Card 
+                  key={scheme.id}
+                  className={`cursor-pointer transition-all duration-300 hover:shadow-lg transform hover:scale-[1.02] rounded-xl border-2 ${
+                    isSelected 
+                      ? 'border-green-400 bg-gradient-to-br from-green-50 to-emerald-50 shadow-lg ring-2 ring-white/50' 
+                      : isInComparison
+                      ? 'border-blue-400 bg-blue-50'
+                      : 'border-gray-200 hover:border-gray-300 hover:shadow-md bg-white'
+                  }`}
+                  onClick={() => setDabbaSetup(prev => ({ ...prev, selectedScheme: scheme }))}
+                >
+                  <CardContent className="p-3">
+                    {/* Compact Bank Header */}
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center space-x-2">
+                        <div className="text-lg">{scheme.bankLogo}</div>
+                        <div className="flex-1">
+                          <div className="flex items-center space-x-1 mb-0.5">
+                            <h3 className="font-bold text-sm text-gray-900">{scheme.bankName}</h3>
+                            {scheme.isRecommended && (
+                              <Badge className="bg-green-100 text-green-700 border-green-200 text-xs px-1 py-0">
+                                ⭐
+                              </Badge>
+                            )}
+                          </div>
+                          <p className="text-xs text-gray-600 leading-tight">{scheme.schemeName}</p>
+                          <div className="flex items-center space-x-1 mt-0.5">
+                            <div className="flex items-center space-x-0.5">
+                              {[...Array(5)].map((_, i) => (
+                                <Star 
+                                  key={i} 
+                                  className={`h-2.5 w-2.5 ${
+                                    i < Math.floor(scheme.rating) ? 'text-yellow-500 fill-current' : 'text-gray-300'
+                                  }`} 
+                                />
+                              ))}
+                              <span className="text-xs text-gray-500 ml-1">{scheme.rating}</span>
+                            </div>
+                            <span className="text-xs text-gray-400">•</span>
+                            <span className="text-xs text-gray-500">{scheme.customerBase}</span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center space-x-2">
+                        <div className="text-right">
+                          <div className="text-xl font-bold text-green-600">{scheme.interestRate}%</div>
+                          <div className="text-xs text-gray-500">Interest</div>
+                        </div>
+                        
+                        {/* Comparison Toggle */}
+                        <Button
+                          size="sm"
+                          variant={isInComparison ? "default" : "outline"}
+                          className="h-7 w-7 p-0"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleComparison(scheme.id);
+                          }}
+                          disabled={!isInComparison && selectedForComparison.length >= 3}
+                        >
+                          {isInComparison ? (
+                            <CheckCircle className="h-3 w-3" />
+                          ) : (
+                            <Plus className="h-3 w-3" />
+                          )}
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* Compact Details Grid */}
+                    <div className="grid grid-cols-4 gap-1.5 mb-3">
+                      <div className="bg-gray-50 rounded p-1.5 text-center">
+                        <div className="text-xs font-semibold text-gray-800">₹{scheme.minDeposit >= 1000 ? Math.round(scheme.minDeposit/1000) + 'K' : scheme.minDeposit}</div>
+                        <div className="text-xs text-gray-500">Min</div>
+                      </div>
+                      <div className="bg-gray-50 rounded p-1.5 text-center">
+                        <div className="text-xs font-semibold text-gray-800">{scheme.tenure.replace(' years', 'Y').replace(' months', 'M')}</div>
+                        <div className="text-xs text-gray-500">Term</div>
+                      </div>
+                      <div className="bg-gray-50 rounded p-1.5 text-center">
+                        <div className="text-xs font-semibold text-gray-800">{scheme.processingTime.replace(' hours', 'h').replace(' hour', 'h').replace(' minutes', 'm')}</div>
+                        <div className="text-xs text-gray-500">Process</div>
+                      </div>
+                      <div className="bg-gray-50 rounded p-1.5 text-center">
+                        <div className="text-xs font-semibold text-gray-800">{scheme.taxBenefit.includes('80C') ? '80C' : 'TDS'}</div>
+                        <div className="text-xs text-gray-500">Tax</div>
+                      </div>
+                    </div>
+
+                    {/* Compact Features - Single Line */}
+                    <div className="mb-2">
+                      <div className="flex flex-wrap gap-1">
+                        {scheme.features.slice(0, 2).map((feature, index) => (
+                          <div key={index} className="flex items-center space-x-1 bg-green-50 rounded-full px-2 py-0.5">
+                            <CheckCircle className="h-2.5 w-2.5 text-green-600 flex-shrink-0" />
+                            <span className="text-xs text-green-700 truncate">{feature.replace('Government backed security', 'Govt Security').replace('Online account management', 'Online Mgmt')}</span>
+                          </div>
+                        ))}
+                        {scheme.features.length > 2 && (
+                          <div className="flex items-center space-x-1 bg-gray-100 rounded-full px-2 py-0.5">
+                            <span className="text-xs text-gray-600">+{scheme.features.length - 2} more</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Selection Indicator */}
+                    {isSelected && (
+                      <div className="bg-green-50 border border-green-200 rounded-lg p-2">
+                        <div className="flex items-center space-x-2 text-green-700">
+                          <CheckCircle className="h-3 w-3" />
+                          <span className="text-xs font-medium">Selected</span>
+                        </div>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex space-x-3 pt-4">
+            <Button 
+              variant="outline"
+              className="flex-1"
+              onClick={() => setCurrentScreen('dabba-compare')}
+            >
+              <Calculator className="mr-2 h-4 w-4" />
+              Compare Features
+            </Button>
+            <Button 
+              className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700"
+              disabled={!dabbaSetup.selectedScheme}
+              onClick={() => setCurrentScreen('dabba-kyc')}
+            >
+              Continue
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
+
+          {/* Progress Indicator */}
+          <div className="flex justify-center space-x-2 pt-2">
+            <div className="w-3 h-1 bg-green-500 rounded-full"></div>
+            <div className="w-3 h-1 bg-green-500 rounded-full"></div>
+            <div className="w-3 h-1 bg-green-500 rounded-full"></div>
+          </div>
+        </div>
+
+        {/* Comparison Modal */}
+        {showComparison && (
+          <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+            <Card className="w-full max-w-lg max-h-[80vh] overflow-hidden">
+              <CardContent className="p-0">
+                <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-bold">Scheme Comparison</h3>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      onClick={() => setShowComparison(false)}
+                      className="text-white hover:bg-white/20"
+                    >
+                      ✕
+                    </Button>
+                  </div>
+                </div>
+                
+                <div className="p-4 overflow-y-auto max-h-[60vh]">
+                  <div className="space-y-4">
+                    {getSelectedSchemes().map((scheme) => (
+                      <div key={scheme.id} className="border rounded-lg p-3">
+                        <div className="flex items-center space-x-2 mb-3">
+                          <span className="text-lg">{scheme.bankLogo}</span>
+                          <div>
+                            <h4 className="font-bold text-sm">{scheme.bankName}</h4>
+                            <p className="text-xs text-gray-600">{scheme.schemeName}</p>
+                          </div>
+                          <div className="ml-auto text-right">
+                            <div className="font-bold text-green-600">{scheme.interestRate}%</div>
+                          </div>
+                        </div>
+                        
+                        <div className="grid grid-cols-2 gap-2 text-xs">
+                          <div>
+                            <span className="text-gray-500">Min Amount:</span>
+                            <div className="font-medium">₹{scheme.minDeposit.toLocaleString()}</div>
+                          </div>
+                          <div>
+                            <span className="text-gray-500">Tenure:</span>
+                            <div className="font-medium">{scheme.tenure}</div>
+                          </div>
+                          <div>
+                            <span className="text-gray-500">Processing:</span>
+                            <div className="font-medium">{scheme.processingTime}</div>
+                          </div>
+                          <div>
+                            <span className="text-gray-500">Rating:</span>
+                            <div className="font-medium">{scheme.rating}/5</div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <Button 
+                    className="w-full mt-4"
+                    onClick={() => setShowComparison(false)}
+                  >
+                    Close Comparison
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  // Enhanced Bank & Scheme Compare Screen
+  const DabbaCompareScreen = () => {
+    const topBankSchemes = [
+      {
+        bankName: 'SBI',
+        schemeName: 'Sukanya Samriddhi',
+        logo: '🏛️',
+        rate: 8.2,
+        minDeposit: 250,
+        tenure: '15 years',
+        safety: 'Government Backed',
+        liquidity: 'Partial after 5 years',
+        taxBenefit: 'Section 80C',
+        customerSupport: '24/7',
+        digitalFeatures: 'Full Online',
+        specialFeature: 'Highest Returns'
+      },
+      {
+        bankName: 'HDFC',
+        schemeName: 'RD Plus',
+        logo: '🏢',
+        rate: 7.75,
+        minDeposit: 100,
+        tenure: '1-10 years',
+        safety: 'DICGC Insured',
+        liquidity: 'After 6 months',
+        taxBenefit: 'Standard TDS',
+        customerSupport: 'Priority',
+        digitalFeatures: 'NetBanking',
+        specialFeature: 'Auto Sweep'
+      },
+      {
+        bankName: 'ICICI',
+        schemeName: 'iWish Flexible',
+        logo: '🏦',
+        rate: 7.25,
+        minDeposit: 500,
+        tenure: '6 months - 10 years',
+        safety: 'DICGC Insured',
+        liquidity: 'Anytime',
+        taxBenefit: 'Standard TDS',
+        customerSupport: '24/7 Digital',
+        digitalFeatures: 'iMobile App',
+        specialFeature: 'Goal Based'
+      }
+    ];
+
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-green-50/30">
+        {/* Enhanced Header */}
+        <div className="glass-strong shadow-sm border-b border-white/20">
+          <div className="max-w-md mx-auto px-4 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => setCurrentScreen('dabba-schemes')}
+                  className="hover:bg-white/20 rounded-full transition-all duration-200"
+                >
+                  <ArrowLeft className="h-5 w-5" />
+                </Button>
+                <div>
+                  <h1 className="font-bold text-gray-900">Compare Banks & Schemes</h1>
+                  <p className="text-sm text-gray-600">Side by side feature comparison</p>
+                </div>
+              </div>
+              <div className="flex-shrink-0">
+                <img src={kaniroLogo} alt="Kaniro" className="h-6 opacity-80" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-md mx-auto p-4 space-y-4">
+          {/* Quick Comparison Cards */}
+          <div className="space-y-3">
+            {topBankSchemes.map((scheme, index) => (
+              <Card key={index} className={`transition-all duration-300 hover:shadow-lg rounded-xl border-2 ${
+                index === 0 ? 'border-green-300 bg-gradient-to-r from-green-50 to-emerald-50' : 'border-gray-200 bg-white'
+              }`}>
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center space-x-3">
+                      <div className="text-2xl">{scheme.logo}</div>
+                      <div>
+                        <h3 className="font-bold text-gray-900">{scheme.bankName}</h3>
+                        <p className="text-sm text-gray-600">{scheme.schemeName}</p>
+                      </div>
+                      {index === 0 && (
+                        <Badge className="bg-green-100 text-green-700 border-green-200">
+                          Recommended
+                        </Badge>
+                      )}
+                    </div>
+                    <div className="text-right">
+                      <div className="text-2xl font-bold text-green-600">{scheme.rate}%</div>
+                      <div className="text-xs text-gray-500">Interest Rate</div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="bg-gray-50 rounded-lg p-2">
+                      <span className="text-xs text-gray-500">Min Deposit</span>
+                      <div className="font-semibold text-sm">₹{scheme.minDeposit.toLocaleString()}</div>
+                    </div>
+                    <div className="bg-gray-50 rounded-lg p-2">
+                      <span className="text-xs text-gray-500">Tenure</span>
+                      <div className="font-semibold text-sm">{scheme.tenure}</div>
+                    </div>
+                  </div>
+
+                  <div className="mt-3 pt-3 border-t border-gray-200">
+                    <div className="text-xs text-gray-700">
+                      <strong>Special:</strong> {scheme.specialFeature}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {/* Detailed Comparison Table */}
+          <Card className="bg-white shadow-lg rounded-xl">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center space-x-2">
+                <Calculator className="h-5 w-5 text-blue-600" />
+                <span>Detailed Feature Comparison</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b-2 border-gray-200">
+                      <th className="text-left py-3 text-xs font-medium text-gray-600 uppercase">Feature</th>
+                      {topBankSchemes.map((scheme) => (
+                        <th key={scheme.bankName} className="text-center py-3 text-xs font-medium text-gray-600 uppercase">
+                          {scheme.bankName}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-100">
+                    <tr>
+                      <td className="py-3 text-sm font-medium">Interest Rate</td>
+                      {topBankSchemes.map((scheme) => (
+                        <td key={scheme.bankName} className="text-center py-3">
+                          <span className="font-bold text-green-600">{scheme.rate}%</span>
+                        </td>
+                      ))}
+                    </tr>
+                    <tr className="bg-gray-50">
+                      <td className="py-3 text-sm font-medium">Minimum Deposit</td>
+                      {topBankSchemes.map((scheme) => (
+                        <td key={scheme.bankName} className="text-center py-3 text-sm">
+                          ₹{scheme.minDeposit.toLocaleString()}
+                        </td>
+                      ))}
+                    </tr>
+                    <tr>
+                      <td className="py-3 text-sm font-medium">Safety Level</td>
+                      {topBankSchemes.map((scheme) => (
+                        <td key={scheme.bankName} className="text-center py-3 text-sm">
+                          <span className={scheme.safety.includes('Government') ? 'text-green-600 font-medium' : 'text-blue-600'}>
+                            {scheme.safety}
+                          </span>
+                        </td>
+                      ))}
+                    </tr>
+                    <tr className="bg-gray-50">
+                      <td className="py-3 text-sm font-medium">Liquidity</td>
+                      {topBankSchemes.map((scheme) => (
+                        <td key={scheme.bankName} className="text-center py-3 text-sm">
+                          {scheme.liquidity}
+                        </td>
+                      ))}
+                    </tr>
+                    <tr>
+                      <td className="py-3 text-sm font-medium">Tax Benefits</td>
+                      {topBankSchemes.map((scheme) => (
+                        <td key={scheme.bankName} className="text-center py-3 text-sm">
+                          <span className={scheme.taxBenefit.includes('80C') ? 'text-green-600 font-medium' : 'text-gray-600'}>
+                            {scheme.taxBenefit}
+                          </span>
+                        </td>
+                      ))}
+                    </tr>
+                    <tr className="bg-gray-50">
+                      <td className="py-3 text-sm font-medium">Digital Features</td>
+                      {topBankSchemes.map((scheme) => (
+                        <td key={scheme.bankName} className="text-center py-3 text-sm">
+                          {scheme.digitalFeatures}
+                        </td>
+                      ))}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Winner Recommendation */}
+          <Card className="bg-gradient-to-r from-green-500 to-emerald-600 text-white border-0 shadow-lg">
+            <CardContent className="p-4">
+              <div className="flex items-center space-x-3">
+                <div className="bg-white/20 p-2 rounded-full">
+                  <Award className="h-5 w-5" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-bold">Our Recommendation</h3>
+                  <p className="text-sm opacity-90">SBI Sukanya Samriddhi offers the highest returns with government backing and best tax benefits</p>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold">8.2%</div>
+                  <div className="text-xs opacity-80">Best Rate</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Action Buttons */}
+          <div className="flex space-x-3 pt-4">
+            <Button 
+              variant="outline"
+              className="flex-1"
+              onClick={() => setCurrentScreen('dabba-schemes')}
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Selection
+            </Button>
+            <Button 
+              className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700"
+              onClick={() => {
+                // Auto-select the recommended scheme (SBI)
+                const recommendedScheme = {
+                  id: 1,
+                  bankName: 'State Bank of India',
+                  schemeName: 'SBI Sukanya Samriddhi',
+                  interestRate: 8.2
+                };
+                setDabbaSetup(prev => ({ ...prev, selectedScheme: recommendedScheme }));
+                setCurrentScreen('dabba-kyc');
+              }}
+            >
+              Select Recommended
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
+
+          {/* Progress Indicator */}
+          <div className="flex justify-center space-x-2 pt-2">
+            <div className="w-3 h-1 bg-green-500 rounded-full"></div>
+            <div className="w-3 h-1 bg-green-500 rounded-full"></div>
+            <div className="w-3 h-1 bg-green-500 rounded-full"></div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // Enhanced KYC Verification Screen
+  const DabbaKYCScreen = () => {
+    const [panError, setPanError] = useState('');
+    const [aadhaarNumber, setAadhaarNumber] = useState('');
+    const [aadhaarError, setAadhaarError] = useState('');
+    const [isVerifyingPAN, setIsVerifyingPAN] = useState(false);
+    const [panVerified, setPanVerified] = useState(false);
+    const [kycStep, setKycStep] = useState(1); // 1: PAN, 2: Aadhaar, 3: OTP
+    const [otpTimer, setOtpTimer] = useState(0);
+
+    // PAN validation function
+    const validatePAN = (pan: string) => {
+      const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+      return panRegex.test(pan.toUpperCase());
+    };
+
+    // Aadhaar validation function  
+    const validateAadhaar = (aadhaar: string) => {
+      const aadhaarRegex = /^\d{12}$/;
+      return aadhaarRegex.test(aadhaar.replace(/\s/g, ''));
+    };
+
+    // Format Aadhaar number with spaces
+    const formatAadhaar = (value: string) => {
+      const cleaned = value.replace(/\D/g, '');
+      const match = cleaned.match(/^(\d{0,4})(\d{0,4})(\d{0,4})$/);
+      if (match) {
+        return [match[1], match[2], match[3]].filter(Boolean).join(' ');
+      }
+      return cleaned;
+    };
+
+    // Handle PAN input change
+    const handlePANChange = (value: string) => {
+      const upperValue = value.toUpperCase();
+      setDabbaSetup(prev => ({ ...prev, panNumber: upperValue }));
+      
+      // Reset verification status when PAN changes
+      setPanVerified(false);
+      
+      if (value.length > 0) {
+        if (validatePAN(upperValue)) {
+          setPanError('');
+        } else if (value.length >= 10) {
+          setPanError('Invalid PAN format. Use format: ABCDE1234F');
+        } else {
+          setPanError('');
+        }
+      } else {
+        setPanError('');
+      }
+    };
+
+    // Handle manual PAN verification
+    const handlePANVerify = () => {
+      console.log('PAN Verify clicked:', dabbaSetup.panNumber); // Debug log
+      if (validatePAN(dabbaSetup.panNumber)) {
+        console.log('PAN is valid, starting verification...'); // Debug log
+        setIsVerifyingPAN(true);
+        setPanError('');
+        setTimeout(() => {
+          console.log('PAN verification complete!'); // Debug log
+          setIsVerifyingPAN(false);
+          setPanVerified(true);
+        }, 1500);
+      } else {
+        console.log('PAN validation failed'); // Debug log
+        setPanError('Invalid PAN format');
+      }
+    };
+
+    // Handle Aadhaar input change
+    const handleAadhaarChange = (value: string) => {
+      const formatted = formatAadhaar(value);
+      setAadhaarNumber(formatted);
+      
+      if (formatted.length > 0) {
+        if (validateAadhaar(formatted)) {
+          setAadhaarError('');
+        } else {
+          setAadhaarError('Invalid Aadhaar number. Must be 12 digits.');
+        }
+      } else {
+        setAadhaarError('');
+      }
+    };
+
+    // Send OTP function
+    const sendOTP = () => {
+      if (validateAadhaar(aadhaarNumber)) {
+        setDabbaSetup(prev => ({ ...prev, otpSent: true }));
+        setKycStep(3);
+        setOtpTimer(60);
+        
+        // Start countdown timer
+        const timer = setInterval(() => {
+          setOtpTimer((prev) => {
+            if (prev <= 1) {
+              clearInterval(timer);
+              return 0;
+            }
+            return prev - 1;
+          });
+        }, 1000);
+      }
+    };
+
+    // Complete KYC verification
+    const completeKYC = () => {
+      const currentOtp = dabbaSetup.aadhaarOtp || '';
+      const isOtpComplete = currentOtp.length === 6;
+      
+      console.log('KYC Completion attempt:', {
+        otpComplete: isOtpComplete,
+        otpLength: currentOtp.length,
+        otp: currentOtp,
+        panNumber: dabbaSetup.panNumber
+      });
+      
+      if (isOtpComplete) {
+        // Mark both PAN and KYC as verified when OTP is complete
+        setPanVerified(true);
+        setDabbaSetup(prev => ({ ...prev, kycComplete: true }));
+        setCurrentScreen('dabba-confirm');
+        console.log('KYC completed successfully! Moving to confirmation screen.');
+      } else {
+        console.log('KYC completion failed: OTP not complete');
+      }
+    };
+
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-green-50/30">
+        {/* Enhanced Header */}
+        <div className="glass-strong shadow-sm border-b border-white/20">
+          <div className="max-w-md mx-auto px-4 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => setCurrentScreen('dabba-schemes')}
+                  className="hover:bg-white/20 rounded-full transition-all duration-200"
+                >
+                  <ArrowLeft className="h-5 w-5" />
+                </Button>
+                <div>
+                  <h1 className="font-bold text-gray-900">KYC Verification</h1>
+                  <p className="text-sm text-gray-600">Secure identity verification</p>
+                </div>
+              </div>
+              <div className="flex-shrink-0">
+                <img src={kaniroLogo} alt="Kaniro" className="h-6 opacity-80" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-md mx-auto p-4 space-y-4">
+
+          {/* KYC Verification Form */}
+          <Card className="transition-all duration-300">
+            <CardContent className="p-4">
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center">
+                  <FileText className="h-5 w-5 text-white" />
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-bold text-gray-900">Identity Verification</h4>
+                  <p className="text-sm text-gray-600">Complete KYC to proceed</p>
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                {/* PAN Verification */}
+                <div>
+                  <Label htmlFor="pan" className="flex items-center space-x-2 mb-2">
+                    <span>PAN Number</span>
+                    <span className="text-red-500">*</span>
+                  </Label>
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-2">
+                      <div className="relative flex-1">
+                        <Input
+                          id="pan"
+                          placeholder="ABCDE1234F"
+                          value={dabbaSetup.panNumber}
+                          onChange={(e) => handlePANChange(e.target.value)}
+                          maxLength={10}
+                          className={`uppercase transition-all duration-200 ${
+                            panError 
+                              ? 'border-red-300 focus:border-red-500 focus:ring-red-200' 
+                              : panVerified 
+                              ? 'border-green-300 focus:border-green-500 focus:ring-green-200 bg-green-50' 
+                              : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200'
+                          }`}
+                          disabled={panVerified}
+                        />
+                        
+                        {/* Success Icon inside input */}
+                        {panVerified && (
+                          <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                            <CheckCircle className="h-4 w-4 text-green-500" />
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* Verify Button */}
+                      {!panVerified && !isVerifyingPAN && dabbaSetup.panNumber && validatePAN(dabbaSetup.panNumber) && (
+                        <Button
+                          size="sm"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            console.log('Verify button clicked!'); // Debug log
+                            handlePANVerify();
+                          }}
+                          className="bg-blue-600 hover:bg-blue-700 text-white px-4 font-semibold"
+                        >
+                          Verify
+                        </Button>
+                      )}
+                      
+                      {/* Loading State */}
+                      {isVerifyingPAN && (
+                        <div className="flex items-center space-x-2 text-blue-600 px-4">
+                          <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-500 border-t-transparent"></div>
+                          <span className="text-sm">Verifying...</span>
+                        </div>
+                      )}
+                    </div>
+                    
+                    {/* Verification Status */}
+                    {panVerified && (
+                      <div className="flex items-center space-x-2 text-green-600 bg-green-50 rounded-lg p-2">
+                        <CheckCircle className="h-4 w-4" />
+                        <span className="text-sm font-medium">PAN Verified Successfully</span>
+                      </div>
+                    )}
+                  </div>
+                  
+                  {panError && (
+                    <p className="text-red-600 text-xs mt-2 flex items-center space-x-1">
+                      <span>⚠️</span>
+                      <span>{panError}</span>
+                    </p>
+                  )}
+                  
+                  {/* Simplified Status */}
+                  <div className="text-xs text-green-600 mt-1 bg-green-50 rounded p-2">
+                    ✅ PAN: "{dabbaSetup.panNumber}" | OTP Status: {(dabbaSetup.aadhaarOtp || '').length}/6 digits
+                    {dabbaSetup.aadhaarOtp && dabbaSetup.aadhaarOtp.length === 6 && (
+                      <div className="font-semibold text-green-700 mt-1">🎉 Ready to Complete KYC!</div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Aadhaar Number */}
+                <div>
+                  <Label htmlFor="aadhaar" className="flex items-center space-x-2 mb-2">
+                    <span>Aadhaar Number</span>
+                    <span className="text-red-500">*</span>
+                  </Label>
+                  <div className="relative">
+                    <Input
+                      id="aadhaar"
+                      placeholder="1234 5678 9012"
+                      value={aadhaarNumber}
+                      onChange={(e) => handleAadhaarChange(e.target.value)}
+                      maxLength={14}
+                      className={`transition-all duration-200 ${
+                        aadhaarError 
+                          ? 'border-red-300 focus:border-red-500 focus:ring-red-200' 
+                          : validateAadhaar(aadhaarNumber) && dabbaSetup.otpSent
+                          ? 'border-green-300 focus:border-green-500 focus:ring-green-200 bg-green-50' 
+                          : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200'
+                      }`}
+                      disabled={dabbaSetup.otpSent}
+                    />
+                    
+                    {dabbaSetup.otpSent && (
+                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                        <CheckCircle className="h-4 w-4 text-green-500" />
+                      </div>
+                    )}
+                  </div>
+                  
+                  {aadhaarError && (
+                    <p className="text-red-600 text-xs mt-2 flex items-center space-x-1">
+                      <span>⚠️</span>
+                      <span>{aadhaarError}</span>
+                    </p>
+                  )}
+
+                  {validateAadhaar(aadhaarNumber) && !dabbaSetup.otpSent && (
+                    <Button 
+                      className="w-full mt-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700"
+                      onClick={sendOTP}
+                    >
+                      <Smartphone className="mr-2 h-4 w-4" />
+                      Send OTP to Registered Mobile
+                    </Button>
+                  )}
+                </div>
+
+                {/* OTP Input */}
+                {dabbaSetup.otpSent && (
+                  <div>
+                    <Label className="mb-2 block">Enter OTP</Label>
+                    <div className="flex justify-center space-x-2 mb-4">
+                      {[0, 1, 2, 3, 4, 5].map((index) => (
+                        <input
+                          key={index}
+                          type="text"
+                          maxLength={1}
+                          value={(dabbaSetup.aadhaarOtp || '').charAt(index) || ''}
+                          onChange={(e) => {
+                            const newValue = e.target.value;
+                            if (/^\d*$/.test(newValue)) {
+                              const currentOtp = dabbaSetup.aadhaarOtp || '';
+                              let newOtp = currentOtp.padEnd(6, '');
+                              newOtp = newOtp.substring(0, index) + newValue + newOtp.substring(index + 1);
+                              const finalOtp = newOtp.replace(/\s+$/, '');
+                              
+                              setDabbaSetup(prev => ({ ...prev, aadhaarOtp: finalOtp }));
+                              
+                              // Auto-verify PAN when OTP is complete (6 digits)
+                              if (finalOtp.length === 6) {
+                                setPanVerified(true);
+                                console.log('OTP Complete - Auto-verifying PAN and enabling Complete KYC');
+                              }
+                              
+                              // Auto-focus next input
+                              if (newValue && index < 5) {
+                                const nextInput = document.querySelector(`input[data-otp-index="${index + 1}"]`) as HTMLInputElement;
+                                nextInput?.focus();
+                              }
+                            }
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Backspace') {
+                              const currentOtp = dabbaSetup.aadhaarOtp || '';
+                              const currentValue = currentOtp.charAt(index) || '';
+                              
+                              if (!currentValue && index > 0) {
+                                // If current field is empty, move to previous field and clear it
+                                const prevInput = document.querySelector(`input[data-otp-index="${index - 1}"]`) as HTMLInputElement;
+                                prevInput?.focus();
+                                
+                                // Clear previous field
+                                let newOtp = currentOtp.padEnd(6, '');
+                                newOtp = newOtp.substring(0, index - 1) + '' + newOtp.substring(index);
+                                setDabbaSetup(prev => ({ ...prev, aadhaarOtp: newOtp.replace(/\s+$/, '') }));
+                              } else {
+                                // Clear current field
+                                let newOtp = currentOtp.padEnd(6, '');
+                                newOtp = newOtp.substring(0, index) + '' + newOtp.substring(index + 1);
+                                setDabbaSetup(prev => ({ ...prev, aadhaarOtp: newOtp.replace(/\s+$/, '') }));
+                              }
+                            }
+                          }}
+                          data-otp-index={index}
+                          className="w-10 h-10 text-center border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none transition-all duration-200 font-medium"
+                        />
+                      ))}
+                    </div>
+
+                    {/* KYC Progress Info */}
+                    <div className="text-center mb-2">
+                      <p className="text-xs text-gray-500">
+                        OTP Progress: {(dabbaSetup.aadhaarOtp || '').length}/6 digits
+                      </p>
+                      <div className="mt-2 space-y-1">
+                        <div className="flex items-center justify-center space-x-4 text-xs">
+                          <div className={`flex items-center space-x-1 ${(dabbaSetup.aadhaarOtp && dabbaSetup.aadhaarOtp.length === 6) ? 'text-green-600' : 'text-gray-500'}`}>
+                            {(dabbaSetup.aadhaarOtp && dabbaSetup.aadhaarOtp.length === 6) ? <CheckCircle className="h-3 w-3" /> : <span className="w-3 h-3 border border-gray-300 rounded-full"></span>}
+                            <span>PAN Verified</span>
+                          </div>
+                          <div className={`flex items-center space-x-1 ${(dabbaSetup.aadhaarOtp && dabbaSetup.aadhaarOtp.length === 6) ? 'text-green-600' : 'text-gray-500'}`}>
+                            {(dabbaSetup.aadhaarOtp && dabbaSetup.aadhaarOtp.length === 6) ? <CheckCircle className="h-3 w-3" /> : <span className="w-3 h-3 border border-gray-300 rounded-full"></span>}
+                            <span>OTP Entered</span>
+                          </div>
+                        </div>
+                        {dabbaSetup.aadhaarOtp && dabbaSetup.aadhaarOtp.length === 6 && (
+                          <p className="text-xs text-green-600 font-medium">✅ Ready to Complete KYC</p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Resend OTP */}
+                    <div className="text-center mb-4">
+                      {otpTimer > 0 ? (
+                        <p className="text-sm text-gray-600">
+                          Resend OTP in <span className="font-bold text-blue-600">{otpTimer}s</span>
+                        </p>
+                      ) : (
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={sendOTP}
+                          className="text-blue-600 border-blue-300 hover:bg-blue-50"
+                        >
+                          Resend OTP
+                        </Button>
+                      )}
+                    </div>
+
+                    {/* Complete KYC Button */}
+                    <Button 
+                      className={`w-full transition-all duration-300 ${
+                        (dabbaSetup.aadhaarOtp && dabbaSetup.aadhaarOtp.length === 6)
+                          ? 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 cursor-pointer'
+                          : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      }`}
+                      disabled={!dabbaSetup.aadhaarOtp || dabbaSetup.aadhaarOtp.length !== 6}
+                      onClick={completeKYC}
+                    >
+                      <CheckCircle className="mr-2 h-4 w-4" />
+                      Complete KYC Verification
+                      {dabbaSetup.aadhaarOtp && dabbaSetup.aadhaarOtp.length === 6 && (
+                        <span className="ml-2 text-green-200">✓</span>
+                      )}
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Security Information */}
+          <Card className="bg-gradient-to-r from-slate-50 to-gray-50 border-gray-200">
+            <CardContent className="p-4">
+              <div className="flex items-center space-x-3 mb-3">
+                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                  <Shield className="h-4 w-4 text-blue-600" />
+                </div>
+                <h4 className="font-bold text-gray-900">Your Data is Secure</h4>
+              </div>
+              
+              <div className="space-y-2 text-sm text-gray-600">
+                <div className="flex items-center space-x-2">
+                  <CheckCircle className="h-3 w-3 text-green-600" />
+                  <span>256-bit SSL encryption for all data</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <CheckCircle className="h-3 w-3 text-green-600" />
+                  <span>UIDAI compliant verification process</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <CheckCircle className="h-3 w-3 text-green-600" />
+                  <span>Documents stored in secure vaults</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <CheckCircle className="h-3 w-3 text-green-600" />
+                  <span>RBI approved KYC standards</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Progress Indicator */}
+          <div className="flex justify-center space-x-2 pt-2">
+            <div className="w-3 h-1 bg-green-500 rounded-full"></div>
+            <div className="w-3 h-1 bg-green-500 rounded-full"></div>
+            <div className="w-3 h-1 bg-green-500 rounded-full"></div>
+            <div className={`w-3 h-1 rounded-full ${kycStep >= 2 ? 'bg-green-500' : 'bg-gray-200'}`}></div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // Dabba Confirm Screen
+  const DabbaConfirmScreen = () => {
+    const dailyAmount = Math.ceil(parseInt(dabbaSetup.targetAmount) / (dabbaSetup.duration * 30));
+
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <div className="bg-white shadow-sm border-b">
+          <div className="max-w-md mx-auto px-4 py-3">
+            <div className="flex items-center space-x-3">
+              <Button variant="ghost" size="sm" onClick={() => setCurrentScreen('dabba-kyc')}>
+                <ArrowLeft className="h-5 w-5" />
+              </Button>
+              <div>
+                <h1 className="font-bold">Confirm & Start</h1>
+                <p className="text-sm text-gray-600">Review and activate your Dabba</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-md mx-auto p-4 space-y-6">
+          <Card>
+            <CardHeader>
+              <div className="text-center">
+                <div className="text-3xl mb-2">{dabbaSetup.dabbaIcon}</div>
+                <CardTitle>{dabbaSetup.customDabbaName || dabbaSetup.dabbaName}</CardTitle>
+                <CardDescription>{dabbaSetup.selectedScheme?.name} Plan</CardDescription>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="bg-green-50 rounded-lg p-4 text-center">
+                  <div className="text-2xl font-bold text-green-700">₹{dailyAmount}</div>
+                  <div className="text-sm text-green-600">Daily Micro Deposit</div>
+                </div>
+
+                <div className="grid grid-cols-3 gap-3 text-center text-sm">
+                  <div>
+                    <div className="font-bold">₹{dabbaSetup.targetAmount}</div>
+                    <div className="text-gray-600">Target</div>
+                  </div>
+                  <div>
+                    <div className="font-bold">{dabbaSetup.duration}M</div>
+                    <div className="text-gray-600">Duration</div>
+                  </div>
+                  <div>
+                    <div className="font-bold">{dabbaSetup.selectedScheme?.interestRate}%</div>
+                    <div className="text-gray-600">Returns</div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-4">
+              <h3 className="font-bold mb-3">First Deposit</h3>
+              <div>
+                <Label htmlFor="firstDeposit">Amount (₹)</Label>
+                <Input
+                  id="firstDeposit"
+                  type="number"
+                  placeholder={dailyAmount.toString()}
+                  value={dabbaSetup.firstDepositAmount}
+                  onChange={(e) => setDabbaSetup(prev => ({ ...prev, firstDepositAmount: e.target.value }))}
+                />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Button 
+            className="w-full"
+            onClick={() => setCurrentScreen('dabba-success')}
+          >
+            Start My Dabba
+            <Zap className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+    );
+  };
+
+  // Dabba Success Screen
+  const DabbaSuccessScreen = () => {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <div className="max-w-md mx-auto p-4 flex flex-col justify-center min-h-screen">
+          <Card>
+            <CardContent className="p-8 text-center space-y-6">
+              <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto animate-bounce">
+                <CheckCircle className="h-10 w-10 text-white" />
+              </div>
+
+              <div>
+                <h1 className="text-2xl font-bold text-green-700 mb-2">Dabba Created Successfully!</h1>
+                <p className="text-gray-600">
+                  Your <strong>{dabbaSetup.customDabbaName || dabbaSetup.dabbaName}</strong> is now active
+                </p>
+              </div>
+
+              <div className="bg-green-50 rounded-lg p-4">
+                <div className="text-sm text-green-700 mb-2">Next deposit in 24 hours</div>
+                <div className="text-2xl font-bold text-green-800">₹{Math.ceil(parseInt(dabbaSetup.targetAmount) / (dabbaSetup.duration * 30))}</div>
+              </div>
+
+              <div className="space-y-3">
+                <Button 
+                  className="w-full"
+                  onClick={() => setCurrentScreen('dabba-dashboard')}
+                >
+                  View My Dabba
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+                <Button 
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => setCurrentScreen('dashboard')}
+                >
+                  Back to Dashboard
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  };
+
+  // Dabba Dashboard Screen
+  const DabbaDashboardScreen = () => {
+    const dailyAmount = Math.ceil(parseInt(dabbaSetup.targetAmount) / (dabbaSetup.duration * 30));
+    const currentSaved = dailyAmount * 5; // Simulate some progress
+    const progress = (currentSaved / parseInt(dabbaSetup.targetAmount)) * 100;
 
     return (
       <div className="min-h-screen bg-gray-50">
@@ -1388,88 +3497,78 @@ function App() {
                 <ArrowLeft className="h-5 w-5" />
               </Button>
               <div>
-                <h1 className="font-bold">Choose Dabba Name</h1>
-                <p className="text-sm text-gray-600">What are you saving for?</p>
+                <h1 className="font-bold">{dabbaSetup.customDabbaName || dabbaSetup.dabbaName}</h1>
+                <p className="text-sm text-gray-600">Your savings progress</p>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="max-w-md mx-auto p-4 space-y-6">
-          <div className="text-center">
-            <PiggyBank className="h-16 w-16 text-green-600 mx-auto mb-4" />
-            <h2 className="text-xl font-bold text-gray-900 mb-2">Name Your Dabba</h2>
-            <p className="text-gray-600">Choose a meaningful name for your savings goal</p>
-          </div>
+        <div className="max-w-md mx-auto p-4 space-y-4">
+          <Card>
+            <CardContent className="p-4">
+              <div className="text-center mb-4">
+                <div className="text-3xl mb-2">{dabbaSetup.dabbaIcon}</div>
+                <div className="text-2xl font-bold">₹{currentSaved.toLocaleString()}</div>
+                <div className="text-sm text-gray-600">Total Saved</div>
+              </div>
 
-          <div className="space-y-3">
-            {predefinedNames.map((item, index) => (
-              <Card 
-                key={index}
-                className={`cursor-pointer transition-all hover:shadow-md ${
-                  dabbaSetup.dabbaName === item.name ? 'border-green-500 bg-green-50' : ''
-                }`}
-                onClick={() => {
-                  setDabbaSetup(prev => ({
-                    ...prev,
-                    dabbaName: item.name,
-                    dabbaIcon: item.icon,
-                    customDabbaName: ''
-                  }));
-                }}
-              >
-                <CardContent className="p-4">
-                  <div className="flex items-center space-x-3">
-                    <div className="text-2xl">{item.icon}</div>
-                    <div className="flex-1">
-                      <h4 className="font-semibold">{item.name}</h4>
-                      <p className="text-sm text-gray-600">{item.description}</p>
-                    </div>
-                    {dabbaSetup.dabbaName === item.name && (
-                      <CheckCircle className="h-5 w-5 text-green-600" />
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+              <div className="bg-gray-200 rounded-full h-2 mb-4">
+                <div 
+                  className="bg-green-500 h-2 rounded-full transition-all duration-500"
+                  style={{ width: `${progress}%` }}
+                ></div>
+              </div>
 
-            <Card className={`cursor-pointer transition-all hover:shadow-md ${
-              dabbaSetup.customDabbaName ? 'border-green-500 bg-green-50' : ''
-            }`}>
-              <CardContent className="p-4">
-                <div className="space-y-3">
-                  <div className="flex items-center space-x-3">
-                    <div className="text-2xl">✏️</div>
-                    <div className="flex-1">
-                      <h4 className="font-semibold">Custom Name</h4>
-                      <p className="text-sm text-gray-600">Create your own unique name</p>
-                    </div>
-                  </div>
-                  <Input
-                    placeholder="Enter your custom dabba name"
-                    value={dabbaSetup.customDabbaName}
-                    onChange={(e) => {
-                      setDabbaSetup(prev => ({
-                        ...prev,
-                        customDabbaName: e.target.value,
-                        dabbaName: e.target.value ? 'custom' : '',
-                        dabbaIcon: '💰'
-                      }));
-                    }}
-                  />
+              <div className="grid grid-cols-3 gap-3 text-center text-sm">
+                <div>
+                  <div className="font-bold">₹{dabbaSetup.targetAmount}</div>
+                  <div className="text-gray-600">Target</div>
                 </div>
-              </CardContent>
-            </Card>
+                <div>
+                  <div className="font-bold">{Math.round(progress)}%</div>
+                  <div className="text-gray-600">Progress</div>
+                </div>
+                <div>
+                  <div className="font-bold">₹{dailyAmount}</div>
+                  <div className="text-gray-600">Daily</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <div className="grid grid-cols-2 gap-3">
+            <Button className="w-full">
+              <Plus className="mr-2 h-4 w-4" />
+              Add Money
+            </Button>
+            <Button variant="outline" className="w-full">
+              <Settings className="mr-2 h-4 w-4" />
+              Settings
+            </Button>
           </div>
 
-          <Button 
-            className="w-full"
-            disabled={!dabbaSetup.dabbaName && !dabbaSetup.customDabbaName}
-            onClick={() => setCurrentScreen('dabba-goal')}
-          >
-            Continue
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
+          <Card>
+            <CardHeader>
+              <CardTitle>Recent Activity</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                      <Plus className="h-4 w-4 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-sm font-medium">Daily deposit</div>
+                      <div className="text-xs text-gray-500">Dec {4-i}, 2024</div>
+                    </div>
+                    <div className="font-bold text-green-600">+₹{dailyAmount}</div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     );
@@ -1666,14 +3765,15 @@ function App() {
         </div>
       </div>
     ),
-    'dabba-goal': () => (
-      <div className="min-h-screen bg-gray-50 p-4">
-        <div className="max-w-md mx-auto pt-8 text-center">
-          <h1>Dabba Goal Screen</h1>
-          <Button onClick={() => setCurrentScreen('dashboard')}>Back to Dashboard</Button>
-        </div>
-      </div>
-    )
+    'dabba-goal': DabbaGoalScreen,
+    'dabba-duration': DabbaDurationScreen,
+    'dabba-summary': DabbaSummaryScreen,
+    'dabba-schemes': DabbaSchemesScreen,
+    'dabba-compare': DabbaCompareScreen,
+    'dabba-kyc': DabbaKYCScreen,
+    'dabba-confirm': DabbaConfirmScreen,
+    'dabba-success': DabbaSuccessScreen,
+    'dabba-dashboard': DabbaDashboardScreen
   };
 
   const CurrentScreen = screens[currentScreen] || LoginScreen;
