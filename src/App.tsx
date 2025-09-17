@@ -6,12 +6,12 @@ import { Input } from './components/ui/input';
 import { Label } from './components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './components/ui/select';
 import { Separator } from './components/ui/separator';
-import { ArrowRight, Coins, CreditCard, PiggyBank, Shield, TrendingUp, Users, CheckCircle, Clock, Zap, ArrowLeft, Eye, EyeOff, Mail, Lock, User, Phone, Target, Calendar, DollarSign, Building2, Plus, Minus, Star, Smartphone, Wallet, Gift, GraduationCap, Home, Car, Plane, Bell, BellRing, Flame, Award, IndianRupee, Download, ArrowUpRight, ArrowDownLeft, Repeat, QrCode, Calculator, Fingerprint, Scan, MoreHorizontal, FileText, Menu, Search, Settings, HelpCircle, CreditCard as PayIcon, PlusCircle, Banknote, Compass } from 'lucide-react';
+import { ArrowRight, Coins, CreditCard, PiggyBank, Shield, TrendingUp, Users, CheckCircle, Clock, Zap, ArrowLeft, Eye, EyeOff, Mail, Lock, User, Phone, Target, Calendar, DollarSign, Building2, Plus, Minus, Star, Smartphone, Wallet, Gift, GraduationCap, Home, Car, Plane, Bell, BellRing, Flame, Award, IndianRupee, Download, ArrowUpRight, ArrowDownLeft, Repeat, QrCode, Calculator, Fingerprint, Scan, MoreHorizontal, FileText, Menu, Search, Settings, HelpCircle, CreditCard as PayIcon, PlusCircle, Banknote, Compass, Edit, Copy, Share, Printer } from 'lucide-react';
 // import { Dashboard } from './Dashboard';
 import kaniroLogo from 'figma:asset/59a4e87f6f8559c1e33304344c14ed5d1faafe70.png';
 import promoImage from 'figma:asset/6c9f7a43bceeec40c2dac840bb2776654b079e3c.png';
 
-type Screen = 'splash' | 'onboarding' | 'login' | 'register' | 'dashboard' | 'save' | 'pay' | 'savepay' | 'profile' | 'notifications' | 'dabba-name' | 'dabba-goal' | 'dabba-duration' | 'dabba-summary' | 'dabba-schemes' | 'dabba-compare' | 'dabba-kyc' | 'dabba-confirm' | 'dabba-success' | 'dabba-dashboard' | 'add-bank-search' | 'add-bank-details' | 'add-bank-verify' | 'add-bank-success' | 'pay-dashboard' | 'pay-banks' | 'pay-add-loan' | 'pay-micro-setup' | 'pay-micro-success' | 'pay-success' | 'pay-emandate' | 'pay-activate' | 'pay-calculator' | 'pay-overdue-table' | 'pay-micro-installment' | 'pay-bank-selection' | 'pay-confirmation';
+type Screen = 'splash' | 'onboarding' | 'login' | 'register' | 'dashboard' | 'save' | 'pay' | 'savepay' | 'profile' | 'notifications' | 'dabba-name' | 'dabba-goal' | 'dabba-duration' | 'dabba-summary' | 'dabba-schemes' | 'dabba-compare' | 'dabba-kyc' | 'dabba-review' | 'dabba-receipt' | 'dabba-confirm' | 'dabba-success' | 'dabba-dashboard' | 'add-bank-search' | 'add-bank-details' | 'add-bank-verify' | 'add-bank-success' | 'pay-dashboard' | 'pay-banks' | 'pay-add-loan' | 'pay-micro-setup' | 'pay-micro-success' | 'pay-success' | 'pay-emandate' | 'pay-activate' | 'pay-calculator' | 'pay-overdue-table' | 'pay-micro-installment' | 'pay-bank-selection' | 'pay-confirmation';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('login');
@@ -2883,6 +2883,574 @@ function App() {
     );
   };
 
+  // Dabba Review Screen - KYC Info & Scheme Summary Review
+  const DabbaReviewScreen = () => {
+    const depositDetails = (() => {
+      const targetAmount = parseInt(dabbaSetup.targetAmount) || 0;
+      const duration = dabbaSetup.duration || 30; // duration in days
+      let totalPayments = 0;
+      let depositAmount = 0;
+      
+      switch(dabbaSetup.frequency) {
+        case 'daily':
+          totalPayments = duration;
+          depositAmount = Math.ceil(targetAmount / totalPayments);
+          break;
+        case 'weekly':
+          totalPayments = Math.ceil(duration / 7);
+          depositAmount = Math.ceil(targetAmount / totalPayments);
+          break;
+        case 'monthly':
+          totalPayments = Math.ceil(duration / 30);
+          depositAmount = Math.ceil(targetAmount / totalPayments);
+          break;
+        default:
+          totalPayments = duration;
+          depositAmount = Math.ceil(targetAmount / totalPayments);
+      }
+      
+      return { depositAmount, totalPayments, targetAmount };
+    })();
+
+    const maturityDate = new Date();
+    maturityDate.setDate(maturityDate.getDate() + dabbaSetup.duration);
+    
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-green-50/30">
+        {/* Enhanced Header */}
+        <div className="glass-strong shadow-sm border-b border-white/20">
+          <div className="max-w-md mx-auto px-4 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => setCurrentScreen('dabba-kyc')}
+                  className="hover:bg-white/20 rounded-full transition-all duration-200"
+                >
+                  <ArrowLeft className="h-5 w-5" />
+                </Button>
+                <div>
+                  <h1 className="font-bold text-gray-900">Review & Confirm</h1>
+                  <p className="text-sm text-gray-600">Verify all details before proceeding</p>
+                </div>
+              </div>
+              <div className="flex-shrink-0">
+                <img src={kaniroLogo} alt="Kaniro" className="h-6 opacity-80" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-md mx-auto p-4 space-y-4">
+          {/* KYC Information Review */}
+          <Card className="bg-gradient-to-br from-white to-blue-50/30 border-2 border-blue-100 shadow-lg rounded-xl">
+            <CardHeader className="pb-3">
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center">
+                  <Shield className="h-4 w-4 text-white" />
+                </div>
+                <div>
+                  <CardTitle className="text-sm font-bold">KYC Information</CardTitle>
+                  <p className="text-xs text-gray-600">Verified identity details</p>
+                </div>
+                <div className="ml-auto">
+                  <div className="bg-green-100 rounded-full p-1">
+                    <CheckCircle className="h-4 w-4 text-green-600" />
+                  </div>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-gray-50 rounded-lg p-2">
+                  <div className="text-xs text-gray-500 mb-1">PAN Number</div>
+                  <div className="text-sm font-semibold text-gray-900">{dabbaSetup.panNumber}</div>
+                  <div className="flex items-center space-x-1 mt-1">
+                    <CheckCircle className="h-3 w-3 text-green-600" />
+                    <span className="text-xs text-green-600">Verified</span>
+                  </div>
+                </div>
+                <div className="bg-gray-50 rounded-lg p-2">
+                  <div className="text-xs text-gray-500 mb-1">Aadhaar Status</div>
+                  <div className="text-sm font-semibold text-gray-900">OTP Verified</div>
+                  <div className="flex items-center space-x-1 mt-1">
+                    <CheckCircle className="h-3 w-3 text-green-600" />
+                    <span className="text-xs text-green-600">Completed</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-green-50 border border-green-200 rounded-lg p-2">
+                <div className="flex items-center space-x-2">
+                  <Shield className="h-3 w-3 text-green-600" />
+                  <span className="text-xs font-medium text-green-800">KYC Verification Complete</span>
+                </div>
+                <p className="text-xs text-green-700 mt-1">All documents verified successfully</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Dabba Save Plan Summary */}
+          <Card className="bg-gradient-to-br from-white to-green-50/30 border-2 border-green-100 shadow-lg rounded-xl">
+            <CardHeader className="pb-3">
+              <div className="flex items-center space-x-3">
+                <div className="text-xl">{dabbaSetup.dabbaIcon}</div>
+                <div className="flex-1">
+                  <CardTitle className="text-sm font-bold">{dabbaSetup.customDabbaName || dabbaSetup.dabbaName}</CardTitle>
+                  <p className="text-xs text-gray-600">Your savings plan summary</p>
+                </div>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  onClick={() => setCurrentScreen('dabba-goal')}
+                  className="text-blue-600 hover:bg-blue-50 h-6 w-6 p-0"
+                >
+                  <Edit className="h-3 w-3" />
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {/* Key Metrics */}
+              <div className="grid grid-cols-3 gap-2">
+                <div className="text-center bg-gray-50 rounded-lg p-2">
+                  <div className="text-lg font-bold text-green-600">₹{depositDetails.targetAmount.toLocaleString()}</div>
+                  <div className="text-xs text-gray-600">Target Amount</div>
+                </div>
+                <div className="text-center bg-gray-50 rounded-lg p-2">
+                  <div className="text-lg font-bold text-blue-600">₹{depositDetails.depositAmount}</div>
+                  <div className="text-xs text-gray-600 capitalize">{dabbaSetup.frequency} Deposit</div>
+                </div>
+                <div className="text-center bg-gray-50 rounded-lg p-2">
+                  <div className="text-lg font-bold text-purple-600">{dabbaSetup.selectedScheme?.interestRate || 8.2}%</div>
+                  <div className="text-xs text-gray-600">Interest Rate</div>
+                </div>
+              </div>
+
+              {/* Plan Details */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between py-1.5 border-b border-gray-100">
+                  <span className="text-xs text-gray-600">Deposit Frequency</span>
+                  <span className="text-sm font-medium capitalize">{dabbaSetup.frequency}</span>
+                </div>
+                <div className="flex items-center justify-between py-1.5 border-b border-gray-100">
+                  <span className="text-xs text-gray-600">Total Payments</span>
+                  <span className="text-sm font-medium">{depositDetails.totalPayments} payments</span>
+                </div>
+                <div className="flex items-center justify-between py-1.5 border-b border-gray-100">
+                  <span className="text-xs text-gray-600">Maturity Date</span>
+                  <span className="text-sm font-medium">{maturityDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                </div>
+                <div className="flex items-center justify-between py-1.5">
+                  <span className="text-xs text-gray-600">Selected Bank</span>
+                  <span className="text-sm font-medium">{dabbaSetup.selectedScheme?.bankName || 'State Bank of India'}</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Banking Partner Information */}
+          <Card className="bg-gradient-to-br from-white to-indigo-50/30 border-2 border-indigo-100 shadow-lg rounded-xl">
+            <CardContent className="p-3">
+              <div className="flex items-center space-x-3 mb-3">
+                <div className="text-lg">🏛️</div>
+                <div className="flex-1">
+                  <h4 className="text-sm font-bold text-gray-900">{dabbaSetup.selectedScheme?.bankName || 'State Bank of India'}</h4>
+                  <p className="text-xs text-gray-600">{dabbaSetup.selectedScheme?.schemeName || 'SBI Sukanya Samriddhi'}</p>
+                </div>
+                <div className="text-right">
+                  <div className="text-sm font-bold text-indigo-600">{dabbaSetup.selectedScheme?.interestRate || 8.2}%</div>
+                  <div className="text-xs text-gray-500">Interest</div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div>
+                  <span className="text-gray-600">Min Deposit: </span>
+                  <span className="font-medium">₹{dabbaSetup.selectedScheme?.minDeposit || 250}</span>
+                </div>
+                <div>
+                  <span className="text-gray-600">Safety: </span>
+                  <span className="font-medium text-green-600">Govt. Backed</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Terms & Conditions */}
+          <Card className="bg-gradient-to-br from-gray-50 to-white border-2 border-gray-200">
+            <CardContent className="p-3">
+              <div className="flex items-center space-x-2 mb-2">
+                <FileText className="h-3 w-3 text-gray-600" />
+                <h4 className="text-sm font-semibold text-gray-900">Important Terms</h4>
+              </div>
+              
+              <div className="space-y-1.5 text-xs text-gray-600">
+                <div className="flex items-start space-x-2">
+                  <CheckCircle className="h-2.5 w-2.5 text-green-600 mt-0.5 flex-shrink-0" />
+                  <span>Auto-debit is optional and can be enabled/disabled anytime</span>
+                </div>
+                <div className="flex items-start space-x-2">
+                  <CheckCircle className="h-2.5 w-2.5 text-green-600 mt-0.5 flex-shrink-0" />
+                  <span>Partial withdrawals allowed after completion of minimum tenure</span>
+                </div>
+                <div className="flex items-start space-x-2">
+                  <CheckCircle className="h-2.5 w-2.5 text-green-600 mt-0.5 flex-shrink-0" />
+                  <span>Interest rates are subject to periodic review by the bank</span>
+                </div>
+                <div className="flex items-start space-x-2">
+                  <CheckCircle className="h-2.5 w-2.5 text-green-600 mt-0.5 flex-shrink-0" />
+                  <span>All deposits are insured up to ₹5 lakh by DICGC</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Action Buttons */}
+          <div className="flex space-x-3 pt-2">
+            <Button 
+              variant="outline"
+              className="flex-1"
+              onClick={() => setCurrentScreen('dabba-goal')}
+            >
+              <Edit className="mr-2 h-4 w-4" />
+              Modify Plan
+            </Button>
+            <Button 
+              className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700"
+              onClick={() => setCurrentScreen('dabba-receipt')}
+            >
+              Confirm & Proceed
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
+
+          {/* Progress Indicator */}
+          <div className="flex justify-center space-x-2 pt-2">
+            <div className="w-3 h-1 bg-green-500 rounded-full"></div>
+            <div className="w-3 h-1 bg-green-500 rounded-full"></div>
+            <div className="w-3 h-1 bg-green-500 rounded-full"></div>
+            <div className="w-3 h-1 bg-green-500 rounded-full"></div>
+            <div className="w-3 h-1 bg-green-500 rounded-full"></div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // Dabba Receipt Screen - Digital Receipt with Download Option
+  const DabbaReceiptScreen = () => {
+    const currentDate = new Date();
+    const receiptId = `KFD${currentDate.getFullYear()}${String(currentDate.getMonth() + 1).padStart(2, '0')}${String(currentDate.getDate()).padStart(2, '0')}${Math.floor(Math.random() * 10000).toString().padStart(4, '0')}`;
+    
+    const depositDetails = (() => {
+      const targetAmount = parseInt(dabbaSetup.targetAmount) || 0;
+      const duration = dabbaSetup.duration || 30;
+      let totalPayments = 0;
+      let depositAmount = 0;
+      
+      switch(dabbaSetup.frequency) {
+        case 'daily':
+          totalPayments = duration;
+          depositAmount = Math.ceil(targetAmount / totalPayments);
+          break;
+        case 'weekly':
+          totalPayments = Math.ceil(duration / 7);
+          depositAmount = Math.ceil(targetAmount / totalPayments);
+          break;
+        case 'monthly':
+          totalPayments = Math.ceil(duration / 30);
+          depositAmount = Math.ceil(targetAmount / totalPayments);
+          break;
+        default:
+          totalPayments = duration;
+          depositAmount = Math.ceil(targetAmount / totalPayments);
+      }
+      
+      return { depositAmount, totalPayments, targetAmount };
+    })();
+
+    const maturityDate = new Date();
+    maturityDate.setDate(maturityDate.getDate() + dabbaSetup.duration);
+
+    const firstDepositDate = new Date();
+    firstDepositDate.setDate(firstDepositDate.getDate() + 1);
+
+    const handleDownloadReceipt = () => {
+      // Simulate receipt download
+      const receiptData = {
+        receiptId,
+        customerName: userProfile.name,
+        planName: dabbaSetup.customDabbaName || dabbaSetup.dabbaName,
+        targetAmount: depositDetails.targetAmount,
+        frequency: dabbaSetup.frequency,
+        depositAmount: depositDetails.depositAmount,
+        bankName: dabbaSetup.selectedScheme?.bankName || 'State Bank of India',
+        interestRate: dabbaSetup.selectedScheme?.interestRate || 8.2,
+        dateCreated: currentDate.toISOString(),
+        maturityDate: maturityDate.toISOString()
+      };
+      
+      // In a real app, this would generate and download a PDF
+      console.log('Downloading receipt:', receiptData);
+      
+      // Show success feedback
+      const originalText = document.querySelector('.download-btn')?.textContent;
+      const downloadBtn = document.querySelector('.download-btn');
+      if (downloadBtn) {
+        downloadBtn.textContent = 'Downloaded ✓';
+        setTimeout(() => {
+          downloadBtn.textContent = originalText;
+        }, 2000);
+      }
+    };
+
+    const handleShareReceipt = () => {
+      // Simulate sharing
+      if (navigator.share) {
+        navigator.share({
+          title: 'Dabba Save Receipt',
+          text: `Successfully created ${dabbaSetup.customDabbaName || dabbaSetup.dabbaName} savings plan with target of ₹${depositDetails.targetAmount.toLocaleString()}`,
+          url: window.location.href
+        });
+      } else {
+        // Fallback - copy to clipboard
+        const receiptText = `📄 Dabba Save Receipt\n\nPlan: ${dabbaSetup.customDabbaName || dabbaSetup.dabbaName}\nTarget: ₹${depositDetails.targetAmount.toLocaleString()}\nDeposit: ₹${depositDetails.depositAmount} ${dabbaSetup.frequency}\nBank: ${dabbaSetup.selectedScheme?.bankName || 'State Bank of India'}\nReceipt ID: ${receiptId}`;
+        
+        navigator.clipboard.writeText(receiptText).then(() => {
+          console.log('Receipt details copied to clipboard');
+        });
+      }
+    };
+
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-green-50/30">
+        {/* Enhanced Header */}
+        <div className="glass-strong shadow-sm border-b border-white/20">
+          <div className="max-w-md mx-auto px-4 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => setCurrentScreen('dabba-review')}
+                  className="hover:bg-white/20 rounded-full transition-all duration-200"
+                >
+                  <ArrowLeft className="h-5 w-5" />
+                </Button>
+                <div>
+                  <h1 className="font-bold text-gray-900">Dabba Save Receipt</h1>
+                  <p className="text-sm text-gray-600">Your plan is now active</p>
+                </div>
+              </div>
+              <div className="flex-shrink-0">
+                <img src={kaniroLogo} alt="Kaniro" className="h-6 opacity-80" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-md mx-auto p-4 space-y-4">
+          {/* Success Header */}
+          <Card className="bg-gradient-to-r from-green-500 to-emerald-600 text-white border-0 shadow-lg rounded-xl">
+            <CardContent className="p-4 text-center">
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3 animate-bounce">
+                <CheckCircle className="h-6 w-6 text-white" />
+              </div>
+              <h2 className="text-lg font-bold mb-1">Dabba Save Created Successfully!</h2>
+              <p className="opacity-90 text-xs">Your savings journey has begun</p>
+            </CardContent>
+          </Card>
+
+          {/* Digital Receipt */}
+          <Card className="bg-white shadow-lg rounded-xl border-2 border-gray-100" id="receipt">
+            <CardContent className="p-0">
+              {/* Receipt Header */}
+              <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-3 rounded-t-xl">
+                <div className="flex items-center justify-between mb-2">
+                  <div>
+                    <h3 className="text-sm font-bold">DIGITAL RECEIPT</h3>
+                    <p className="text-xs opacity-90">Kaniro Financial Services</p>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-xs opacity-90">Receipt ID</div>
+                    <div className="font-mono text-xs">{receiptId}</div>
+                  </div>
+                </div>
+                <div className="text-xs opacity-90">
+                  Generated on: {currentDate.toLocaleDateString('en-IN', { 
+                    day: 'numeric', 
+                    month: 'long', 
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })}
+                </div>
+              </div>
+
+              {/* Receipt Body */}
+              <div className="p-3 space-y-3">
+                {/* Customer Information */}
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-900 mb-2">Customer Information</h4>
+                  <div className="bg-gray-50 rounded-lg p-2 space-y-1 text-xs">
+                    <div><span className="text-gray-600">Name:</span> <span className="font-medium">{userProfile.name}</span></div>
+                    <div><span className="text-gray-600">Phone:</span> <span className="font-medium">{userProfile.phone}</span></div>
+                    <div><span className="text-gray-600">KYC Status:</span> <span className="font-medium text-green-600">✓ Verified</span></div>
+                  </div>
+                </div>
+
+                {/* Plan Details */}
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-900 mb-2 flex items-center space-x-2">
+                    <span>{dabbaSetup.dabbaIcon}</span>
+                    <span>Plan Details</span>
+                  </h4>
+                  <div className="bg-gray-50 rounded-lg p-2 space-y-1.5 text-xs">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Plan Name:</span>
+                      <span className="font-medium">{dabbaSetup.customDabbaName || dabbaSetup.dabbaName}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Target Amount:</span>
+                      <span className="font-medium">₹{depositDetails.targetAmount.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Deposit Frequency:</span>
+                      <span className="font-medium capitalize">{dabbaSetup.frequency}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Deposit Amount:</span>
+                      <span className="font-medium">₹{depositDetails.depositAmount}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Total Payments:</span>
+                      <span className="font-medium">{depositDetails.totalPayments}</span>
+                    </div>
+                    <div className="flex justify-between border-t border-gray-200 pt-1.5">
+                      <span className="text-gray-600">Maturity Date:</span>
+                      <span className="font-medium">{maturityDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Banking Partner */}
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-900 mb-2">Banking Partner</h4>
+                  <div className="bg-gray-50 rounded-lg p-2 space-y-1.5 text-xs">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Bank:</span>
+                      <span className="font-medium">{dabbaSetup.selectedScheme?.bankName || 'State Bank of India'}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Scheme:</span>
+                      <span className="font-medium">{dabbaSetup.selectedScheme?.schemeName || 'SBI Sukanya Samriddhi'}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Interest Rate:</span>
+                      <span className="font-medium text-green-600">{dabbaSetup.selectedScheme?.interestRate || 8.2}% p.a.</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Next Steps */}
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-2">
+                  <h4 className="text-sm font-semibold text-blue-900 mb-1.5 flex items-center space-x-2">
+                    <Calendar className="h-3 w-3" />
+                    <span>Next Steps</span>
+                  </h4>
+                  <div className="space-y-0.5 text-xs text-blue-800">
+                    <div>• First deposit: {firstDepositDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+                    <div>• Amount: ₹{depositDetails.depositAmount}</div>
+                    <div>• Auto-debit: Optional (can be enabled later)</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Receipt Footer */}
+              <div className="bg-gray-50 px-3 py-2 rounded-b-xl border-t border-gray-100">
+                <div className="flex items-center justify-between text-xs text-gray-600">
+                  <div>Powered by Kaniro Financial Services</div>
+                  <div>RBI Approved • DICGC Insured</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Action Buttons */}
+          <div className="grid grid-cols-3 gap-3">
+            <Button 
+              variant="outline"
+              className="flex-1"
+              onClick={handleDownloadReceipt}
+            >
+              <Download className="h-4 w-4 mr-2" />
+              <span className="download-btn">Download</span>
+            </Button>
+            <Button 
+              variant="outline"
+              className="flex-1"
+              onClick={handleShareReceipt}
+            >
+              <Share className="h-4 w-4 mr-2" />
+              Share
+            </Button>
+            <Button 
+              variant="outline"
+              className="flex-1"
+              onClick={() => {
+                // Copy receipt ID
+                navigator.clipboard.writeText(receiptId);
+                console.log('Receipt ID copied:', receiptId);
+              }}
+            >
+              <Copy className="h-4 w-4 mr-2" />
+              Copy ID
+            </Button>
+          </div>
+
+          {/* Continue to Dashboard */}
+          <Button 
+            className="w-full h-10 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold text-sm rounded-xl"
+            onClick={() => {
+              // Add the new Dabba to active list
+              const newDabba = {
+                id: activeDabbas.length + 1,
+                name: dabbaSetup.customDabbaName || dabbaSetup.dabbaName,
+                icon: dabbaSetup.dabbaIcon,
+                targetAmount: parseInt(dabbaSetup.targetAmount),
+                savedAmount: 0,
+                frequency: dabbaSetup.frequency,
+                amountPerFrequency: depositDetails.depositAmount,
+                progress: 0,
+                nextDeposit: `Tomorrow ${dabbaSetup.frequency === 'daily' ? '6:00 AM' : 'Manual reminder'}`,
+                autoDebit: false,
+                maturityDate: maturityDate.toISOString().split('T')[0],
+                status: 'active'
+              };
+              
+              setActiveDabbas(prev => [...prev, newDabba]);
+              setCurrentScreen('dashboard');
+            }}
+          >
+            <Home className="mr-2 h-4 w-4" />
+            Go to Dashboard
+          </Button>
+
+          {/* Success Footer */}
+          <div className="text-center pt-2">
+            <p className="text-xs text-gray-600">
+              🎉 Congratulations! Your financial journey has begun.
+            </p>
+            <p className="text-xs text-gray-500 mt-1">
+              Track your progress anytime from the dashboard
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   // Enhanced KYC Verification Screen
   const DabbaKYCScreen = () => {
     const [panError, setPanError] = useState('');
@@ -3006,8 +3574,8 @@ function App() {
         // Mark both PAN and KYC as verified when OTP is complete
         setPanVerified(true);
         setDabbaSetup(prev => ({ ...prev, kycComplete: true }));
-        setCurrentScreen('dabba-confirm');
-        console.log('KYC completed successfully! Moving to confirmation screen.');
+        setCurrentScreen('dabba-review');
+        console.log('KYC completed successfully! Moving to review screen.');
       } else {
         console.log('KYC completion failed: OTP not complete');
       }
@@ -3771,6 +4339,8 @@ function App() {
     'dabba-schemes': DabbaSchemesScreen,
     'dabba-compare': DabbaCompareScreen,
     'dabba-kyc': DabbaKYCScreen,
+    'dabba-review': DabbaReviewScreen,
+    'dabba-receipt': DabbaReceiptScreen,
     'dabba-confirm': DabbaConfirmScreen,
     'dabba-success': DabbaSuccessScreen,
     'dabba-dashboard': DabbaDashboardScreen
