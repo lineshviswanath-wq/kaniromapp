@@ -7,6 +7,9 @@ import { Label } from './components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './components/ui/select';
 import { Separator } from './components/ui/separator';
 import { ArrowRight, Coins, CreditCard, PiggyBank, Shield, TrendingUp, Users, CheckCircle, Clock, Zap, ArrowLeft, Eye, EyeOff, Mail, Lock, User, Phone, Target, Calendar, DollarSign, Building2, Plus, Minus, Star, Smartphone, Wallet, Gift, GraduationCap, Home, Car, Plane, Bell, BellRing, Flame, Award, IndianRupee, Download, ArrowUpRight, ArrowDownLeft, Repeat, QrCode, Calculator, Fingerprint, Scan, MoreHorizontal, FileText, Menu, Search, Settings, HelpCircle, CreditCard as PayIcon, PlusCircle, Banknote, Compass, Edit, Copy, Share, Printer } from 'lucide-react';
+import { PWAManager } from './components/PWAManager';
+import { PWAInstallPrompt } from './components/PWAInstallPrompt';
+import { PWAStatus } from './components/PWAStatus';
 // import { Dashboard } from './Dashboard';
 import kaniroLogo from 'figma:asset/59a4e87f6f8559c1e33304344c14ed5d1faafe70.png';
 import promoImage from 'figma:asset/6c9f7a43bceeec40c2dac840bb2776654b079e3c.png';
@@ -4452,9 +4455,20 @@ function App() {
   const CurrentScreen = screens[currentScreen] || LoginScreen;
 
   return (
-    <div className="w-full max-w-md mx-auto bg-white min-h-screen relative">
-      <CurrentScreen />
-    </div>
+    <>
+      {/* PWA Manager - handles all PWA functionality */}
+      <PWAManager />
+      
+      <div className="w-full max-w-md mx-auto bg-white min-h-screen relative main-container">
+        {/* PWA Status Indicator */}
+        <PWAStatus />
+        
+        <CurrentScreen />
+        
+        {/* PWA Install Prompt */}
+        <PWAInstallPrompt />
+      </div>
+    </>
   );
 }
 
