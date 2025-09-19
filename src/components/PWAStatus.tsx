@@ -35,21 +35,13 @@ export const PWAStatus: React.FC = () => {
     };
   }, []);
 
-  // Don't show status if not relevant
-  if (!isStandalone && !installPromptAvailable && isOnline) {
+  // Only show status if there are relevant indicators to display
+  if (isOnline && !installPromptAvailable) {
     return null;
   }
 
   return (
     <div className="fixed top-4 right-4 z-50 space-y-2">
-      {/* PWA Installed Status */}
-      {isStandalone && (
-        <Badge className="bg-green-100 text-green-800 border-green-300 shadow-sm">
-          <Smartphone className="h-3 w-3 mr-1" />
-          App Mode
-        </Badge>
-      )}
-
       {/* Network Status */}
       {!isOnline && (
         <Badge className="bg-orange-100 text-orange-800 border-orange-300 shadow-sm">
