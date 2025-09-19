@@ -46,6 +46,32 @@ const BottomNavigation = ({ currentScreen, setCurrentScreen }: { currentScreen: 
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('login');
+  
+  // iOS PWA fix: Ensure app starts properly
+  useEffect(() => {
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
+                        (window.navigator as any).standalone ||
+                        document.referrer.includes('android-app://');
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    
+    if (isStandalone && isIOS) {
+      // Force remove any splash screen after 2 seconds on iOS PWA
+      setTimeout(() => {
+        const splash = document.getElementById('pwa-splash');
+        if (splash) {
+          console.log('iOS PWA: Force removing splash screen');
+          splash.remove();
+        }
+        
+        // Ensure the app screen is visible
+        const appContainer = document.querySelector('.main-container');
+        if (appContainer) {
+          (appContainer as HTMLElement).style.display = 'block';
+          (appContainer as HTMLElement).style.visibility = 'visible';
+        }
+      }, 2000);
+    }
+  }, []);
   const [onboardingStep, setOnboardingStep] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [loginMethod, setLoginMethod] = useState<'password' | 'face' | 'mpin'>('password');

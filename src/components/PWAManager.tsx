@@ -350,6 +350,18 @@ export const PWAManager: React.FC = () => {
       if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
         document.documentElement.style.setProperty('--status-bar-height', '44px');
       }
+
+      // iOS PWA: Ensure splash screen doesn't block app indefinitely
+      setTimeout(() => {
+        const splash = document.getElementById('pwa-splash');
+        if (splash) {
+          console.log('PWA: Emergency splash screen removal for iOS');
+          splash.style.display = 'none';
+          if (splash.parentNode) {
+            splash.parentNode.removeChild(splash);
+          }
+        }
+      }, 4000);
     }
   }, []);
 

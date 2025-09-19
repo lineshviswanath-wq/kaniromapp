@@ -173,7 +173,7 @@ export const setupOfflineHandling = (): void => {
   }
 };
 
-// PWA Splash Screen
+// PWA Splash Screen with iOS Fix
 export const setupSplashScreen = (): void => {
   if (isStandalone()) {
     // Create splash screen element
@@ -214,16 +214,60 @@ export const setupSplashScreen = (): void => {
     
     document.body.appendChild(splash);
     
-    // Remove splash screen after app loads
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        splash.style.opacity = '0';
-        splash.style.transition = 'opacity 0.3s ease-out';
+    // Multiple removal strategies for iOS PWA reliability
+    const removeSplash = () => {
+      const splashElement = document.getElementById('pwa-splash');
+      if (splashElement) {
+        splashElement.style.opacity = '0';
+        splashElement.style.transition = 'opacity 0.3s ease-out';
         setTimeout(() => {
-          document.body.removeChild(splash);
+          if (splashElement.parentNode) {
+            splashElement.parentNode.removeChild(splashElement);
+          }
         }, 300);
-      }, 1000);
+      }
+    };
+
+    // Strategy 1: Standard load event
+    window.addEventListener('load', () => {
+      setTimeout(removeSplash, 800);
     });
+
+    // Strategy 2: DOM ready fallback
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(removeSplash, 1000);
+      });
+    } else {
+      // DOM already ready
+      setTimeout(removeSplash, 1200);
+    }
+
+    // Strategy 3: React component mount detection
+    const checkForReactMount = () => {
+      const reactRoot = document.querySelector('#root > div');
+      if (reactRoot) {
+        setTimeout(removeSplash, 500);
+        return;
+      }
+      setTimeout(checkForReactMount, 100);
+    };
+    setTimeout(checkForReactMount, 500);
+
+    // Strategy 4: Maximum timeout failsafe (iOS PWA can be slow)
+    setTimeout(() => {
+      console.log('PWA: Failsafe splash removal after 3 seconds');
+      removeSplash();
+    }, 3000);
+
+    // Strategy 5: User interaction fallback
+    const interactionRemoval = () => {
+      setTimeout(removeSplash, 200);
+      document.removeEventListener('touchstart', interactionRemoval);
+      document.removeEventListener('click', interactionRemoval);
+    };
+    document.addEventListener('touchstart', interactionRemoval, { once: true });
+    document.addEventListener('click', interactionRemoval, { once: true });
   }
 };
 
@@ -232,8 +276,14 @@ export const initializePWA = (): void => {
   optimizePWAPerformance();
   setupPWANavigation();
   setupOfflineHandling();
-  setupSplashScreen();
+  
+  // Only show splash screen if not in debug mode
+  const isDebugMode = window.location.search.includes('debug') || window.location.hostname === 'localhost';
+  if (!isDebugMode) {
+    setupSplashScreen();
+  }
+  
   trackPWAUsage();
   
-  console.log('PWA initialized with all features');
+  console.log('PWA initialized with all features' + (isDebugMode ? ' (splash screen disabled for debug)' : ''));
 };
