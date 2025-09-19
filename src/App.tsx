@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { Button } from './components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './components/ui/card';
 import { Badge } from './components/ui/badge';
@@ -12,6 +12,34 @@ import kaniroLogo from 'figma:asset/59a4e87f6f8559c1e33304344c14ed5d1faafe70.png
 import promoImage from 'figma:asset/6c9f7a43bceeec40c2dac840bb2776654b079e3c.png';
 
 type Screen = 'splash' | 'onboarding' | 'login' | 'register' | 'dashboard' | 'save' | 'pay' | 'savepay' | 'profile' | 'notifications' | 'dabba-name' | 'dabba-goal' | 'dabba-duration' | 'dabba-summary' | 'dabba-schemes' | 'dabba-compare' | 'dabba-kyc' | 'dabba-review' | 'dabba-receipt' | 'dabba-confirm' | 'dabba-success' | 'dabba-dashboard' | 'add-bank-search' | 'add-bank-details' | 'add-bank-verify' | 'add-bank-success' | 'pay-dashboard' | 'pay-banks' | 'pay-add-loan' | 'pay-micro-setup' | 'pay-micro-success' | 'pay-success' | 'pay-emandate' | 'pay-activate' | 'pay-calculator' | 'pay-overdue-table' | 'pay-micro-installment' | 'pay-bank-selection' | 'pay-confirmation';
+
+// Bottom Navigation Component
+const BottomNavigation = ({ currentScreen, setCurrentScreen }: { currentScreen: Screen, setCurrentScreen: (screen: Screen) => void }) => {
+  return (
+    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 bottom-nav-safe z-50 max-w-md mx-auto">
+      <div className="grid grid-cols-5 gap-0">
+        {[
+          { id: 'home', icon: Home, label: 'Home', screen: 'dashboard' },
+          { id: 'save', icon: PiggyBank, label: 'Save', screen: 'dabba-name' },
+          { id: 'pay', icon: PayIcon, label: 'Pay', screen: 'pay-overdue-table' },
+          { id: 'search', icon: Search, label: 'Search', screen: 'dashboard' },
+          { id: 'profile', icon: User, label: 'Profile', screen: 'profile' }
+        ].map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setCurrentScreen(tab.screen as Screen)}
+            className={`flex flex-col items-center justify-center py-3 px-1 text-xs transition-colors duration-200 ${
+              currentScreen === tab.screen ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-gray-800'
+            }`}
+          >
+            <tab.icon className="h-5 w-5 mb-1" />
+            <span className="font-medium">{tab.label}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('login');
@@ -356,6 +384,25 @@ function App() {
   // AUTO-SCROLL COMPLETELY DISABLED - Fix for scroll jumping bug
   // The auto-scroll carousels were causing scroll position resets
   // Users can manually navigate carousels using the dots
+
+  // Scroll to top when screen changes - Fix for scroll position persistence
+  useEffect(() => {
+    // Scroll to top immediately when screen changes
+    window.scrollTo(0, 0);
+    
+    // Also scroll any scrollable containers to top
+    const scrollableElements = document.querySelectorAll('.overflow-y-auto, .overflow-auto');
+    scrollableElements.forEach(element => {
+      element.scrollTop = 0;
+    });
+    
+    // Force scroll to top with a small delay to ensure DOM is ready
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }, 50);
+  }, [currentScreen]); // Trigger whenever currentScreen changes
   
   // Touch swipe handlers for carousels
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -1340,29 +1387,8 @@ function App() {
         </div>
       </div>
       
-      {/* Fixed Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 bottom-nav-safe z-50 max-w-md mx-auto">
-        <div className="grid grid-cols-5 gap-0">
-          {[
-            { id: 'home', icon: Home, label: 'Home', screen: 'dashboard' },
-            { id: 'save', icon: PiggyBank, label: 'Save', screen: 'dabba-name' },
-            { id: 'pay', icon: PayIcon, label: 'Pay', screen: 'pay-overdue-table' },
-            { id: 'search', icon: Search, label: 'Search', screen: 'dashboard' },
-            { id: 'profile', icon: User, label: 'Profile', screen: 'profile' }
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setCurrentScreen(tab.screen as Screen)}
-              className={`flex flex-col items-center justify-center py-3 px-1 text-xs transition-colors duration-200 ${
-                currentScreen === tab.screen ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-gray-800'
-              }`}
-            >
-              <tab.icon className="h-5 w-5 mb-1" />
-              <span className="font-medium">{tab.label}</span>
-            </button>
-          ))}
-        </div>
-      </div>
+      {/* Bottom Navigation */}
+      <BottomNavigation currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
     </div>
   );
 
@@ -1437,7 +1463,7 @@ function App() {
           </div>
         </div>
 
-        <div className="max-w-md mx-auto p-4 space-y-6">
+        <div className="max-w-md mx-auto p-4 space-y-6 pb-24">
           {/* Enhanced Grid with Premium Styling */}
           <div className="grid grid-cols-3 gap-3">
             {predefinedNames.map((item, index) => {
@@ -1573,6 +1599,9 @@ function App() {
             <div className="w-3 h-1 bg-gray-200 rounded-full"></div>
           </div>
         </div>
+
+        {/* Bottom Navigation */}
+        <BottomNavigation currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
       </div>
     );
   };
@@ -1685,7 +1714,7 @@ function App() {
           </div>
         </div>
 
-        <div className="max-w-md mx-auto p-4 space-y-4">
+        <div className="max-w-md mx-auto p-4 space-y-4 pb-24">
           {/* Compact Header Card with Target Amount */}
           <Card className="bg-gradient-to-br from-white to-blue-50/50 border-2 border-blue-100 shadow-lg rounded-xl">
             <CardContent className="p-4">
@@ -1974,6 +2003,9 @@ function App() {
             <div className="w-3 h-1 bg-gray-200 rounded-full"></div>
           </div>
         </div>
+
+        {/* Bottom Navigation */}
+        <BottomNavigation currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
       </div>
     );
   };
@@ -2349,7 +2381,7 @@ function App() {
           </div>
         </div>
 
-        <div className="max-w-md mx-auto p-4 space-y-4">
+        <div className="max-w-md mx-auto p-4 space-y-4 pb-24">
           {/* Recommended Banner */}
           <Card className="bg-gradient-to-r from-green-500 to-emerald-600 text-white border-0 shadow-lg">
             <CardContent className="p-4">
@@ -2551,6 +2583,9 @@ function App() {
           </div>
         </div>
 
+        {/* Bottom Navigation */}
+        <BottomNavigation currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
+
         {/* Comparison Modal */}
         {showComparison && (
           <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
@@ -2696,7 +2731,7 @@ function App() {
           </div>
         </div>
 
-        <div className="max-w-md mx-auto p-4 space-y-4">
+        <div className="max-w-md mx-auto p-4 space-y-4 pb-24">
           {/* Quick Comparison Cards */}
           <div className="space-y-3">
             {topBankSchemes.map((scheme, index) => (
@@ -2879,6 +2914,9 @@ function App() {
             <div className="w-3 h-1 bg-green-500 rounded-full"></div>
           </div>
         </div>
+
+        {/* Bottom Navigation */}
+        <BottomNavigation currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
       </div>
     );
   };
@@ -2942,7 +2980,7 @@ function App() {
           </div>
         </div>
 
-        <div className="max-w-md mx-auto p-4 space-y-4">
+        <div className="max-w-md mx-auto p-4 space-y-4 pb-24">
           {/* KYC Information Review */}
           <Card className="bg-gradient-to-br from-white to-blue-50/30 border-2 border-blue-100 shadow-lg rounded-xl">
             <CardHeader className="pb-3">
@@ -3134,6 +3172,9 @@ function App() {
             <div className="w-3 h-1 bg-green-500 rounded-full"></div>
           </div>
         </div>
+
+        {/* Bottom Navigation */}
+        <BottomNavigation currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
       </div>
     );
   };
@@ -3250,7 +3291,7 @@ function App() {
           </div>
         </div>
 
-        <div className="max-w-md mx-auto p-4 space-y-4">
+        <div className="max-w-md mx-auto p-4 space-y-4 pb-24">
           {/* Success Header */}
           <Card className="bg-gradient-to-r from-green-500 to-emerald-600 text-white border-0 shadow-lg rounded-xl">
             <CardContent className="p-4 text-center">
@@ -3447,6 +3488,9 @@ function App() {
             </p>
           </div>
         </div>
+
+        {/* Bottom Navigation */}
+        <BottomNavigation currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
       </div>
     );
   };
@@ -3460,6 +3504,10 @@ function App() {
     const [panVerified, setPanVerified] = useState(false);
     const [kycStep, setKycStep] = useState(1); // 1: PAN, 2: Aadhaar, 3: OTP
     const [otpTimer, setOtpTimer] = useState(0);
+    
+    // Completely isolated local PAN state - no external interference
+    const [localPanValue, setLocalPanValue] = useState(dabbaSetup.panNumber || '');
+    const panInputRef = useRef<HTMLInputElement>(null);
 
     // PAN validation function
     const validatePAN = (pan: string) => {
@@ -3483,18 +3531,28 @@ function App() {
       return cleaned;
     };
 
-    // Handle PAN input change
-    const handlePANChange = (value: string) => {
-      const upperValue = value.toUpperCase();
+    // Ultra-simplified PAN input handler - only updates local state
+    const handlePANInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value.toUpperCase();
+      setLocalPanValue(value);
+      // NO other state updates during typing!
+    };
+
+    // Only update global state and validation when user stops typing
+    const handlePANBlur = () => {
+      const upperValue = localPanValue.toUpperCase();
+      
+      // Update global state only on blur
       setDabbaSetup(prev => ({ ...prev, panNumber: upperValue }));
       
-      // Reset verification status when PAN changes
+      // Reset verification status
       setPanVerified(false);
       
-      if (value.length > 0) {
+      // Validate
+      if (upperValue.length > 0) {
         if (validatePAN(upperValue)) {
           setPanError('');
-        } else if (value.length >= 10) {
+        } else if (upperValue.length >= 10) {
           setPanError('Invalid PAN format. Use format: ABCDE1234F');
         } else {
           setPanError('');
@@ -3504,39 +3562,55 @@ function App() {
       }
     };
 
+    // Initialize local state on mount
+    useEffect(() => {
+      if (dabbaSetup.panNumber && !localPanValue) {
+        setLocalPanValue(dabbaSetup.panNumber);
+      }
+    }, []);
+
     // Handle manual PAN verification
     const handlePANVerify = () => {
-      console.log('PAN Verify clicked:', dabbaSetup.panNumber); // Debug log
-      if (validatePAN(dabbaSetup.panNumber)) {
-        console.log('PAN is valid, starting verification...'); // Debug log
+      const currentValue = localPanValue.toUpperCase();
+      console.log('PAN Verify clicked:', currentValue);
+      
+      if (validatePAN(currentValue)) {
+        console.log('PAN is valid, starting verification...');
         setIsVerifyingPAN(true);
         setPanError('');
+        
+        // Update global state
+        setDabbaSetup(prev => ({ ...prev, panNumber: currentValue }));
+        
         setTimeout(() => {
-          console.log('PAN verification complete!'); // Debug log
+          console.log('PAN verification complete!');
           setIsVerifyingPAN(false);
           setPanVerified(true);
         }, 1500);
       } else {
-        console.log('PAN validation failed'); // Debug log
+        console.log('PAN validation failed');
         setPanError('Invalid PAN format');
       }
     };
 
-    // Handle Aadhaar input change
-    const handleAadhaarChange = (value: string) => {
+    // Handle Aadhaar input change - Memoized to prevent focus loss
+    const handleAadhaarChange = useCallback((value: string) => {
       const formatted = formatAadhaar(value);
       setAadhaarNumber(formatted);
       
-      if (formatted.length > 0) {
-        if (validateAadhaar(formatted)) {
-          setAadhaarError('');
+      // Use setTimeout to batch validation and prevent focus loss
+      setTimeout(() => {
+        if (formatted.length > 0) {
+          if (validateAadhaar(formatted)) {
+            setAadhaarError('');
+          } else {
+            setAadhaarError('Invalid Aadhaar number. Must be 12 digits.');
+          }
         } else {
-          setAadhaarError('Invalid Aadhaar number. Must be 12 digits.');
+          setAadhaarError('');
         }
-      } else {
-        setAadhaarError('');
-      }
-    };
+      }, 0);
+    }, []);
 
     // Send OTP function
     const sendOTP = () => {
@@ -3608,7 +3682,7 @@ function App() {
           </div>
         </div>
 
-        <div className="max-w-md mx-auto p-4 space-y-4">
+        <div className="max-w-md mx-auto p-4 space-y-4 pb-24">
 
           {/* KYC Verification Form */}
           <Card className="transition-all duration-300">
@@ -3634,11 +3708,18 @@ function App() {
                     <div className="flex items-center space-x-2">
                       <div className="relative flex-1">
                         <Input
+                          ref={panInputRef}
                           id="pan"
                           placeholder="ABCDE1234F"
-                          value={dabbaSetup.panNumber}
-                          onChange={(e) => handlePANChange(e.target.value)}
+                          value={localPanValue}
+                          onChange={handlePANInput}
+                          onBlur={handlePANBlur}
                           maxLength={10}
+                          autoComplete="off"
+                          autoCorrect="off"
+                          autoCapitalize="characters"
+                          spellCheck={false}
+                          inputMode="text"
                           className={`uppercase transition-all duration-200 ${
                             panError 
                               ? 'border-red-300 focus:border-red-500 focus:ring-red-200' 
@@ -3658,7 +3739,7 @@ function App() {
                       </div>
                       
                       {/* Verify Button */}
-                      {!panVerified && !isVerifyingPAN && dabbaSetup.panNumber && validatePAN(dabbaSetup.panNumber) && (
+                      {!panVerified && !isVerifyingPAN && localPanValue && validatePAN(localPanValue) && (
                         <Button
                           size="sm"
                           onClick={(e) => {
@@ -3700,7 +3781,7 @@ function App() {
                   
                   {/* Simplified Status */}
                   <div className="text-xs text-green-600 mt-1 bg-green-50 rounded p-2">
-                    ✅ PAN: "{dabbaSetup.panNumber}" | OTP Status: {(dabbaSetup.aadhaarOtp || '').length}/6 digits
+                    ✅ PAN: "{localPanValue}" | OTP Status: {(dabbaSetup.aadhaarOtp || '').length}/6 digits
                     {dabbaSetup.aadhaarOtp && dabbaSetup.aadhaarOtp.length === 6 && (
                       <div className="font-semibold text-green-700 mt-1">🎉 Ready to Complete KYC!</div>
                     )}
@@ -3720,6 +3801,7 @@ function App() {
                       value={aadhaarNumber}
                       onChange={(e) => handleAadhaarChange(e.target.value)}
                       maxLength={14}
+                      autoComplete="off"
                       className={`transition-all duration-200 ${
                         aadhaarError 
                           ? 'border-red-300 focus:border-red-500 focus:ring-red-200' 
@@ -3760,61 +3842,76 @@ function App() {
                   <div>
                     <Label className="mb-2 block">Enter OTP</Label>
                     <div className="flex justify-center space-x-2 mb-4">
-                      {[0, 1, 2, 3, 4, 5].map((index) => (
+                      {[0, 1, 2, 3, 4, 5].map((index) => {
+                      const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+                        const newValue = e.target.value;
+                        if (/^\d*$/.test(newValue)) {
+                          const currentOtp = dabbaSetup.aadhaarOtp || '';
+                          let newOtp = currentOtp.padEnd(6, '');
+                          newOtp = newOtp.substring(0, index) + newValue + newOtp.substring(index + 1);
+                          const finalOtp = newOtp.replace(/\s+$/, '');
+                          
+                          // Update OTP immediately to maintain focus
+                          setDabbaSetup(prev => ({ ...prev, aadhaarOtp: finalOtp }));
+                          
+                          // Use requestAnimationFrame to ensure DOM is updated before focusing
+                          requestAnimationFrame(() => {
+                            // Auto-verify PAN when OTP is complete (6 digits)
+                            if (finalOtp.length === 6) {
+                              setPanVerified(true);
+                              console.log('OTP Complete - Auto-verifying PAN and enabling Complete KYC');
+                            }
+                            
+                            // Auto-focus next input
+                            if (newValue && index < 5) {
+                              const nextInput = document.querySelector(`input[data-otp-index="${index + 1}"]`) as HTMLInputElement;
+                              if (nextInput) {
+                                nextInput.focus();
+                              }
+                            }
+                          });
+                        }
+                      };
+
+                      const handleOtpKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+                        if (e.key === 'Backspace') {
+                          const currentOtp = dabbaSetup.aadhaarOtp || '';
+                          const currentValue = currentOtp.charAt(index) || '';
+                          
+                          if (!currentValue && index > 0) {
+                            // If current field is empty, move to previous field and clear it
+                            const prevInput = document.querySelector(`input[data-otp-index="${index - 1}"]`) as HTMLInputElement;
+                            if (prevInput) {
+                              prevInput.focus();
+                            }
+                            
+                            // Clear previous field
+                            let newOtp = currentOtp.padEnd(6, '');
+                            newOtp = newOtp.substring(0, index - 1) + '' + newOtp.substring(index);
+                            setDabbaSetup(prev => ({ ...prev, aadhaarOtp: newOtp.replace(/\s+$/, '') }));
+                          } else {
+                            // Clear current field
+                            let newOtp = currentOtp.padEnd(6, '');
+                            newOtp = newOtp.substring(0, index) + '' + newOtp.substring(index + 1);
+                            setDabbaSetup(prev => ({ ...prev, aadhaarOtp: newOtp.replace(/\s+$/, '') }));
+                          }
+                        }
+                      };
+
+                      return (
                         <input
-                          key={index}
+                          key={`otp-${index}`}
                           type="text"
                           maxLength={1}
                           value={(dabbaSetup.aadhaarOtp || '').charAt(index) || ''}
-                          onChange={(e) => {
-                            const newValue = e.target.value;
-                            if (/^\d*$/.test(newValue)) {
-                              const currentOtp = dabbaSetup.aadhaarOtp || '';
-                              let newOtp = currentOtp.padEnd(6, '');
-                              newOtp = newOtp.substring(0, index) + newValue + newOtp.substring(index + 1);
-                              const finalOtp = newOtp.replace(/\s+$/, '');
-                              
-                              setDabbaSetup(prev => ({ ...prev, aadhaarOtp: finalOtp }));
-                              
-                              // Auto-verify PAN when OTP is complete (6 digits)
-                              if (finalOtp.length === 6) {
-                                setPanVerified(true);
-                                console.log('OTP Complete - Auto-verifying PAN and enabling Complete KYC');
-                              }
-                              
-                              // Auto-focus next input
-                              if (newValue && index < 5) {
-                                const nextInput = document.querySelector(`input[data-otp-index="${index + 1}"]`) as HTMLInputElement;
-                                nextInput?.focus();
-                              }
-                            }
-                          }}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Backspace') {
-                              const currentOtp = dabbaSetup.aadhaarOtp || '';
-                              const currentValue = currentOtp.charAt(index) || '';
-                              
-                              if (!currentValue && index > 0) {
-                                // If current field is empty, move to previous field and clear it
-                                const prevInput = document.querySelector(`input[data-otp-index="${index - 1}"]`) as HTMLInputElement;
-                                prevInput?.focus();
-                                
-                                // Clear previous field
-                                let newOtp = currentOtp.padEnd(6, '');
-                                newOtp = newOtp.substring(0, index - 1) + '' + newOtp.substring(index);
-                                setDabbaSetup(prev => ({ ...prev, aadhaarOtp: newOtp.replace(/\s+$/, '') }));
-                              } else {
-                                // Clear current field
-                                let newOtp = currentOtp.padEnd(6, '');
-                                newOtp = newOtp.substring(0, index) + '' + newOtp.substring(index + 1);
-                                setDabbaSetup(prev => ({ ...prev, aadhaarOtp: newOtp.replace(/\s+$/, '') }));
-                              }
-                            }
-                          }}
+                          onChange={handleOtpChange}
+                          onKeyDown={handleOtpKeyDown}
                           data-otp-index={index}
                           className="w-10 h-10 text-center border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none transition-all duration-200 font-medium"
+                          autoComplete="off"
                         />
-                      ))}
+                      );
+                    })}
                     </div>
 
                     {/* KYC Progress Info */}
@@ -3918,6 +4015,9 @@ function App() {
             <div className={`w-3 h-1 rounded-full ${kycStep >= 2 ? 'bg-green-500' : 'bg-gray-200'}`}></div>
           </div>
         </div>
+
+        {/* Bottom Navigation */}
+        <BottomNavigation currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
       </div>
     );
   };
@@ -4168,7 +4268,7 @@ function App() {
           </div>
         </div>
 
-        <div className="max-w-md mx-auto p-4 space-y-4">
+        <div className="max-w-md mx-auto p-4 space-y-4 pb-24">
           <div className="grid grid-cols-2 gap-3">
             <Card className="bg-red-50 border-red-200">
               <CardContent className="p-3 text-center">
@@ -4281,6 +4381,9 @@ function App() {
             </Card>
           )}
         </div>
+
+        {/* Bottom Navigation */}
+        <BottomNavigation currentScreen={currentScreen} setCurrentScreen={setCurrentScreen} />
       </div>
     );
   };
